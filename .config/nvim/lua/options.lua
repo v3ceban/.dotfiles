@@ -12,6 +12,16 @@ vim.g.copilot_no_tab_map = true
 vim.opt.completeopt = "menu,menuone,noselect,popup"
 vim.opt.laststatus = 3
 
+-- for better syntax highlighting in .env files
+vim.filetype.add {
+  pattern = {
+    [".env.*"] = "bash",
+  },
+  extension = {
+    sshconfig = "sshconfig",
+  },
+}
+
 -- LSP open diagnostics on jump
 vim.diagnostic.config {
   jump = {
@@ -33,16 +43,6 @@ vim.api.nvim_set_hl(0, "DiffTextGroup", { bg = "#1e2030" })
 vim.api.nvim_create_autocmd("LspAttach", {
   callback = function()
     vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "", bg = "", bold = true, italic = true })
-  end,
-})
-
--- for better syntax highlighting in .env files
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = {
-    ".env.*",
-  },
-  callback = function()
-    vim.bo.filetype = "bash"
   end,
 })
 
