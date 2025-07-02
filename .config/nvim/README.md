@@ -39,11 +39,15 @@ adding your API keys as env variables for AI providers).
     rm -rf ~/.local/share/nvim
    ```
 
-4. Clone this repository into `~/.config/nvim`:
+4. Install the config by cloning this repository and moving the nvim config to the right place:
 
    ```sh
     # Clone this repo
-    git clone https://github.com/v3ceban/nvchad-config.git ~/.config/nvim
+    git clone https://github.com/v3ceban/.dotfiles.git v3ceban-dotfiles
+    # Move the nvim config to the right place
+    mv v3ceban-dotfiles/.config/nvim ~/.config/nvim
+    # Remove the cloned repo if you don't need it anymore
+    rm -rf v3ceban-dotfiles
    ```
 
 5. ??????
