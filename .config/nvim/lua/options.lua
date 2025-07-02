@@ -12,13 +12,11 @@ vim.g.copilot_no_tab_map = true
 vim.opt.completeopt = "menu,menuone,noselect,popup"
 vim.opt.laststatus = 3
 
--- for better syntax highlighting in .env files
+-- for better syntax highlighting in .env and .ssh/hosts files
 vim.filetype.add {
   pattern = {
     [".env.*"] = "bash",
-  },
-  extension = {
-    sshconfig = "sshconfig",
+    ["~/.ssh/hosts"] = "sshconfig",
   },
 }
 
