@@ -62,10 +62,5 @@ bindkey '^[l' autosuggest-accept
 bindkey '^[j' down-line-or-search
 bindkey '^[k' up-line-or-search
 #
-# LLM API Keys for nvim
-export OPENAI_API_KEY="$(cat $HOME/.config/.openai_api)"
-export DEEPSEEK_API_KEY="$(cat $HOME/.config/.deepseek_api)"
-export TAVILY_API_KEY="$(cat $HOME/.config/.tavily_api)"
-#
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
