@@ -15,12 +15,5 @@
         "messages_half_page_up": "pgup",
         "messages_half_page_down": "pgdown",
         "app_exit": "ctrl+c,<leader>q,ctrl+q"
-    },
-    "mcp": {
-        "figma": {
-            "enabled": true,
-            "type": "remote",
-            "url": "http://127.0.0.1:3845/sse"
-        }
     }
 }
