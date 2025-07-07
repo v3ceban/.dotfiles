@@ -27,6 +27,9 @@ plugins=(
 #
 source $ZSH/oh-my-zsh.sh
 #
+# Use right colors
+export COLORTERM=truecolor
+#
 # Custom go path
 export GOPATH="$HOME/.go"
 #
