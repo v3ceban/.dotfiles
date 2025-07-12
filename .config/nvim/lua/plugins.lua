@@ -5,11 +5,11 @@ return {
     keys = { "cr" },
   },
   -- experimental nvchad blink integration
-  -- { import = "nvchad.blink.lazyspec" },
-  -- {
-  --   "Saghen/blink.cmp",
-  --   opts = require "configs.blink",
-  -- },
+  { import = "nvchad.blink.lazyspec" },
+  {
+    "Saghen/blink.cmp",
+    opts = require "configs.blink",
+  },
   {
     "hrsh7th/nvim-cmp",
     opts = function()
