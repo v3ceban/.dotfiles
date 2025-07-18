@@ -51,13 +51,6 @@ return {
     opts = require "configs.indent-blankline",
   },
   {
-    "mfussenegger/nvim-lint",
-    event = { "BufReadPre", "BufNewFile" },
-    config = function()
-      require "configs.lint"
-    end,
-  },
-  {
     "neovim/nvim-lspconfig",
     config = function()
       require "configs.lspconfig"

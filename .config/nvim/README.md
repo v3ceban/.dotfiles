@@ -57,13 +57,13 @@ adding your API keys as env variables for AI providers).
 
 ### HTML
 
-- Uses [css-lsp](https://github.com/microsoft/vscode-css-languageservice) for LSP and linting
+- Uses [html-lsp](https://github.com/microsoft/vscode-html-languageservice) for LSP and linting
 - Uses [prettierd](https://github.com/fsouza/prettierd) for formatting
 - Uses [emmet](https://github.com/olrtg/emmet-language-server) for LSP snippets
 
 ### CSS
 
-- Uses [html-lsp](https://github.com/microsoft/vscode-html-languageservice) for LSP and linting
+- Uses [css-lsp](https://github.com/microsoft/vscode-css-languageservice) for LSP and linting
 - Uses [prettierd](https://github.com/fsouza/prettierd) for formatting
 - Uses [tailwindcss-language-server](https://github.com/tailwindlabs/tailwindcss-intellisense) for Tailwind LSP
 - Uses [rustywind](https://github.com/avencera/rustywind) for Tailwind classes organization
@@ -71,7 +71,7 @@ adding your API keys as env variables for AI providers).
 ### JavaScript/TypeScript
 
 - Uses [typescript-language-server](https://github.com/typescript-language-server/typescript-language-server) for LSP
-- Uses [eslintd](https://github.com/mantoni/eslint_d.js/) for linting
+- Uses [eslint-lsp](https://github.com/Microsoft/vscode-eslint) for linting
 - Uses [prettierd](https://github.com/fsouza/prettierd) for formatting
 - Requires eslint config to run linting server
   - Run `npm init` if not already done
