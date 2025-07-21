@@ -3,8 +3,7 @@
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi
-#
+fi #
 # Extra PATH locations
 export PATH="$HOME/.npm/_global_pkgs/bin:$PATH"
 #
@@ -64,6 +63,25 @@ bindkey '^[l' autosuggest-accept
 # Bind Alt+j/k to up/down arrow keys
 bindkey '^[j' down-line-or-search
 bindkey '^[k' up-line-or-search
+#
+# Cliboard utility function
+if command -v pbcopy &>/dev/null; then
+  # macOS
+  clip() { pbcopy; }
+  paste() { pbpaste; }
+elif grep -qi microsoft /proc/version 2>/dev/null && command -v clip.exe &>/dev/null; then
+  # WSL
+  clip() { clip.exe; }
+  paste() { powershell.exe -noprofile -command "Get-Clipboard"; }
+elif command -v wl-copy &>/dev/null; then
+  # Wayland
+  clip() { wl-copy; }
+  paste() { wl-paste; }
+elif command -v xclip &>/dev/null; then
+  # X11
+  clip() { xclip -selection clipboard; }
+  paste() { xclip -selection clipboard -o; }
+fi
 #
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
