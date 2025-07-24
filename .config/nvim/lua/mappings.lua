@@ -183,6 +183,6 @@ end, { desc = "AI Generate commit" })
 -- end, { desc = "Claude Toggle code window" })
 
 -- Flash.nvim
-map({ "v", "o" }, "n", function()
+map({ "v", "o" }, "v", function()
   require("flash").treesitter()
-end, { desc = "Select treesitter node" })
+end, { desc = "Select treesitter node visually" })
