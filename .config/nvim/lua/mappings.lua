@@ -51,11 +51,19 @@ map({ "n" }, "<C-Right>", "<C-w>>", { desc = "Resize increase window width" })
 map({ "n" }, "<C-Left>", "<C-w><", { desc = "Resize decrease window width" })
 
 -- Tabufline
+local tabufline = require "nvchad.tabufline"
+local close_floats = function()
+  for _, win in ipairs(vim.api.nvim_list_wins()) do
+    if vim.api.nvim_win_get_config(win).relative ~= "" then
+      vim.api.nvim_win_close(win, true)
+    end
+  end
+end
 map("n", "<leader>x", function()
   local count = vim.v.count > 0 and vim.v.count or 1
   for _ = 1, count do
     local success = pcall(function()
-      require("nvchad.tabufline").close_buffer()
+      tabufline.close_buffer()
     end)
     if not success then
       vim.cmd "q"
@@ -63,6 +71,18 @@ map("n", "<leader>x", function()
     end
   end
 end, { desc = "close tab or window" })
+map("n", "<tab>", function()
+  if vim.bo.filetype ~= "copilot-chat" and vim.bo.filetype ~= "NvTerm_float" then
+    close_floats()
+    tabufline.next()
+  end
+end, { desc = "buffer goto next" })
+map("n", "<S-tab>", function()
+  if vim.bo.filetype ~= "copilot-chat" and vim.bo.filetype ~= "NvTerm_float" then
+    close_floats()
+    tabufline.prev()
+  end
+end, { desc = "buffer goto prev" })
 for i = 1, 9, 1 do
   map("n", string.format("%s<Tab>", i), function()
     if vim.t.bufs and vim.t.bufs[i] then
