@@ -30,7 +30,7 @@ return {
   },
   {
     "github/copilot.vim",
-    event = "InsertEnter",
+    event = { "BufReadPre", "BufNewFile" },
     cmd = { "Copilot" },
   },
   {

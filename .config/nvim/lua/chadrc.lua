@@ -74,7 +74,7 @@ M.cheatsheet = {
     ":help",
     "Add",
     "Change",
-    "Claude (t)",
+    "AI (t)",
     "Close (i)",
     "Close (t)",
     "Close (v)",
