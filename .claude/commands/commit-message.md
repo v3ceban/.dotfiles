@@ -6,12 +6,12 @@ Write a commit message for the changes in the project.
 
 ### Details, Context, and Instructions
 
-Use `Bash` tool and `git` command to get the information about all staged changes.
-After you access the changes, analyze them and write a short, but comprehensive
-commit message, that follows commitizen convention. When you create the message,
-commit the staged changes with `git commit -m "COMMIT_MESSAGE"` command, where
-`COMMIT_MESSAGE` is the message you generated. When changes are commited, push them
-to remote with `git push` command.
+Use `git add .` command to stage all changed files. Then use `git` command to get the
+information about all staged changes. After you access the changes, analyze them and
+write a short, but comprehensive commit message, that follows commitizen convention.
+When you create the message, commit the staged changes with `git commit -m "COMMIT_MESSAGE"`
+command, where `COMMIT_MESSAGE` is the message you generated. When changes are commited,
+push them to remote with `git push` command.
 
 ### Rules
 

@@ -19,15 +19,6 @@ M.opts = {
 
 M.keys = {
   { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "Claude Toggle sidebar" },
-  {
-    "<leader>agc",
-    function()
-      vim.fn.system "git add ."
-      vim.cmd "ClaudeCode -p --allowedTools 'Bash,Read' '/commit-message'"
-    end,
-    mode = "n",
-    desc = "Claude Generate commit message",
-  },
   { "<leader>aa", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "Claude Add current selection" },
   {
     "<leader>aa",
