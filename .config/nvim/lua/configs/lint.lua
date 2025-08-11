@@ -52,7 +52,11 @@ lint.linters.eslint_d = function()
 
   if config_dir then
     ---@diagnostic disable-next-line: param-type-mismatch
-    return vim.tbl_extend("force", base_config, { cwd = config_dir })
+    return vim.tbl_extend("force", base_config, {
+      cwd = config_dir,
+      ---@diagnostic disable-next-line: undefined-field
+      args = vim.list_extend(base_config.args or {}, { "--no-warn-ignored" }),
+    })
   end
 
   return base_config
