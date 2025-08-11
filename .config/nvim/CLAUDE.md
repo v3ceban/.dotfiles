@@ -60,6 +60,12 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Use `:source %` for immediate Lua configuration reloading
 - `:messages` to view startup errors
 
+**Installation & Dependencies**:
+- Requires NeoVim with NvChad v2.5 dependencies (Git, Nerd Font, GCC, Make, Ripgrep)
+- Mason packages may need manual installation on ARM processors
+- JavaScript/TypeScript projects need ESLint config: `npm init @eslint/config@latest`
+- PHP projects require git repository initialization for LSP: `git init`
+
 ## AI Integration Workflow
 
 **GitHub Copilot**:
@@ -67,11 +73,14 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Insert mode: `<M-l>` accept, `<M-j>`/`<M-k>` cycle suggestions
 - Configured with `g:copilot_no_tab_map = true` to prevent Tab conflicts
 
-**CopilotChat Integration**:
-- `<leader>ac` - Toggle chat (buffer context in normal mode, selection context in visual mode)
-- `<leader>ar` - Telescope-integrated action picker with context
-- `<leader>agc` - Auto git-add and commit message generation
-- Context-aware: automatically includes buffer or visual selection as context
+**Claude Code Integration**:
+- `<M-a>` - Toggle Claude Code window
+- `<leader>ac` - Focus Claude Code window
+- `<leader>af` - Add file (normal mode) or selection (visual mode) to Claude Code context
+- `<leader>aa` - Accept Claude Code suggested diffs
+- `<leader>ad` - Deny Claude Code suggested diffs
+- `<leader>agc` - Auto git-add and AI-generated commit message (uses opencode CLI with GPT-4)
+- Terminal: Right-side split (35% width) with Snacks.nvim provider, floating interface
 
 ## Key Customizations
 
@@ -89,5 +98,18 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 **Auto-commands**:
 - `.env*` files → bash filetype for syntax highlighting
 - `docker-compose*.y{a,}ml` → `yaml.docker-compose` filetype for specialized LSP
-- Quickfix window auto-close behaviors (`<CR>`, `q`, `<Esc>`)
 - LSP signature parameter highlighting on attach
+- Quickfix window auto-close behaviors (`<CR>`, `q`, `<Esc>`, `d` to delete entry)
+- Auto file reload on external changes
+
+## Plugin Ecosystem
+
+**Core Extensions**:
+- `vim-abolish` - Advanced search/replace with word variations (`<leader>ss`)
+- `flash.nvim` - Enhanced navigation with search labels and treesitter (`v` for visual selection)
+- `git-conflict.nvim` - Conflict resolution with `[c]`/`]c` navigation and `<leader>gc*` actions
+- `nvim-surround` - Text surrounding operations (`cs`, `ds`, `ys`, visual `s`)
+- `vim-sort-motion` - Sorting functionality (`gs` motion)
+- `nvim-ts-autotag` - Auto HTML tag closing/renaming
+- `indent-blankline.nvim` - Visual indentation guides
+- `render-markdown.nvim` + `markdowny.nvim` - Enhanced markdown editing

@@ -3,7 +3,7 @@ local M = {}
 local commit_prompt = [[
 # Generate a commit message
 
-## Taks
+## Task
 
 Write a commit message for the changes in the project.
 
@@ -15,7 +15,9 @@ commit message, that follows commitizen convention. Wrap the whole message in co
 block with language `gitcommit` like this:
 
 ```gitcommit
-feat(commit): added commit message
+feat(commit): title of the commit message
+
+Commit message body that explains the changes...
 ```
 
 ### Rules
@@ -25,10 +27,11 @@ feat(commit): added commit message
 3. ALWAYS wrap the commit message in the code block with `gitcommit` message
 4. NEVER use emojies
 5. NEVER add Claude or Claude Code as an author or a co-author of the commit or commit message
+6. ALWAYS mention breaking changes in the commit message if there are any by
+   adding `BREAKING CHANGE:` section to the commit message body
 ]]
 
 M.opts = {
-  -- Terminal Configuration
   terminal = {
     split_side = "right", -- "left" or "right"
     split_width_percentage = 0.35,
@@ -45,9 +48,9 @@ M.opts = {
 }
 
 M.keys = {
-  { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI Toggle sidebar" },
-  { "<leader>ac", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI Toggle sidebar" },
-  { "<leader>af", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI Add selection" },
+  { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI Toggle Claude Code window" },
+  { "<leader>ac", "<cmd>ClaudeCodeFocus<cr>", mode = { "n", "t" }, desc = "AI Focus Claude Code window" },
+  { "<leader>af", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI Add selection to Claude Code" },
   {
     "<leader>af",
     function()
@@ -58,11 +61,11 @@ M.keys = {
         vim.cmd "ClaudeCodeAdd %"
       end
     end,
-    desc = "AI Add file",
+    desc = "AI Add file to Claude Code",
     mode = "n",
   },
-  { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "AI Accept edit" },
-  { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "AI Deny edit" },
+  { "<leader>aa", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "AI Accept Claude Code diff" },
+  { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "AI Deny Claude Code diff" },
   {
     "<leader>agc",
     function()
@@ -87,7 +90,7 @@ M.keys = {
         print "Failed to generate commit message"
       end
     end,
-    desc = "Generate commit message",
+    desc = "AI Generate commit message",
     mode = "n",
   },
 }

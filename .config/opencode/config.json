@@ -2,18 +2,22 @@
     "$schema": "https://opencode.ai/config.json",
     "theme": "catppuccin",
     "model": "github-copilot/gpt-4.1",
+    "instructions": [
+        "CLAUDE*.md"
+    ],
     "disabled_providers": [
         "openai",
         "deepseek"
     ],
-    "autoshare": false,
     "autoupdate": true,
+    "share": "disabled",
     "keybinds": {
         "leader": "ctrl+space",
         "messages_page_up": "ctrl+alt+pgup",
         "messages_page_down": "ctrl+alt+pgdown",
         "messages_half_page_up": "pgup",
         "messages_half_page_down": "pgdown",
+        "session_share": "none",
         "app_exit": "ctrl+c,<leader>q,ctrl+q"
     }
 }
