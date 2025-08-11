@@ -7,7 +7,7 @@ local attach = nvlsp.on_attach
 local capabilities = nvlsp.capabilities
 
 local servers = {
-  "eslint",
+  -- "eslint",
   "bashls",
   "docker_compose_language_service",
   "dockerls",

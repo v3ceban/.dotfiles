@@ -71,12 +71,13 @@ adding your API keys as env variables for AI providers).
 ### JavaScript/TypeScript
 
 - Uses [typescript-language-server](https://github.com/typescript-language-server/typescript-language-server) for LSP
-- Uses [eslint-lsp](https://github.com/Microsoft/vscode-eslint) for linting
+- Uses [eslintd](https://github.com/mantoni/eslint_d.js/) for linting
 - Uses [prettier](https://prettier.io) for formatting
 - Requires eslint config to run linting server
   - Run `npm init` if not already done
   - Run `npm init @eslint/config@latest` in the root of the project
 - Uses [prisma-language-server](https://github.com/prisma/language-tools) for LSP in Prisma files
+<!-- - Uses [eslint-lsp](https://github.com/Microsoft/vscode-eslint) for linting -->
 
 ### JSON
 
