@@ -17,6 +17,13 @@ return {
     end,
   },
   {
+    "coder/claudecode.nvim",
+    dependencies = { "folke/snacks.nvim" },
+    config = true,
+    opts = require("configs.claude").opts,
+    keys = require("configs.claude").keys,
+  },
+  {
     "stevearc/conform.nvim",
     event = "BufWritePre",
     opts = require "configs.conform",
@@ -25,14 +32,6 @@ return {
     "github/copilot.vim",
     event = "InsertEnter",
     cmd = { "Copilot" },
-  },
-  {
-    "CopilotC-Nvim/CopilotChat.nvim",
-    event = "VeryLazy",
-    dependencies = {
-      "github/copilot.vim",
-    },
-    opts = require "configs.copilot",
   },
   {
     "folke/flash.nvim",

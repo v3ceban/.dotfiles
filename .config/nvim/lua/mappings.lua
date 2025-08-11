@@ -72,13 +72,13 @@ map("n", "<leader>x", function()
   end
 end, { desc = "close tab or window" })
 map("n", "<tab>", function()
-  if vim.bo.filetype ~= "copilot-chat" and vim.bo.filetype ~= "NvTerm_float" then
+  if vim.bo.filetype ~= "snacks_terminal" and vim.bo.filetype ~= "NvTerm_float" then
     close_floats()
     tabufline.next()
   end
 end, { desc = "buffer goto next" })
 map("n", "<S-tab>", function()
-  if vim.bo.filetype ~= "copilot-chat" and vim.bo.filetype ~= "NvTerm_float" then
+  if vim.bo.filetype ~= "snacks_terminal" and vim.bo.filetype ~= "NvTerm_float" then
     close_floats()
     tabufline.prev()
   end
@@ -140,67 +140,6 @@ map(
 )
 map({ "i" }, "<M-j>", "copilot#Next()", { desc = "AI Next suggestion", expr = true, silent = true })
 map({ "i" }, "<M-k>", "copilot#Previous()", { desc = "AI Previous suggestion", expr = true, silent = true })
-
--- Copilot Chat
-local CopilotChat = require "CopilotChat"
-local CopilotSelection = require "CopilotChat.select"
-local CopilotTelescope = require "CopilotChat.integrations.telescope"
-local CopilotActions = require "CopilotChat.actions"
-
-local function get_chat_config(selection_type, with_buffer, agent)
-  local config = {
-    selection = selection_type,
-    context = with_buffer and "buffer" or false,
-    remember_as_sticky = false,
-  }
-  if agent then
-    config.agent = agent
-  end
-  return config
-end
-
-map({ "n" }, "<leader>ac", function()
-  CopilotChat.toggle(get_chat_config(CopilotSelection.buffer, true))
-end, { desc = "AI Open chat" })
-map({ "v" }, "<leader>ac", function()
-  CopilotChat.toggle(get_chat_config(CopilotSelection.visual, false))
-end, { desc = "AI Open chat with selected code" })
-
-map({ "n" }, "<leader>ar", function()
-  CopilotTelescope.pick(CopilotActions.prompt_actions(get_chat_config(CopilotSelection.buffer, true)))
-end, { desc = "AI Run action" })
-map({ "v" }, "<leader>ar", function()
-  CopilotTelescope.pick(CopilotActions.prompt_actions(get_chat_config(CopilotSelection.visual, false)))
-end, { desc = "AI Run action on selected code" })
-
--- doesn't work currently
--- map({ "n" }, "<leader>ap", function()
---   local input = vim.fn.input "Perplexity: "
---   if input ~= "" then
---     CopilotChat.ask(input, get_chat_config(false, false, "perplexityai"))
---   end
--- end, { desc = "AI Search with perplexity" })
-
-map({ "n" }, "<leader>agc", function()
-  vim.fn.system "git add ."
-  vim.cmd "CopilotChatCommit"
-end, { desc = "AI Generate commit" })
-
--- Claude Code
--- vim.keymap.set({ "n", "t" }, "<A-c>", function()
---   require("nvchad.term").toggle {
---     pos = "float",
---     float_opts = {
---       row = 0.15,
---       col = 0.15,
---       width = 0.7,
---       height = 0.6,
---     },
---     id = "claudeTerm",
---     cmd = vim.fn.executable "claude" == 1 and "exec claude" or "exec npx @anthropic-ai/claude-code",
---     clear_cmd = false,
---   }
--- end, { desc = "Claude Toggle code window" })
 
 -- Flash.nvim
 map({ "v", "o" }, "v", function()

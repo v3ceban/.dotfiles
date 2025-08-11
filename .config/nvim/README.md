@@ -143,19 +143,25 @@ Plugin that helps with abbreviations and substitutions.
   - If no `{}` is provided, the plugin works the same as `:s`
 - Can do much more, see `:h abolish` for usage info
 
+### Claude Code
+
+AI-powered coding assistant that integrates directly into Neovim
+
+- Uses the [claudecode.nvim](https://github.com/coder/claudecode.nvim) plugin for AI assistance
+- Press `<M-a>` to toggle the Claude sidebar
+- Press `<leader>aa` to add current file or visual selection to Claude context
+- Press `<leader>ac` to accept Claude's suggested edits
+- Press `<leader>ad` to deny Claude's suggested edits
+- Press `<leader>agc` to auto-generate git commit messages
+
 ### Copilot
 
-Enables Copilot integration and quick commands
+Enables Copilot autocompletion
 
 - Uses the [Copilot](https://github.com/github/copilot.vim) plugin for autocompletion
 - Run `:Copilot auth` to authenticate with GitHub
 - Press `<M-l>` in insert mode to accept Copilot autocompletion suggestions
 - Press `<M-j>` or `<M-k>` in insert mode to cycle through suggestions
-- Uses the [CopilotChat.nvim](https://github.com/CopilotC-Nvim/CopilotChat.nvim) plugin for chat and some extra functionality
-  - `<leader>ac` to open chat
-    - `<leader>h` in chat window to show help in chat window
-  - `<leader>ar` to run a command
-  - `<leader>agc` to add all changes to git and generate a commit message
 
 ### Flash.nvim
 
