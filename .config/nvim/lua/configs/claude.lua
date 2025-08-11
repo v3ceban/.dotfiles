@@ -35,6 +35,34 @@ M.keys = {
   },
   { "<leader>ac", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "Claude Confirm edit" },
   { "<leader>ad", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "Claude Deny edit" },
+  {
+    "<leader>agc",
+    function()
+      vim.cmd "!git add ."
+      local handle = io.popen "claude-code -p --allowedTools 'Bash,Read' /commit-message"
+      if handle then
+        local commit_message = handle:read "*a"
+        handle:close()
+        if commit_message then
+          local commit_choice = vim.fn.confirm("Create a commit with this message?\n" .. commit_message, "&Yes\n&No", 2)
+          if commit_choice == 1 then
+            vim.fn.system { "git", "commit", "-m", commit_message }
+            local push_choice = vim.fn.confirm("Push this commit to remote?", "&Yes\n&No", 2)
+            if push_choice == 1 then
+              vim.fn.system { "git", "push" }
+            end
+            vim.defer_fn(function()
+              vim.cmd "close"
+            end, 20)
+          end
+        end
+      else
+        print "Failed to generate commit message"
+      end
+    end,
+    desc = "Generate commit message",
+    mode = "n",
+  },
 }
 
 return M
