@@ -32,10 +32,11 @@ Commit message body that explains the changes...
 ]]
 
 M.opts = {
+  log_level = "error", -- "trace", "debug", "info", "warn", "error"
   terminal = {
     split_side = "right", -- "left" or "right"
     split_width_percentage = 0.35,
-    provider = "snacks", -- "auto", "snacks", "native", "external", or custom provider table
+    provider = "auto", -- "auto", "snacks", "native", "external", or custom provider table
     auto_close = true,
     show_native_term_exit_tip = false,
     snacks_win_opts = {
