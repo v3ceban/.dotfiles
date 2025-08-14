@@ -195,8 +195,6 @@ Commit message body that explains the changes...
   end
 end, {
   desc = "AI Generate commit message",
-  expr = true,
-  silent = true,
 })
 
 -- Flash.nvim
