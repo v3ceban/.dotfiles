@@ -17,13 +17,6 @@ return {
     end,
   },
   {
-    "coder/claudecode.nvim",
-    dependencies = { "folke/snacks.nvim" },
-    config = true,
-    opts = require("configs.claude").opts,
-    keys = require("configs.claude").keys,
-  },
-  {
     "stevearc/conform.nvim",
     event = "BufWritePre",
     opts = require "configs.conform",

@@ -141,6 +141,64 @@ map(
 map({ "i" }, "<M-j>", "copilot#Next()", { desc = "AI Next suggestion", expr = true, silent = true })
 map({ "i" }, "<M-k>", "copilot#Previous()", { desc = "AI Previous suggestion", expr = true, silent = true })
 
+-- Generate Commit Message
+map({ "n" }, "<leader>agc", function()
+  local commit_prompt = [[
+# Generate a commit message
+
+## Task
+
+Write a commit message for the changes in the project.
+
+### Details, Context, and Instructions
+
+Use `Bash` tool and `git` command to get the information about all staged changes.
+After you access the changes, analyze them and write a short, but comprehensive
+commit message, that follows commitizen convention. Wrap the whole message in code
+block with language `gitcommit` like this:
+
+```gitcommit
+feat(commit): title of the commit message
+
+Commit message body that explains the changes...
+```
+
+### Rules
+
+1. ALWAYS Keep the title under 50 characters and wrap message at 72 characters
+2. ALWAYS follow commitizen convention
+3. ALWAYS wrap the commit message in the code block with `gitcommit` message
+4. NEVER use emojies
+5. NEVER add Claude or Claude Code as an author or a co-author of the commit or commit message
+6. ALWAYS mention breaking changes in the commit message if there are any by
+   adding `BREAKING CHANGE:` section to the commit message body
+  ]]
+  vim.fn.system { "git", "add", "." }
+  print "Generating commit message..."
+  vim.cmd "redraw"
+  local handle = io.popen("opencode run '" .. commit_prompt .. "' -m github-copilot/gpt-4.1 2>/dev/null")
+  if handle then
+    local commit_message = handle:read("*a"):match "```gitcommit\n(.-)\n```"
+    handle:close()
+    if commit_message then
+      local commit_choice = vim.fn.confirm("Create a commit with this message?\n" .. commit_message, "&Yes\n&No", 2)
+      if commit_choice == 1 then
+        vim.fn.system { "git", "commit", "-m", commit_message }
+        local push_choice = vim.fn.confirm("Push this commit to remote?", "&Yes\n&No", 2)
+        if push_choice == 1 then
+          vim.fn.system { "git", "push" }
+        end
+      end
+    end
+  else
+    print "Failed to generate commit message"
+  end
+end, {
+  desc = "AI Generate commit message",
+  expr = true,
+  silent = true,
+})
+
 -- Flash.nvim
 map({ "v", "o" }, "v", function()
   require("flash").treesitter()
