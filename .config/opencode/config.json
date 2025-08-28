@@ -19,5 +19,10 @@
         "messages_half_page_down": "pgdown",
         "session_share": "none",
         "app_exit": "ctrl+c,<leader>q,ctrl+q"
+    },
+    "permission": {
+        "edit": "ask",
+        "bash": "allow",
+        "webfetch": "allow"
     }
 }
