@@ -47,9 +47,6 @@ export BROWSER='firefox'
 # Run fastfetch instead of neofetch
 alias neofetch="fastfetch"
 #
-# Alias for secure container script
-alias secure-container="$HOME/Development/scripts/secure-container.sh"
-#
 # Dotfiles git alias
 alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
 #
