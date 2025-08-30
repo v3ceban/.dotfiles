@@ -124,10 +124,10 @@ map({ "n" }, "[h", "<cmd>lua require('gitsigns').prev_hunk()<CR>", { desc = "Git
 map({ "n" }, "]h", "<cmd>lua require('gitsigns').next_hunk()<CR>", { desc = "Git next hunk" })
 
 -- Git conflict
-map({ "n" }, "<leader>gco", "<cmd>GitConflictChooseOurs<CR>", { desc = "Git choose our commit" })
-map({ "n" }, "<leader>gct", "<cmd>GitConflictChooseTheirs<CR>", { desc = "Git choose theirs commit" })
-map({ "n" }, "<leader>gcn", "<cmd>GitConflictChooseNone<CR>", { desc = "Git choose none commits" })
-map({ "n" }, "<leader>gcb", "<cmd>GitConflictChooseBoth<CR>", { desc = "Git choose both commits" })
+map({ "n" }, "<leader>co", "<cmd>GitConflictChooseOurs<CR>", { desc = "Git choose our commit" })
+map({ "n" }, "<leader>ct", "<cmd>GitConflictChooseTheirs<CR>", { desc = "Git choose theirs commit" })
+map({ "n" }, "<leader>cn", "<cmd>GitConflictChooseNone<CR>", { desc = "Git choose none commits" })
+map({ "n" }, "<leader>cb", "<cmd>GitConflictChooseBoth<CR>", { desc = "Git choose both commits" })
 map({ "n" }, "[c", "<cmd>GitConflictPrevConflict<CR>", { desc = "Git previous conflict" })
 map({ "n" }, "]c", "<cmd>GitConflictNextConflict<CR>", { desc = "Git next conflict" })
 
