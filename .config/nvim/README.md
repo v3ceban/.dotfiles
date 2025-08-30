@@ -132,27 +132,40 @@ adding your API keys as env variables for AI providers).
 
 ## Extra Plugins/Features (not included in NvChad)
 
+### Blink.cmp
+
+Experimental completion engine integrated with NvChad
+
+- Uses [blink.cmp](https://github.com/Saghen/blink.cmp) as an alternative to nvim-cmp
+- Provides faster completion with better performance
+- Configured alongside nvim-cmp for compatibility
+
 ### Abolish.vim
 
 Plugin that helps with abbreviations and substitutions.
 
 - Uses [Abolish.vim](https://github.com/tpope/vim-abolish) plugin
-- Mapped to `<leader>sr` to search and replace words or selections with substitutions
+- Search/Replace trinity mappings:
+  - `<leader>sw` - Search word under cursor or selection
+  - `<leader>sr` - Search and replace word under cursor or selection
+  - `<leader>ss` - Smart substitution with variations (Subvert)
+- Smart substitution examples:
   - `:Subvert/child{,ren}/adult{,s}/g` turns `child` into `adult` and `children` into `adults`
   - `:Subvert/di{e,ce}/spinner{,s}/g` turns `die` into `spinner` and `dice` into `spinners`
-  - If no `{}` is provided, the plugin works the same as `:s`
 - Can do much more, see `:h abolish` for usage info
 
-### Claude Code
+### OpenCode (AI Integration)
 
-AI-powered coding assistant that integrates directly into Neovim
+AI-powered coding assistant with GPT integration
 
-- Uses the [claudecode.nvim](https://github.com/coder/claudecode.nvim) plugin for AI assistance
-- Press `<M-a>` to toggle the Claude sidebar
-- Press `<leader>aa` to add current file or visual selection to Claude context
-- Press `<leader>ac` to accept Claude's suggested edits
-- Press `<leader>ad` to deny Claude's suggested edits
+- Uses the [opencode.nvim](https://github.com/NickvanDyke/opencode.nvim) plugin for AI assistance
+- Press `<M-a>` to toggle the opencode terminal window
+- Press `<leader>aA` to ask opencode a question
+- Press `<leader>aa` to ask about current line/selection
+- Press `<leader>ar` to run predefined prompts (explain, fix, optimize, document, test, review)
+- Press `<leader>an` to start a new session
 - Press `<leader>agc` to auto-generate git commit messages
+- Press `<leader>agd` to generate documentation comments
 
 ### Copilot
 
@@ -169,14 +182,15 @@ Navigation with search labels and treesitter
 
 - Uses the [Flash.nvim](https://github.com/folke/flash.nvim) plugin
 - Enabled in search mode by default
-- Treesitter nodes mapped to `<leader>st`
+- Treesitter visual selection mapped to `v` in visual/operator-pending mode
 
 ### Git-conflict
 
 Plugin that helps resolve git conflicts
 
 - Uses [git-conflict](https://github.com/akinsho/git-conflict.nvim) plugin
-- Mapped to `<leader>cX`, where `X` is the conflict resolution option
+- Navigate conflicts: `[c` (previous), `]c` (next)
+- Resolve conflicts: `<leader>co` (ours), `<leader>ct` (theirs), `<leader>cb` (both), `<leader>cn` (none)
 - See `:h git-conflict` for usage info
 
 ### Nvim-surround
@@ -211,6 +225,22 @@ Extends the built-in `%` command to match quotes and brackets
 - Uses [vim-matchquote](https://github.com/airblade/vim-matchquote/tree/master) plugin
 - Replaces the built-in `%` command
 - Just works
+
+### Which-key
+
+Interactive keymap guide that helps discover available keybindings
+
+- Uses [which-key.nvim](https://github.com/folke/which-key.nvim) plugin
+- Shows available keybindings in a popup when you pause during typing
+- Helps learn and remember complex keymaps
+
+### Indent Blankline
+
+Visual indentation guides for better code structure visibility
+
+- Uses [indent-blankline.nvim](https://github.com/lukas-reineke/indent-blankline.nvim) plugin
+- Shows indentation levels with subtle vertical lines
+- Integrates with treesitter for better syntax awareness
 
 ## Useful Links
 
