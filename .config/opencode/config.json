@@ -12,6 +12,7 @@
     "autoupdate": true,
     "share": "disabled",
     "keybinds": {
+        "leader": "ctrl+space",
         "messages_page_up": "ctrl+alt+pgup",
         "messages_page_down": "ctrl+alt+pgdown",
         "messages_half_page_up": "pgup,alt+k",
