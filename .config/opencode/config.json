@@ -21,7 +21,26 @@
     },
     "permission": {
         "edit": "ask",
-        "bash": "allow",
+        "bash": {
+            "git status*": "allow",
+            "git diff*": "allow",
+            "git log*": "allow",
+            "git show*": "allow",
+            "git remote": "allow",
+            "git remote -v": "allow",
+            "ls*": "allow",
+            "pwd": "allow",
+            "cat*": "allow",
+            "head*": "allow",
+            "tail*": "allow",
+            "less*": "allow",
+            "more*": "allow",
+            "find*": "allow",
+            "grep*": "allow",
+            "du*": "allow",
+            "df*": "allow",
+            "*": "ask"
+        },
         "webfetch": "allow"
     }
 }
