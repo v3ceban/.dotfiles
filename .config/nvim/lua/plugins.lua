@@ -56,10 +56,6 @@ return {
     end,
   },
   {
-    "nvim-tree/nvim-tree.lua",
-    opts = require "configs.nvim-tree",
-  },
-  {
     "airblade/vim-matchquote",
     keys = { "%" },
   },
@@ -69,6 +65,18 @@ return {
     config = function()
       require("markdowny").setup()
     end,
+  },
+  {
+    "nvim-tree/nvim-tree.lua",
+    opts = require "configs.nvim-tree",
+  },
+  {
+    "NickvanDyke/opencode.nvim",
+    dependencies = {
+      { "folke/snacks.nvim", opts = { input = { enabled = true } } },
+    },
+    opts = require("configs.opencode").opts,
+    keys = require("configs.opencode").keys,
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
