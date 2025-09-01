@@ -6,6 +6,14 @@ wk.add {
       "gs",
       desc = "Sort",
     },
+    {
+      "<leader>D",
+      desc = "which_key_ignore",
+    },
+    {
+      "gO",
+      desc = "which_key_ignore",
+    },
   },
 }
 

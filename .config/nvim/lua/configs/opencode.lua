@@ -127,7 +127,7 @@ M.keys = {
       require("opencode").ask()
     end,
     mode = "n",
-    desc = "AI Ask opencode",
+    desc = "AI ask opencode",
   },
   {
     "<leader>aa",
@@ -135,7 +135,7 @@ M.keys = {
       require("opencode").ask "@cursor: "
     end,
     mode = "n",
-    desc = "AI Ask opencode about line",
+    desc = "AI ask opencode about line",
   },
   {
     "<leader>aa",
@@ -143,7 +143,7 @@ M.keys = {
       require("opencode").ask "@selection: "
     end,
     mode = "v",
-    desc = "AI Ask opencode about selection",
+    desc = "AI ask opencode about selection",
   },
   {
     "<leader>an",
@@ -151,7 +151,7 @@ M.keys = {
       require("opencode").command "session_new"
     end,
     mode = "n",
-    desc = "AI New opencode session",
+    desc = "AI new opencode session",
   },
   {
     "<leader>ar",
@@ -159,7 +159,7 @@ M.keys = {
       require("opencode").select_prompt()
     end,
     mode = { "n", "v" },
-    desc = "AI Run opencode prompt",
+    desc = "AI run opencode prompt",
   },
   -- window management
   {
@@ -168,7 +168,7 @@ M.keys = {
       require("opencode").toggle()
     end,
     mode = { "n", "t" },
-    desc = "AI Toggle opencode window",
+    desc = "AI toggle opencode window",
   },
   {
     "<Esc>",
@@ -184,7 +184,7 @@ M.keys = {
       require("opencode").command "messages_half_page_down"
     end,
     mode = { "n", "t" },
-    desc = "AI Scroll down in opencode terminal",
+    desc = "AI scroll down in opencode terminal",
     buffer = true,
     ft = "opencode_terminal",
   },
@@ -194,7 +194,7 @@ M.keys = {
       require("opencode").command "messages_half_page_up"
     end,
     mode = { "n", "t" },
-    desc = "AI Scroll up in opencode terminal",
+    desc = "AI scroll up in opencode terminal",
     buffer = true,
     ft = "opencode_terminal",
   },
@@ -216,15 +216,28 @@ M.keys = {
     buffer = true,
     ft = "opencode_terminal",
   },
+  {
+    "<C-n>",
+    function()
+      vim.cmd "wincmd h"
+      vim.cmd "NvimTreeToggle"
+    end,
+    mode = { "n", "t" },
+    buffer = true,
+    ft = "opencode_terminal",
+  },
   -- prompt execution
   {
     "<leader>agc",
     function()
       vim.fn.system { "git", "add", "." }
-      require("opencode").prompt(M.prompts.commit)
+      require("opencode").command "session_new"
+      vim.defer_fn(function()
+        require("opencode").prompt(M.prompts.commit)
+      end, 10)
     end,
     mode = "n",
-    desc = "AI Generate commit message",
+    desc = "AI generate commit message",
   },
   {
     "<leader>agd",
@@ -232,7 +245,7 @@ M.keys = {
       require("opencode").prompt(M.prompts.documentation)
     end,
     mode = "n",
-    desc = "AI Generate documentation comments",
+    desc = "AI generate documentation comments",
   },
 }
 

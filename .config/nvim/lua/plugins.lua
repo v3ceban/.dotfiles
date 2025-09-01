@@ -32,9 +32,8 @@ return {
     opts = require "configs.flash",
   },
   {
-    "akinsho/git-conflict.nvim",
+    "v3ceban/git-conflict.nvim",
     event = "VeryLazy",
-    version = "*",
     config = require "configs.git-conflict",
   },
   {
