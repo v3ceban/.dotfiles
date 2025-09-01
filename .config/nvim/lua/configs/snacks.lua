@@ -1,3 +1,4 @@
+local M = {}
 local opts = {
   bigfile = {
     enabled = true,

@@ -103,6 +103,13 @@ M.opts = {
   input = {
     prompt = "Ask opencode: ",
     icon = "󱚣 ",
+    win = {
+      position = "float",
+      title_pos = "center",
+      relative = "editor",
+      row = 2,
+      col = false,
+    },
   },
   terminal = {
     auto_close = true,
@@ -122,20 +129,12 @@ M.opts = {
 
 M.keys = {
   {
-    "<leader>aA",
+    "<leader>aa",
     function()
       require("opencode").ask()
     end,
     mode = "n",
     desc = "AI ask opencode",
-  },
-  {
-    "<leader>aa",
-    function()
-      require("opencode").ask "@cursor: "
-    end,
-    mode = "n",
-    desc = "AI ask opencode about line",
   },
   {
     "<leader>aa",
@@ -175,8 +174,44 @@ M.keys = {
     function()
       vim.cmd "q"
     end,
-    mode = { "n", "t", "i", "v", "o" },
-    ft = "opencode_ask",
+    mode = { "n", "i", "v", "o" },
+    ft = { "opencode_ask", "snacks_input" },
+  },
+  {
+    "<C-h>",
+    function()
+      vim.cmd "q"
+      vim.cmd "wincmd h"
+    end,
+    mode = { "n", "i", "v", "o" },
+    ft = { "opencode_ask", "snacks_input" },
+  },
+  {
+    "<C-j>",
+    function()
+      vim.cmd "q"
+      vim.cmd "wincmd j"
+    end,
+    mode = { "n", "i", "v", "o" },
+    ft = { "opencode_ask", "snacks_input" },
+  },
+  {
+    "<C-k>",
+    function()
+      vim.cmd "q"
+      vim.cmd "wincmd k"
+    end,
+    mode = { "n", "i", "v", "o" },
+    ft = { "opencode_ask", "snacks_input" },
+  },
+  {
+    "<C-l>",
+    function()
+      vim.cmd "q"
+      vim.cmd "wincmd l"
+    end,
+    mode = { "n", "i", "v", "o" },
+    ft = { "opencode_ask", "snacks_input" },
   },
   {
     "<M-j>",
