@@ -50,6 +50,10 @@ vim.api.nvim_create_autocmd("LspAttach", {
     vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "", bg = "", bold = true, italic = true })
   end,
 })
+-- snacks input
+vim.api.nvim_set_hl(0, "SnacksInputBorder", { fg = "#a6e3a1" })
+vim.api.nvim_set_hl(0, "SnacksInputTitle", { fg = "#a6e3a1" })
+vim.api.nvim_set_hl(0, "SnacksInputIcon", { fg = "#cba6f7" })
 
 -- for docker-compose lsp
 vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
