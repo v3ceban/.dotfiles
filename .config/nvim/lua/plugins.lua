@@ -71,9 +71,6 @@ return {
   },
   {
     "NickvanDyke/opencode.nvim",
-    dependencies = {
-      { "folke/snacks.nvim", opts = { input = { enabled = true } } },
-    },
     opts = require("configs.opencode").opts,
     keys = require("configs.opencode").keys,
   },
@@ -81,6 +78,12 @@ return {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown", "copilot-chat" },
     opts = require "configs.render-markdown",
+  },
+  {
+    "folke/snacks.nvim",
+    priority = 1000,
+    lazy = false,
+    opts = require "configs.snacks",
   },
   {
     "christoomey/vim-sort-motion",
