@@ -279,7 +279,7 @@ M.keys = {
     function()
       require("opencode").prompt(M.prompts.documentation)
     end,
-    mode = "n",
+    mode = "v",
     desc = "AI generate documentation comments",
   },
 }
