@@ -71,7 +71,9 @@ return {
   },
   {
     "NickvanDyke/opencode.nvim",
-    opts = require("configs.opencode").opts,
+    setup = function()
+      vim.g.opencode_opts = require("configs.opencode").opts
+    end,
     keys = require("configs.opencode").keys,
   },
   {

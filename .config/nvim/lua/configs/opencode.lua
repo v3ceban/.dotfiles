@@ -100,17 +100,6 @@ M.opts = {
       prompt = M.prompts.commit,
     },
   },
-  input = {
-    prompt = "Ask opencode: ",
-    icon = "󱚣 ",
-    win = {
-      position = "float",
-      title_pos = "center",
-      relative = "editor",
-      row = 2,
-      col = false,
-    },
-  },
   terminal = {
     auto_close = true,
     win = {
@@ -155,7 +144,7 @@ M.keys = {
   {
     "<leader>ar",
     function()
-      require("opencode").select_prompt()
+      require("opencode").select()
     end,
     mode = { "n", "v" },
     desc = "AI run opencode prompt",
@@ -168,50 +157,6 @@ M.keys = {
     end,
     mode = { "n", "t" },
     desc = "AI toggle opencode window",
-  },
-  {
-    "<Esc>",
-    function()
-      vim.cmd "q"
-    end,
-    mode = { "n", "i", "v", "o" },
-    ft = { "opencode_ask", "snacks_input" },
-  },
-  {
-    "<C-h>",
-    function()
-      vim.cmd "q"
-      vim.cmd "wincmd h"
-    end,
-    mode = { "n", "i", "v", "o" },
-    ft = { "opencode_ask", "snacks_input" },
-  },
-  {
-    "<C-j>",
-    function()
-      vim.cmd "q"
-      vim.cmd "wincmd j"
-    end,
-    mode = { "n", "i", "v", "o" },
-    ft = { "opencode_ask", "snacks_input" },
-  },
-  {
-    "<C-k>",
-    function()
-      vim.cmd "q"
-      vim.cmd "wincmd k"
-    end,
-    mode = { "n", "i", "v", "o" },
-    ft = { "opencode_ask", "snacks_input" },
-  },
-  {
-    "<C-l>",
-    function()
-      vim.cmd "q"
-      vim.cmd "wincmd l"
-    end,
-    mode = { "n", "i", "v", "o" },
-    ft = { "opencode_ask", "snacks_input" },
   },
   {
     "<M-j>",
@@ -266,10 +211,7 @@ M.keys = {
     "<leader>agc",
     function()
       vim.fn.system { "git", "add", "." }
-      require("opencode").command "session_new"
-      vim.defer_fn(function()
-        require("opencode").prompt(M.prompts.commit)
-      end, 10)
+      require("opencode").prompt(M.prompts.commit)
     end,
     mode = "n",
     desc = "AI generate commit message",

@@ -1,11 +1,10 @@
-local M = {}
 local opts = {
   bigfile = {
     enabled = true,
     notify = true,
   },
   input = {
-    enabled = true,
+    enabled = false,
     expand = false,
   },
   picker = {
