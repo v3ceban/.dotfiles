@@ -2,6 +2,11 @@
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
 
+## Git Information
+
+This repository doesn't use default configurations, so do not try using default `git` command. Instead,
+use the following: `/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"` instead of `git`.
+
 ## Repository Overview
 
 Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovim into a full-featured IDE with LSP support, AI integration, and productivity enhancements.
@@ -11,6 +16,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 **Loading Chain**: `init.lua` → Lazy.nvim bootstrap → NvChad v2.5 → custom plugins → configurations → mappings
 
 **Core Structure**:
+
 - `init.lua` - Entry point, bootstraps Lazy.nvim and loads NvChad base
 - `lua/plugins.lua` - Custom plugin specifications with lazy loading configs
 - `lua/chadrc.lua` - NvChad UI theme and dashboard configuration (Catppuccin theme, custom nvdash)
@@ -21,6 +27,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 ## Language Ecosystem
 
 **LSP Configuration** (`lua/configs/lspconfig.lua`):
+
 - Standard servers: bashls, docker_compose_language_service, dockerls, html, jsonls, prismals
 - Special configurations:
   - `clangd` - UTF-16 offset encoding for C/C++
@@ -33,8 +40,9 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `emmet_language_server` - HTML/CSS snippets for templating languages
 
 **Formatting** (`lua/configs/conform.lua`):
+
 - Multi-tool chains: `rustywind` + `prettier` for Tailwind + Prettier formatting
-- Language-specific: 
+- Language-specific:
   - `stylua` (Lua)
   - `black` + `isort` (Python) with fast mode
   - `gofumpt` + `goimports-reviser` + `golines` (Go) with unused imports removal
@@ -44,6 +52,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Format-on-save enabled with 2.5s timeout, LSP fallback
 
 **Linting** (`lua/configs/lint.lua`):
+
 - Dynamic ESLint configuration detection with directory caching
 - Searches for ESLint configs in current/parent directories (supports both legacy and flat config formats)
 - Caches config directory paths to avoid repeated filesystem traversal
@@ -52,22 +61,26 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 ## Development Commands
 
 **Plugin Management**:
+
 - `:Lazy` - Main plugin manager interface
 - `:Lazy update` - Update all plugins and regenerate lockfile
 - `:Lazy reload {plugin}` - Reload specific plugin without restart
 - `:Lazy profile` - Check plugin loading performance
 
 **Health Checks**:
+
 - `:checkhealth` - General Neovim health diagnostics
 - `:checkhealth lspconfig` - LSP server status
 - `:checkhealth mason` - Mason tool installation status
 
 **Configuration Testing**:
+
 - Restart Neovim completely to test major changes
 - Use `:source %` for immediate Lua configuration reloading
 - `:messages` to view startup errors
 
 **Installation & Dependencies**:
+
 - Requires NeoVim with NvChad v2.5 dependencies (Git, Nerd Font, GCC, Make, Ripgrep)
 - Mason packages may need manual installation on ARM processors
 - JavaScript/TypeScript projects need ESLint config: `npm init @eslint/config@latest`
@@ -76,11 +89,13 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 ## AI Integration Workflow
 
 **GitHub Copilot**:
+
 - Authentication: `:Copilot auth`
 - Insert mode: `<M-l>` accept, `<M-j>`/`<M-k>` cycle suggestions
 - Configured with `g:copilot_no_tab_map = true` to prevent Tab conflicts
 
 **OpenCode Integration**:
+
 - `<M-a>` - Toggle opencode terminal window
 - `<leader>aA` - Ask opencode a question
 - `<leader>aa` - Ask about current line (normal) or selection (visual)
@@ -93,6 +108,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 ## Key Customizations
 
 **Keybinding Patterns**:
+
 - Search/Replace trinity: `<leader>sw` (search), `<leader>sr` (replace), `<leader>ss` (subvert with Abolish)
 - Git navigation: `[h]`/`]h` (hunks), `[c]`/`]c` (conflicts), `[d]`/`]d` (diagnostics)
 - Buffer management: `<leader>x` (close with count support), `<Tab>`/`<S-Tab>` (next/prev), number+`<Tab>` (go to buffer N)
@@ -101,12 +117,14 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Universal save/quit: `<C-s>` (save all), `<C-q>` (quit all), `<C-z>` disabled
 
 **Visual Enhancements**:
+
 - Global statusline (`laststatus=3`)
 - Relative line numbers with Treesitter folding
 - Rounded borders for LSP floats and diagnostics
 - Custom highlight groups for Markdown rendering and Git conflicts
 
 **Auto-commands**:
+
 - `.env*` files → bash filetype, `~/.ssh/hosts` → sshconfig filetype
 - `docker-compose*.y{a,}ml` → `yaml.docker-compose` filetype for specialized LSP
 - LSP signature parameter highlighting on attach (bold + italic)
@@ -117,6 +135,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 ## Plugin Ecosystem
 
 **Core Extensions**:
+
 - `vim-abolish` - Search/replace trinity (`<leader>sw`/`sr`/`ss`) with smart word variations
 - `blink.cmp` - Experimental fast completion engine (alongside nvim-cmp)
 - `flash.nvim` - Enhanced navigation with treesitter visual selection (`v`)
