@@ -4,7 +4,7 @@ local opts = {
     notify = true,
   },
   input = {
-    enabled = false,
+    enabled = true,
     expand = false,
   },
   picker = {
