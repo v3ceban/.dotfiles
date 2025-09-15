@@ -5,7 +5,31 @@ local opts = {
   },
   input = {
     enabled = true,
+    prompt_pos = "left",
+    icon_pos = "left",
     expand = false,
+    win = {
+      keys = {
+        ["<C-h>"] = { "close", mode = { "i", "n" } },
+        ["<C-j>"] = { "close", mode = { "i", "n" } },
+        ["<C-k>"] = { "close", mode = { "i", "n" } },
+        ["<C-l>"] = { "close", mode = { "i", "n" } },
+      },
+    },
+  },
+  styles = {
+    input = {
+      border = "none",
+      row = -1,
+      width = 0,
+      wo = {
+        winhighlight = "NormalFloat:StatusLine",
+      },
+      keys = {
+        i_esc = { "<esc>", { "cmp_close", "stopinsert" }, mode = "i", expr = true },
+        n_esc = { "<esc>", { "close" }, mode = "n", expr = true },
+      },
+    },
   },
   picker = {
     enabled = true,

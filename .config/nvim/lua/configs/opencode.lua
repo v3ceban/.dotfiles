@@ -100,6 +100,15 @@ M.opts = {
       prompt = M.prompts.commit,
     },
   },
+  input = {
+    win = {
+      prompt_pos = "left",
+      icon_pos = "left",
+      relative = "editor",
+      row = -1,
+      width = 0,
+    },
+  },
   terminal = {
     auto_close = true,
     win = {
