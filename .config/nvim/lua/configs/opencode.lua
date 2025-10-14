@@ -67,37 +67,15 @@ Apply comments directly above the relevant code elements (functions, classes, me
 
 M.opts = {
   prompts = {
-    explain = {
-      description = "Explain code near cursor",
-      prompt = "Explain @cursor and its context",
-    },
-    fix = {
-      description = "Fix diagnostics",
-      prompt = "Fix these @diagnostics",
-    },
-    optimize = {
-      description = "Optimize selection",
-      prompt = "Optimize @selection for performance and readability",
-    },
     document = {
       description = "Document selection",
       prompt = M.prompts.documentation,
-    },
-    test = {
-      description = "Add tests for selection",
-      prompt = "Add tests for @selection",
-    },
-    review_buffer = {
-      description = "Review buffer",
-      prompt = "Review @buffer for correctness and readability",
-    },
-    review_diff = {
-      description = "Review git diff",
-      prompt = "Review the following git diff for correctness and readability:\n@diff",
+      submit = true,
     },
     generate_commit = {
       description = "Generate commit message",
       prompt = M.prompts.commit,
+      submit = true,
     },
   },
   input = {
