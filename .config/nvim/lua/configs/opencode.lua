@@ -129,7 +129,7 @@ M.keys = {
   {
     "<leader>aa",
     function()
-      require("opencode").ask()
+      require("opencode").prompt "@buffer"
     end,
     mode = "n",
     desc = "AI ask opencode",
@@ -137,7 +137,7 @@ M.keys = {
   {
     "<leader>aa",
     function()
-      require("opencode").ask "@selection: "
+      require("opencode").prompt "@this"
     end,
     mode = "v",
     desc = "AI ask opencode about selection",
@@ -219,8 +219,12 @@ M.keys = {
   {
     "<leader>agc",
     function()
+      local opencode = require "opencode"
       vim.fn.system { "git", "add", "." }
-      require("opencode").prompt(M.prompts.commit)
+      opencode.command "session_new"
+      vim.defer_fn(function()
+        opencode.prompt(M.prompts.commit)
+      end, 100)
     end,
     mode = "n",
     desc = "AI generate commit message",
@@ -228,7 +232,11 @@ M.keys = {
   {
     "<leader>agd",
     function()
-      require("opencode").prompt(M.prompts.documentation)
+      local opencode = require "opencode"
+      opencode.command "session_new"
+      vim.defer_fn(function()
+        opencode.prompt(M.prompts.documentation)
+      end, 100)
     end,
     mode = "v",
     desc = "AI generate documentation comments",
