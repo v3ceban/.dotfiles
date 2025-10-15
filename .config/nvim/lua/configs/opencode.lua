@@ -32,6 +32,8 @@ and push it to the remote repository, if it exists, using `git push` command.
    agent as an author or a co-author of the commit or commit message
 4. ALWAYS mention breaking changes in the commit message if there are any by
    adding `BREAKING CHANGE:` section to the commit message body
+5. NEVER respond with anything other than the commit message and the commands you
+   used to create it
   ]],
 
   documentation = [[
