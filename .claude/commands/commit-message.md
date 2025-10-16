@@ -21,12 +21,12 @@ and push it to the remote repository, if it exists, using `git push` command.
 
 ### Rules
 
-1. ALWAYS Keep the title under 50 characters and wrap message at 72 characters
-2. ALWAYS follow commitizen convention
-3. NEVER use emojis
-4. NEVER add Claude, Claude Code, Openai, Codex, Opencode, or any other AI tool or
+1. **ALWAYS** Keep the title under 50 characters and wrap message at 72 characters
+2. **ALWAYS** follow commitizen convention
+3. **NEVER** use emojis
+4. **NEVER** add Claude, Claude Code, Openai, Codex, Opencode, or any other AI tool or
    agent as an author or a co-author of the commit or commit message
-5. ALWAYS mention breaking changes in the commit message if there are any by
+5. **ALWAYS** mention breaking changes in the commit message if there are any by
    adding `BREAKING CHANGE:` section to the commit message body
-6. NEVER respond with anything other than the commit message and the commands you
+6. **NEVER** respond with anything other than the commit message and the commands you
    used to create it
