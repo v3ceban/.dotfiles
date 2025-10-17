@@ -5,12 +5,14 @@
       {
         "id": "1",
         "type": "model",
-        "color": "brightBlue"
+        "color": "brightBlue",
+        "rawValue": false
       },
       {
         "id": "5",
         "type": "git-branch",
-        "color": "cyan"
+        "color": "cyan",
+        "rawValue": false
       },
       {
         "id": "7",
@@ -21,18 +23,20 @@
         "id": "3",
         "type": "context-percentage",
         "color": "brightBlack",
+        "bold": false,
+        "rawValue": false,
         "metadata": {
           "inverse": "true"
-        },
-        "bold": false
+        }
       },
       {
         "id": "66061f44-13ff-4ff1-944b-eff58f059ea2",
-        "type": "session-clock",
+        "type": "block-timer",
+        "color": "brightBlack",
+        "rawValue": true,
         "metadata": {
           "display": "time"
-        },
-        "color": "brightBlack"
+        }
       }
     ],
     [],
@@ -41,6 +45,7 @@
   "flexMode": "full-minus-40",
   "compactThreshold": 60,
   "colorLevel": 3,
+  "defaultPadding": " ",
   "inheritSeparatorColors": false,
   "globalBold": false,
   "powerline": {
@@ -55,8 +60,7 @@
     "endCaps": [
       ""
     ],
-    "autoAlign": true,
-    "theme": "catppuccin"
-  },
-  "defaultPadding": " "
+    "theme": "catppuccin",
+    "autoAlign": true
+  }
 }
