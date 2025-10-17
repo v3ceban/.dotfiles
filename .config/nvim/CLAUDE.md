@@ -88,22 +88,26 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 
 ## AI Integration Workflow
 
+**Claude Code** (`lua/configs/claudecode.lua`):
+
+- Integration: Full AI-powered development environment via Claude models
+- Terminal: Split window on right side at 39% width with `<C-h>`/`<C-l>` navigation
+- Main keybinds:
+  - `<M-a>` - Toggle Claude Code terminal
+  - `<leader>am` - Select different Claude model
+  - `<leader>aa` - Add file/selection to Claude (context-aware)
+  - `<leader>ay` - Accept Claude's suggested changes
+  - `<leader>an` - Deny Claude's suggested changes
+  - `<leader>agc` - Generate commit messages (uses Bash, git log/status/diff tools)
+- Commit message generation: Follows commitizen convention, analyzes staged changes
+- Supports multiple Claude models with easy switching
+- Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw)
+
 **GitHub Copilot**:
 
 - Authentication: `:Copilot auth`
 - Insert mode: `<M-l>` accept, `<M-j>`/`<M-k>` cycle suggestions
 - Configured with `g:copilot_no_tab_map = true` to prevent Tab conflicts
-
-**OpenCode Integration**:
-
-- `<M-a>` - Toggle opencode terminal window
-- `<leader>aA` - Ask opencode a question
-- `<leader>aa` - Ask about current line (normal) or selection (visual)
-- `<leader>ar` - Run predefined prompts (explain, fix, optimize, document, test, review)
-- `<leader>an` - Start new opencode session
-- `<leader>agc` - Auto git-add and AI-generated commit message
-- `<leader>agd` - Generate documentation comments
-- Terminal: Right-side split with window navigation (`<C-h>`, `<C-l>`), scroll (`<M-j>`, `<M-k>`)
 
 ## Key Customizations
 
@@ -136,15 +140,15 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 
 **Core Extensions**:
 
-- `vim-abolish` - Search/replace trinity (`<leader>sw`/`sr`/`ss`) with smart word variations
 - `blink.cmp` - Experimental fast completion engine (alongside nvim-cmp)
+- `claudecode.nvim` - Full AI development environment with Claude models (`<M-a>`, `<leader>a*`)
 - `flash.nvim` - Enhanced navigation with treesitter visual selection (`v`)
 - `git-conflict.nvim` - Conflict resolution (`[c]`/`]c` navigation, `<leader>c*` actions)
-- `nvim-surround` - Text surrounding operations (`cs`, `ds`, `ys`, visual `s`)
-- `vim-sort-motion` - Sorting functionality (`gs` motion)
-- `nvim-ts-autotag` - Auto HTML tag closing/renaming
 - `indent-blankline.nvim` - Visual indentation guides
+- `nvim-surround` - Text surrounding operations (`cs`, `ds`, `ys`, visual `s`)
+- `nvim-ts-autotag` - Auto HTML tag closing/renaming
 - `render-markdown.nvim` + `markdowny.nvim` - Enhanced markdown editing
-- `which-key.nvim` - Interactive keymap guide
+- `vim-abolish` - Search/replace trinity (`<leader>sw`/`sr`/`ss`) with smart word variations
 - `vim-matchquote` - Enhanced `%` command for quotes/brackets
-- `opencode.nvim` - AI integration with GPT models
+- `vim-sort-motion` - Sorting functionality (`gs` motion)
+- `which-key.nvim` - Interactive keymap guide

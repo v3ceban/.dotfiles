@@ -154,18 +154,22 @@ Plugin that helps with abbreviations and substitutions.
   - `:Subvert/di{e,ce}/spinner{,s}/g` turns `die` into `spinner` and `dice` into `spinners`
 - Can do much more, see `:h abolish` for usage info
 
-### OpenCode (AI Integration)
+### Claude Code
 
-AI-powered coding assistant with GPT integration
+AI-powered development environment integration
 
-- Uses the [opencode.nvim](https://github.com/NickvanDyke/opencode.nvim) plugin for AI assistance
-- Press `<M-a>` to toggle the opencode terminal window
-- Press `<leader>aA` to ask opencode a question
-- Press `<leader>aa` to ask about current line/selection
-- Press `<leader>ar` to run predefined prompts (explain, fix, optimize, document, test, review)
-- Press `<leader>an` to start a new session
-- Press `<leader>agc` to auto-generate git commit messages
-- Press `<leader>agd` to generate documentation comments
+- Uses the [Claude Code](https://github.com/coder/claudecode.nvim) plugin for AI-assisted development
+- Run `:ClaudeCode` to toggle the Claude Code terminal
+- Run `:ClaudeCodeSelectModel` to switch between different Claude models
+- Use `<M-a>` in normal/terminal mode to toggle Claude Code
+- Use `<leader>am` to select a different Claude model
+- Use `<leader>aa` to add files or selections to Claude
+  - In normal mode: add current file
+  - In visual mode: add selection
+  - In file explorer (NvimTree, neo-tree, oil, etc.): add file/directory
+- Use `<leader>ay` to accept Claude's suggested changes
+- Use `<leader>an` to deny Claude's suggested changes
+- Use `<leader>agc` to generate commit messages using Claude AI
 
 ### Copilot
 

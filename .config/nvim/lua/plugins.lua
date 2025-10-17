@@ -17,6 +17,12 @@ return {
     end,
   },
   {
+    "coder/claudecode.nvim",
+    config = true,
+    opts = require("configs.claudecode").opts,
+    keys = require("configs.claudecode").keys,
+  },
+  {
     "stevearc/conform.nvim",
     event = "BufWritePre",
     opts = require "configs.conform",
@@ -68,13 +74,6 @@ return {
   {
     "nvim-tree/nvim-tree.lua",
     opts = require "configs.nvim-tree",
-  },
-  {
-    "NickvanDyke/opencode.nvim",
-    init = function()
-      vim.g.opencode_opts = require("configs.opencode").opts
-    end,
-    keys = require("configs.opencode").keys,
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
