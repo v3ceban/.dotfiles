@@ -1,10 +1,17 @@
 local M = {}
 
 M.opts = {
+  log_level = "error",
   terminal = {
     split_side = "right",
     split_width_percentage = 0.39,
     snacks_win_opts = {
+      bo = {
+        filetype = "claudecode_terminal",
+      },
+      wo = {
+        winbar = "",
+      },
       keys = {
         {
           "<C-h>",
@@ -28,19 +35,28 @@ M.opts = {
 }
 
 M.keys = {
-  { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI Toggle Claude" },
-  { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", desc = "AI Select Claude model" },
-  { "<leader>aa", "<cmd>ClaudeCodeAdd %<cr>", desc = "AI Add file to Claude" },
-  { "<leader>aa", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI Add selection to Claude" },
+  -- General
+  { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude" },
+  { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", mode = "n", desc = "AI select claude model" },
+  { "<leader>aa", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI add file to claude" },
+  { "<M-f>", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI add file to claude" },
+  { "<leader>aa", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI add selection to claude" },
+  { "<M-f>", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI add selection to claude" },
   {
     "<leader>aa",
     "<cmd>ClaudeCodeTreeAdd<cr>",
-    desc = "AI Add file to Claude",
+    mode = "n",
+    desc = "AI add file to claude",
     ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
   },
-  -- Diff management
-  { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "AI Accept Claude change" },
-  { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "AI Deny Claude change" },
+  {
+    "<M-f>",
+    "<cmd>ClaudeCodeTreeAdd<cr>",
+    mode = "n",
+    desc = "AI add file to claude",
+    ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+  },
+  -- Commands
   {
     "<leader>agc",
     function()
@@ -91,6 +107,8 @@ Respond only with the commit message wrapped in a code block and nothing else.
         end
       end
     end,
+    mode = "n",
+    desc = "AI generate commit message",
   },
 }
 

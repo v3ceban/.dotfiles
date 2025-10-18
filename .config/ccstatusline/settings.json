@@ -12,12 +12,18 @@
         "id": "5",
         "type": "git-branch",
         "color": "cyan",
-        "rawValue": false
+        "rawValue": false,
+        "metadata": {
+          "hideNoGit": "true"
+        }
       },
       {
         "id": "7",
         "type": "git-changes",
-        "color": "yellow"
+        "color": "yellow",
+        "metadata": {
+          "hideNoGit": "true"
+        }
       },
       {
         "id": "3",
