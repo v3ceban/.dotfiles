@@ -65,11 +65,10 @@ Apply comments directly above the relevant code elements (functions, classes, me
 
 ## Rules
 
-1. ALWAYS use the appropriate documentation style for the programming language of the selection.
-2. ALWAYS ensure comments are clear, concise, and informative.
-3. NEVER add comments to trivial code that is self-explanatory.
-4. NEVER use emojis in comments.
-5. NEVER add Claude, Claude Code, Openai, Codex, Opencode, or any other AI tool or
-   agent as an author or a co-author of the comments or code.
+1. **ALWAYS** use the appropriate documentation style for the programming language of the selection.
+2. **ALWAYS** ensure comments are clear, concise, and informative.
+3. **NEVER** add comments to trivial code that is self-explanatory.
+4. **NEVER** use emojis in comments.
+5. **NEVER** add Claude, Claude Code, Openai, Codex, Opencode, or any other AI tool or agent as an author or a co-author of the comments or code.
 6. Provide examples of usage in the comments where applicable.
 7. If the programming language of the selection is not recognized, use plain English comments.
