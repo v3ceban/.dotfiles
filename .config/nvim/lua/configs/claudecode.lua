@@ -43,8 +43,8 @@ M.keys = {
     ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
   },
   -- Diff management
-  { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "AI accept claude change" },
-  { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "AI deny claude change" },
+  { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", mode = "n", desc = "AI accept claude change" },
+  { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", mode = "n", desc = "AI deny claude change" },
   -- Window management
   {
     "<C-h>",
@@ -134,7 +134,6 @@ vim.api.nvim_create_autocmd("DiffUpdated", {
       local buf = vim.api.nvim_win_get_buf(win)
       if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == "claudecode_terminal" then
         vim.api.nvim_win_close(win, true)
-        break
       end
     end
   end,
