@@ -12,31 +12,17 @@ M.opts = {
       wo = {
         winbar = "",
       },
-      keys = {
-        {
-          "<C-h>",
-          function()
-            vim.cmd "wincmd h"
-          end,
-          mode = { "n", "t" },
-          buffer = true,
-        },
-        {
-          "<C-l>",
-          function()
-            vim.cmd "wincmd l"
-          end,
-          mode = { "n", "t" },
-          buffer = true,
-        },
-      },
     },
+  },
+  diff_opts = {
+    open_in_current_tab = false,
   },
 }
 
 M.keys = {
   -- General
   { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude" },
+  { "<leader>ac", "<cmd>ClaudeCodeOpen<cr>", mode = { "n", "t" }, desc = "AI open claude" },
   { "<leader>am", "<cmd>ClaudeCodeSelectModel<cr>", mode = "n", desc = "AI select claude model" },
   { "<leader>aa", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI add file to claude" },
   { "<M-f>", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI add file to claude" },
@@ -55,6 +41,36 @@ M.keys = {
     mode = "n",
     desc = "AI add file to claude",
     ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+  },
+  -- Diff management
+  { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", desc = "AI accept claude change" },
+  { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", desc = "AI deny claude change" },
+  -- Window management
+  {
+    "<C-h>",
+    function()
+      vim.cmd "wincmd h"
+    end,
+    mode = { "n", "t" },
+    ft = { "claudecode_terminal" },
+  },
+  {
+    "<C-l>",
+    function()
+      vim.cmd "wincmd l"
+    end,
+    mode = { "n", "t" },
+    ft = { "claudecode_terminal" },
+  },
+  {
+    "<C-n>",
+    function()
+      vim.cmd "ClaudeCode"
+      vim.cmd "NvimTreeToggle"
+      vim.cmd "ClaudeCode"
+    end,
+    mode = { "n", "t" },
+    ft = { "claudecode_terminal" },
   },
   -- Commands
   {
@@ -111,5 +127,18 @@ Respond only with the commit message wrapped in a code block and nothing else.
     desc = "AI generate commit message",
   },
 }
+
+vim.api.nvim_create_autocmd("DiffUpdated", {
+  callback = function()
+    for _, win in ipairs(vim.api.nvim_list_wins()) do
+      local buf = vim.api.nvim_win_get_buf(win)
+      if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == "claudecode_terminal" then
+        vim.api.nvim_win_close(win, true)
+        break
+      end
+    end
+  end,
+  desc = "Close ClaudeCode terminal windows when Diffview opens",
+})
 
 return M
