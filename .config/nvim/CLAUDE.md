@@ -90,17 +90,13 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 
 **Claude Code** (`lua/configs/claudecode.lua`):
 
-- Integration: Full AI-powered development environment via Claude models
-- Terminal: Split window on right side at 39% width with `<C-h>`/`<C-l>` navigation
+- Integration: Full AI-powered development environment via Claude models with Claude Code CLI.
 - Main keybinds:
-  - `<M-a>` - Toggle Claude Code terminal
-  - `<leader>am` - Select different Claude model
   - `<leader>aa` - Add file/selection to Claude (context-aware)
   - `<leader>ay` - Accept Claude's suggested changes
   - `<leader>an` - Deny Claude's suggested changes
   - `<leader>agc` - Generate commit messages (uses Bash, git log/status/diff tools)
 - Commit message generation: Follows commitizen convention, analyzes staged changes
-- Supports multiple Claude models with easy switching
 - Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw)
 
 **GitHub Copilot**:

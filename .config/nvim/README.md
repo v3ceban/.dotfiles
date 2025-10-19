@@ -156,13 +156,13 @@ Plugin that helps with abbreviations and substitutions.
 
 ### Claude Code
 
-AI-powered development environment integration
+AI-powered development environment integration. Adding files or selections
+requires a [Claude Code](https://github.com/anthropics/claude-code) instance running and configured to use with ide plugin.
+Run `claude --ide` or use `/ide` command in claude code to connect and configure
+ide connection. You, of course, need to be authenticated to use Claude Code
+(you'll get prompted to login when first running `claude` CLI).
 
 - Uses the [Claude Code](https://github.com/coder/claudecode.nvim) plugin for AI-assisted development
-- Run `:ClaudeCode` to toggle the Claude Code terminal
-- Run `:ClaudeCodeSelectModel` to switch between different Claude models
-- Use `<M-a>` in normal/terminal mode to toggle Claude Code
-- Use `<leader>am` to select a different Claude model
 - Use `<leader>aa` to add files or selections to Claude
   - In normal mode: add current file
   - In visual mode: add selection
@@ -170,6 +170,15 @@ AI-powered development environment integration
 - Use `<leader>ay` to accept Claude's suggested changes
 - Use `<leader>an` to deny Claude's suggested changes
 - Use `<leader>agc` to generate commit messages using Claude AI
+  - This will open a separate claude instance in [headless mode](https://anthropic.mintlify.app/en/docs/claude-code/headless),
+    stage all files in current working directory with `git add .` and generate
+    a commit message, prompting you (y/N) twice to:
+    1. Accept or deny it (you'll see commit message when prompted)
+    2. Push to remote or leave it local
+  - Claude Code will have access to the following bash commands:
+    - `git log *`
+    - `git status *`
+    - `git diff *`
 
 ### Copilot
 
