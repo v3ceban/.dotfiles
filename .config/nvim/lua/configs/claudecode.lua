@@ -16,6 +16,7 @@ M.opts = {
   },
   diff_opts = {
     open_in_current_tab = false,
+    hide_terminal_in_new_tab = true,
   },
 }
 
@@ -64,6 +65,9 @@ M.keys = {
   },
   {
     "<C-n>",
+    -- Toggles Claude Code terminal and NvimTree file explorer.
+    -- This provides quick access to the file explorer while keeping the
+    -- terminal accessible and avoiding layout issues.
     function()
       vim.cmd "ClaudeCode"
       vim.cmd "NvimTreeToggle"
@@ -72,72 +76,6 @@ M.keys = {
     mode = { "n", "t" },
     ft = { "claudecode_terminal" },
   },
-  -- Commands
-  {
-    "<leader>agc",
-    function()
-      vim.fn.system { "git", "add", "." }
-      local response = vim.fn.system {
-        "claude",
-        "-p",
-        [[
-## Context
-
-- Current git status: !`git status`
-- Current git diff: !`git diff --staged`
-- Recent commits (10): !`git log -10 --oneline`
-
-## Instructions
-
-Use allowed `Bash` tool and `git` command to get the information about all staged changes. After you access the changes, analyze them and write a short, but comprehensive commit message, that follows commitizen convention. It needs to look like this:
-
-```gitcommit
-feat(commit): title of the commit message
-
-Commit message body that explains the changes...
-```
-
-Respond only with the commit message wrapped in a code block and nothing else.
-
-## Rules
-
-1. **ALWAYS** respond with the exact commit message wrapped in a code block
-2. **ALWAYS** Keep the title under 50 characters and wrap message at 72 characters
-3. **ALWAYS** follow commitizen convention
-4. **NEVER** use emojis
-5. **NEVER** add Claude, Claude Code, Anthropic, or any other AI tool, agent, or company as an author or a co-author of the commit or commit message
-6. **ALWAYS** mention breaking changes in the commit message if there are any by adding `BREAKING CHANGE:` section to the commit message body
-        ]],
-        "--model",
-        "haiku",
-        "--allowedTools",
-        '"Read Bash(git log:*) Bash(git status:*) Bash(git diff:*)"',
-      }
-      local commit_message = response:match "```gitcommit\n(.+)\n```"
-      if commit_message then
-        if vim.fn.confirm("Create a commit with this message?\n" .. commit_message, "&Yes\n&No", 2) == 1 then
-          vim.fn.system { "git", "commit", "-m", commit_message }
-          if vim.fn.confirm("Push this commit to remote?", "&Yes\n&No", 2) == 1 then
-            vim.fn.system { "git", "push" }
-          end
-        end
-      end
-    end,
-    mode = "n",
-    desc = "AI generate commit message",
-  },
 }
-
-vim.api.nvim_create_autocmd("DiffUpdated", {
-  callback = function()
-    for _, win in ipairs(vim.api.nvim_list_wins()) do
-      local buf = vim.api.nvim_win_get_buf(win)
-      if vim.api.nvim_buf_is_loaded(buf) and vim.bo[buf].filetype == "claudecode_terminal" then
-        vim.api.nvim_win_close(win, true)
-      end
-    end
-  end,
-  desc = "Close ClaudeCode terminal windows when Diffview opens",
-})
 
 return M
