@@ -3,9 +3,9 @@
 # confirmations, etc.) must go above this block; everything else may go below.
 if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]; then
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
-fi #
+fi
 # Extra PATH locations
-export PATH="$HOME/.npm/_global_pkgs/bin:$PATH"
+export PATH="$PATH:$HOME/.local/bin"
 #
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
