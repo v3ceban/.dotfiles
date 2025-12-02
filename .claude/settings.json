@@ -1,5 +1,4 @@
 {
-  "model": "haiku",
   "statusLine": {
     "type": "command",
     "command": "bunx -y ccstatusline@latest",
