@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 # Extra PATH locations
-export PATH="$PATH:$HOME/.local/bin:$HOME/.bun/bin"
+export PATH="$PATH:$HOME/.local/bin:$HOME/.bun/bin:$HOME/.npm/_global/bin"
 #
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
