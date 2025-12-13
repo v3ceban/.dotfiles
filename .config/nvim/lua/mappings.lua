@@ -140,10 +140,10 @@ map({ "n" }, "<leader>agc", function()
   vim.notify("Generating commit message with AI...", vim.log.levels.INFO)
   vim.fn.system { "git", "add", "." }
   local response = vim.fn.system {
-    "copilot",
-    "-p",
+    "opencode",
+    "run",
     [[
-## Context
+## Commands
 
 - Current git status: !`git status --short`
 - Current git diff: !`git diff --staged`
@@ -151,7 +151,7 @@ map({ "n" }, "<leader>agc", function()
 
 ## Instructions
 
-Use allowed `Bash` tool and `git` command to get the information about all staged changes. After you access the changes, analyze them and write a short, but comprehensive commit message, that follows commitizen convention. It needs to look like this:
+Obtain the information about all staged changes using `git` commands. After you access the changes, analyze them and write a short, but comprehensive commit message, that follows commitizen convention. It needs to look like this:
 
 ```gitcommit
 feat(commit): title of the commit message
@@ -171,13 +171,7 @@ Respond only with the commit message wrapped in a code block and nothing else.
 6. **ALWAYS** mention breaking changes in the commit message if there are any by adding `BREAKING CHANGE:` section to the commit message body
         ]],
     "--model",
-    "gpt-5-mini",
-    "--allow-tool",
-    "shell(git status --short)",
-    "--allow-tool",
-    "shell(git diff --staged)",
-    "--allow-tool",
-    "shell(git log -10 --oneline)",
+    "github-copilot/gpt-4o",
   }
   local commit_message = response:match "```gitcommit\n(.+)\n```"
   if commit_message then
