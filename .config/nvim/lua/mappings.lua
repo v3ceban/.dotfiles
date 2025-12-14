@@ -135,7 +135,7 @@ map(
 map({ "i" }, "<M-j>", "copilot#Next()", { desc = "AI next suggestion", expr = true, silent = true })
 map({ "i" }, "<M-k>", "copilot#Previous()", { desc = "AI previous suggestion", expr = true, silent = true })
 
--- Open Code
+-- OpenCode
 map({ "n" }, "<leader>agc", function()
   vim.notify("Generating commit message...", vim.log.levels.INFO)
   vim.fn.system { "git", "add", "." }
@@ -172,7 +172,7 @@ Respond only with the commit message wrapped in a code block and nothing else.
 2. **ALWAYS** Keep the title under 50 characters and wrap message at 72 characters
 3. **ALWAYS** follow commitizen convention
 4. **NEVER** use emojis
-5. **NEVER** add Open Code, Copilot, OpenAI, ChatGPT, Claude, Claude Code, Anthropic, or any other AI tool, agent, or company as an author or a co-author of the commit or commit message
+5. **NEVER** add OpenCode, Copilot, OpenAI, ChatGPT, Claude, Claude Code, Anthropic, or any other AI tool, agent, or company as an author or a co-author of the commit or commit message
 6. **ALWAYS** mention breaking changes in the commit message if there are any by adding `BREAKING CHANGE:` section to the commit message body
         ]],
     "--agent",

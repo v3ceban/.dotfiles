@@ -32,5 +32,5 @@ After you generate the commit message, use it to commit the changes to the repos
 2. **ALWAYS** Keep the title under 50 characters and wrap message at 72 characters
 3. **ALWAYS** follow commitizen convention
 4. **NEVER** use emojis
-5. **NEVER** add Open Code, Copilot, OpenAI, ChatGPT, Claude, Claude Code, Anthropic, or any other AI tool, agent, or company as an author or a co-author of the commit or commit message
+5. **NEVER** add OpenCode, Copilot, OpenAI, ChatGPT, Claude, Claude Code, Anthropic, or any other AI tool, agent, or company as an author or a co-author of the commit or commit message
 6. **ALWAYS** mention breaking changes in the commit message if there are any by adding `BREAKING CHANGE:` section to the commit message body

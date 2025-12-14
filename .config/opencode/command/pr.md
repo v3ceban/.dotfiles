@@ -30,8 +30,8 @@ Your job is to write a PR message for this feature branch. Make sure to take a l
 - **NEVER** use level 1 and level 2 headers in the PR message. Your first header should be level 3 (`###`).
 - **NEVER** use emojies in PR message.
   - For marked checkmarks use `- [x]` and for unmarked use `- [ ]`. Never use any other characters or symbols.
-- **NEVER** add Open Code, Copilot, OpenAI, ChatGPT, Claude, Claude Code, Anthropic or any other AI tool, agent, or company as co-author of the PR or commit, but do mention that PR message was generated with Open Code.
+- **NEVER** add OpenCode, Copilot, OpenAI, ChatGPT, Claude, Claude Code, Anthropic or any other AI tool, agent, or company as co-author of the PR or commit, but do mention that PR message was generated with OpenCode.
   - You may use a single robot emoji here. This is the **ONLY** exception to the emoji rule.
-  - It should look like this: `🤖 Generated with Open Code`
+  - It should look like this: `🤖 Generated with OpenCode`
 - **ALWAYS** write about breaking changes if they are present in the PR.
 - **ALWAYS** include background and future implications of this PR in the PR message.
