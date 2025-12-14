@@ -135,23 +135,28 @@ map(
 map({ "i" }, "<M-j>", "copilot#Next()", { desc = "AI next suggestion", expr = true, silent = true })
 map({ "i" }, "<M-k>", "copilot#Previous()", { desc = "AI previous suggestion", expr = true, silent = true })
 
--- Claude Code
+-- Open Code
 map({ "n" }, "<leader>agc", function()
-  vim.notify("Generating commit message with AI...", vim.log.levels.INFO)
+  vim.notify("Generating commit message...", vim.log.levels.INFO)
   vim.fn.system { "git", "add", "." }
   local response = vim.fn.system {
     "opencode",
     "run",
     [[
-## Commands
+## Context
 
-- Current git status: !`git status --short`
-- Current git diff: !`git diff --staged`
-- Recent commits (10): !`git log -10 --oneline`
+**Current git status:**
+!`git status`
+
+**Current git diff:**
+!`git diff --staged`
+
+**Recent commits (10):**
+!`git log -10 --oneline`
 
 ## Instructions
 
-Obtain the information about all staged changes using `git` commands. After you access the changes, analyze them and write a short, but comprehensive commit message, that follows commitizen convention. It needs to look like this:
+Analyze staged changes and write a short, but comprehensive commit message, that follows commitizen convention. It needs to look like this:
 
 ```gitcommit
 feat(commit): title of the commit message
@@ -163,15 +168,15 @@ Respond only with the commit message wrapped in a code block and nothing else.
 
 ## Rules
 
-1. **ALWAYS** respond with the exact commit message wrapped in a code block
+1. **ALWAYS** respond **ONLY** with the exact commit message wrapped in a code block and **NOTHING ELSE**
 2. **ALWAYS** Keep the title under 50 characters and wrap message at 72 characters
 3. **ALWAYS** follow commitizen convention
 4. **NEVER** use emojis
-5. **NEVER** add Copilot, OpenAI, ChatGPT, Claude, Claude Code, Anthropic, or any other AI tool, agent, or company as an author or a co-author of the commit or commit message
+5. **NEVER** add Open Code, Copilot, OpenAI, ChatGPT, Claude, Claude Code, Anthropic, or any other AI tool, agent, or company as an author or a co-author of the commit or commit message
 6. **ALWAYS** mention breaking changes in the commit message if there are any by adding `BREAKING CHANGE:` section to the commit message body
         ]],
-    "--model",
-    "github-copilot/gpt-4o",
+    "--agent",
+    "commiter",
   }
   local commit_message = response:match "```gitcommit\n(.+)\n```"
   if commit_message then
