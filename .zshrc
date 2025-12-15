@@ -65,19 +65,19 @@ bindkey '^[k' up-line-or-search
 # Cliboard utility function
 if command -v pbcopy &>/dev/null; then
   # macOS
-  clip() { pbcopy; }
+  copy() { pbcopy; }
   paste() { pbpaste; }
 elif grep -qi microsoft /proc/version 2>/dev/null && command -v clip.exe &>/dev/null; then
   # WSL
-  clip() { clip.exe; }
+  copy() { clip.exe; }
   paste() { powershell.exe -noprofile -command "Get-Clipboard"; }
 elif command -v wl-copy &>/dev/null; then
   # Wayland
-  clip() { wl-copy; }
+  copy() { wl-copy; }
   paste() { wl-paste; }
 elif command -v xclip &>/dev/null; then
   # X11
-  clip() { xclip -selection clipboard; }
+  copy() { xclip -selection clipboard; }
   paste() { xclip -selection clipboard -o; }
 fi
 #
