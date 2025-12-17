@@ -2,7 +2,6 @@
 description: Commit Generator
 mode: subagent
 model: github-copilot/gpt-4.1
-temperature: 0.1
 permission:
   read: allow
   edit: deny

@@ -139,20 +139,26 @@ map({ "i" }, "<M-k>", "copilot#Previous()", { desc = "AI previous suggestion", e
 map({ "n" }, "<leader>agc", function()
   vim.notify("Generating commit message...", vim.log.levels.INFO)
   vim.fn.system { "git", "add", "." }
+  local status = vim.fn.systemlist { "git", "status" }
+  local diff = vim.fn.systemlist { "git", "diff", "--staged" }
+  local log = vim.fn.systemlist { "git", "log", "-10", "--oneline" }
   local response = vim.fn.system {
     "opencode",
     "run",
     [[
 ## Context
-
 **Current git status:**
-!`git status`
-
+]]
+      .. table.concat(status, "\n")
+      .. [[
 **Current git diff:**
-!`git diff --staged`
-
+]]
+      .. table.concat(diff, "\n")
+      .. [[
 **Recent commits (10):**
-!`git log -10 --oneline`
+]]
+      .. table.concat(log, "\n")
+      .. [[
 
 ## Instructions
 
