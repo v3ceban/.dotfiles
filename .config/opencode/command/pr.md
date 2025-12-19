@@ -1,29 +1,28 @@
 ---
 description: Generate PR Message
 agent: build
-model: github-copilot/gpt-5-mini
+model: github-copilot/gpt-4.1
 ---
 
 ## Context
 
-**Current branch:**
-!`git branch --show-current`
+**PR number:**
+!`gh pr view --json number --jq .number`
 
-**Current opened PRs:**
-!`gh pr list`
+**PR comments:**
+!`gh pr view --json comments --jq '.comments[] | .author.login + "\n" + .body + "\n\n---\n"'`
 
-**Diff of the pr:**
+**PR commits:**
+!`gh pr view --json commits --jq '.commits[] | .messageHeadline + "\n" + (.messageBody // "") + "\n\n---\n"'`
+
+**PR diff:**
 !`gh pr diff`
 
-**Current PR:**
-`gh pr view --json number --jq .number`
-
-**Commits of the pr:**
-`gh pr view --json commits --jq .commits[].message`
+!`rm .pr-message.md`
 
 ## Instructions
 
-Your job is to write a PR message for this feature branch. Make sure to take a look at already opened PR and its comments, if any. Next, look at the updated files, diffs, and anything else you may need to write a detailed and well structured PR message. Proceed with writing the PR message based on the gathered information. It should be formatted in Markdown, with the top header being the title of the PR, followed by a detailed description of the changes made, any issues addressed, and the implications of these changes. Include any relevant links to Linear and corresponding GitHub issues, Projects, and PR requests. If PR is in draft mode use `gh pr ready` command to mark it as ready for review. Make sure to follow any additional instructions provided by the user in $1
+Your job is to write a PR message for this feature branch. Write it to `.pr-message.md`. Make sure to take a look at already opened PR and its comments, if any. Next, look at the updated files, diffs, and anything else you may need to write a detailed and well structured PR message. Proceed with writing the PR message based on the gathered information. It should be formatted in Markdown, with the top header being the title of the PR, followed by a detailed description of the changes made, any issues addressed, and the implications of these changes. Include any relevant links to Linear and corresponding GitHub issues, Projects, and PR requests. After PR message is generated use `gh pr edit --body-file .pr-message.md` command to update the PR message. If PR is in draft mode use `gh pr ready` command to mark it as ready for review. Make sure to follow any additional instructions provided by the user in $1
 
 ## Rules
 

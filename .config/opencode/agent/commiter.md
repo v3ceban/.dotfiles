@@ -7,8 +7,8 @@ permission:
   edit: deny
   bash:
     "git status": allow
+    "git log -10": allow
     "git diff --staged": allow
-    "git log -10 --oneline": allow
     "*": deny
   webfetch: deny
   external_directory: deny

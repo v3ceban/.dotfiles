@@ -141,7 +141,7 @@ map({ "n" }, "<leader>agc", function()
   vim.fn.system { "git", "add", "." }
   local status = vim.fn.systemlist { "git", "status" }
   local diff = vim.fn.systemlist { "git", "diff", "--staged" }
-  local log = vim.fn.systemlist { "git", "log", "-10", "--oneline" }
+  local log = vim.fn.systemlist { "git", "log", "-10" }
   local response = vim.fn.system {
     "opencode",
     "run",
