@@ -8,7 +8,7 @@ permission:
   bash:
     "git status": allow
     "git log -10": allow
-    "git diff --staged": allow
+    "git diff --staged -U0": allow
     "*": deny
   webfetch: deny
   external_directory: deny

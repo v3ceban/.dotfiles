@@ -9,7 +9,7 @@ agent: commiter
 !`git status`
 
 **Current git diff:**
-!`git diff --staged`
+!`git diff --staged -U0`
 
 **Recent commits (10):**
 !`git log -10`

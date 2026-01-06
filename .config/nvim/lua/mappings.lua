@@ -140,7 +140,7 @@ map({ "n" }, "<leader>agc", function()
   vim.notify("Generating commit message...", vim.log.levels.INFO)
   vim.fn.system { "git", "add", "." }
   local status = vim.fn.systemlist { "git", "status" }
-  local diff = vim.fn.systemlist { "git", "diff", "--staged" }
+  local diff = vim.fn.systemlist { "git", "diff", "--staged", "-U0" }
   local log = vim.fn.systemlist { "git", "log", "-10" }
   local response = vim.fn.system {
     "opencode",
@@ -183,6 +183,8 @@ Respond only with the commit message wrapped in a code block and nothing else.
         ]],
     "--agent",
     "commiter",
+    "--model",
+    "github-copilot/gpt-4.1",
   }
   local commit_message = response:match "```gitcommit\n(.+)\n```"
   if commit_message then
@@ -192,6 +194,9 @@ Respond only with the commit message wrapped in a code block and nothing else.
         vim.fn.system { "git", "push" }
       end
     end
+  else
+    local error_message = (response:match "Error:%s*(.+)" or response):gsub("\27%[[0-9;]*m", "")
+    vim.notify("Error: " .. error_message, vim.log.levels.ERROR)
   end
 end, { desc = "AI generate commit message" })
 
