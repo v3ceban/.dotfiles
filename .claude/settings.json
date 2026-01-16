@@ -1,5 +1,5 @@
 {
-  "model": "opus",
   "syntaxHighlightingDisabled": false,
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": false,
+  "model": "sonnet"
 }

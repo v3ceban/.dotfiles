@@ -10,9 +10,20 @@
     "keybinds": {
         "messages_half_page_up": "alt+k",
         "messages_half_page_down": "alt+j",
+        "messages_page_up": "pageup,alt+pageup",
+        "messages_page_down": "pagedown,alt+pagedown",
+        "messages_first": "home,alt+home",
+        "messages_last": "end,alt+end",
         "app_exit": "ctrl+c,ctrl+q",
         "terminal_suspend": "none",
         "input_undo": "ctrl+z",
         "input_redo": "ctrl+r"
+    },
+    "mcp": {
+        "linear": {
+            "type": "remote",
+            "url": "https://mcp.linear.app/mcp",
+            "oauth": {}
+        }
     }
 }
