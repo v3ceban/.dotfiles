@@ -25,5 +25,8 @@
             "url": "https://mcp.linear.app/mcp",
             "oauth": {}
         }
-    }
+    },
+    "plugin": [
+        "@franlol/opencode-md-table-formatter@latest"
+    ]
 }
