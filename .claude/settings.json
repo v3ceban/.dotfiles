@@ -1,5 +1,5 @@
 {
+  "model": "sonnet",
   "syntaxHighlightingDisabled": false,
-  "alwaysThinkingEnabled": false,
-  "model": "sonnet"
+  "alwaysThinkingEnabled": false
 }

@@ -11,6 +11,10 @@ map({ "v" }, "<C-c>", "y", { desc = "general copy selection" })
 map({ "v" }, "<C-x>", "d", { desc = "general cut selection" })
 
 -- Search and replace
+local function escape_pattern(text)
+  return text:gsub("[/\\]", "\\%0")
+end
+
 map({ "n" }, "<leader>sw", [[:/<C-r><C-w><CR>]], { desc = "search word", noremap = true })
 map(
   { "n" },
@@ -24,19 +28,33 @@ map(
   [[:%Subvert/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>]],
   { desc = "search subvert word", noremap = true }
 )
-map({ "v" }, "<leader>sw", [["zy:/<C-r>z<CR>]], { desc = "search selection", noremap = true })
-map(
-  { "v" },
-  "<leader>sr",
-  [["zy:%s/<C-r>z/<C-r>z/gc<Left><Left><Left>]],
-  { desc = "search replace selection", noremap = true }
-)
-map(
-  { "v" },
-  "<leader>ss",
-  [["zy:%Subvert/<C-r>z/<C-r>z/gc<Left><Left><Left>]],
-  { desc = "search subvert selection", noremap = true }
-)
+map({ "v" }, "<leader>sw", function()
+  vim.cmd 'normal! "zy'
+  local text = escape_pattern(vim.fn.getreg "z")
+  vim.fn.setreg("/", text)
+  vim.cmd "normal! n"
+end, { desc = "search selection", noremap = true })
+map({ "v" }, "<leader>sr", function()
+  vim.cmd 'normal! "zy'
+  local text = escape_pattern(vim.fn.getreg "z")
+  vim.fn.feedkeys(
+    ":%s/" .. text .. "/" .. text .. "/gc" .. string.rep(vim.api.nvim_replace_termcodes("<Left>", true, false, true), 3),
+    "n"
+  )
+end, { desc = "search replace selection", noremap = true })
+map({ "v" }, "<leader>ss", function()
+  vim.cmd 'normal! "zy'
+  local text = escape_pattern(vim.fn.getreg "z")
+  vim.fn.feedkeys(
+    ":%Subvert/"
+      .. text
+      .. "/"
+      .. text
+      .. "/gc"
+      .. string.rep(vim.api.nvim_replace_termcodes("<Left>", true, false, true), 3),
+    "n"
+  )
+end, { desc = "search subvert selection", noremap = true })
 
 -- Selection movement
 map({ "v" }, "J", ":m '>+1<CR>gv=gv", { desc = "move selection down", silent = true })
