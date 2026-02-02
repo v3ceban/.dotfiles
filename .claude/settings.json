@@ -6,6 +6,6 @@
       "Task(Plan)"
     ]
   },
-  "model": "haiku",
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": false,
+  "model": "sonnet"
 }
