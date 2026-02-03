@@ -156,7 +156,9 @@ map({ "i" }, "<M-k>", "copilot#Previous()", { desc = "AI previous suggestion", e
 -- OpenCode
 map({ "n" }, "<leader>agc", function()
   vim.notify("Generating commit message...", vim.log.levels.INFO)
-  vim.fn.system { "git", "add", "." }
+  if vim.fn.confirm("Stage all changes before generating commit message?", "&Yes\n&No", 2) == 1 then
+    vim.fn.system { "git", "add", "." }
+  end
   local status = vim.fn.systemlist { "git", "status" }
   local diff = vim.fn.systemlist { "git", "diff", "--staged", "-U0" }
   local log = vim.fn.systemlist { "git", "log", "-10" }
