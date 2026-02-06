@@ -4,8 +4,8 @@
     "deny": [
       "Task(Explore)",
       "Task(Plan)"
-    ]
+    ],
+    "defaultMode": "default"
   },
-  "alwaysThinkingEnabled": false,
-  "model": "sonnet"
+  "alwaysThinkingEnabled": false
 }
