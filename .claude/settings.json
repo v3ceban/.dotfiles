@@ -7,5 +7,6 @@
     ],
     "defaultMode": "default"
   },
-  "alwaysThinkingEnabled": false
+  "alwaysThinkingEnabled": false,
+  "promptSuggestionEnabled": false
 }

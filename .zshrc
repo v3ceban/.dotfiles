@@ -80,6 +80,10 @@ elif command -v xclip &>/dev/null; then
   copy() { xclip -selection clipboard; }
   paste() { xclip -selection clipboard -o; }
 fi
+# Disable background tasks and non-essential model calls for Claude Code
+CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
+DISABLE_NON_ESSENTIAL_MODEL_CALLS=1
+CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 #
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
