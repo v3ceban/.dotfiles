@@ -6,7 +6,7 @@ if [[ -r "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh" ]]
   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 fi
 # Extra PATH locations
-export PATH="$PATH:$HOME/.local/bin:$HOME/.bun/bin:$HOME/.npm/_global/bin"
+export PATH="$HOME/.local/bin:$HOME/.bun/bin:$HOME/.npm/_global/bin:$PATH"
 #
 # Path to your oh-my-zsh installation.
 export ZSH="$HOME/.oh-my-zsh"
@@ -80,10 +80,6 @@ elif command -v xclip &>/dev/null; then
   copy() { xclip -selection clipboard; }
   paste() { xclip -selection clipboard -o; }
 fi
-# Disable background tasks and non-essential model calls for Claude Code
-CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1
-DISABLE_NON_ESSENTIAL_MODEL_CALLS=1
-CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1
 #
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

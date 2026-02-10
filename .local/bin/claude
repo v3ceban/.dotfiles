@@ -1,0 +1,84 @@
+#!/usr/bin/env bash
+set -e
+
+MODE="anthropic"
+ARGS=()
+
+CLAUDE_BINARY=$(PATH="${PATH#$(dirname "$0"):}" command -v claude)
+
+if [ -z "$CLAUDE_BINARY" ]; then
+  echo "Error: Could not find original app binary" >&2
+  exit 1
+fi
+
+# Get the mode argument and separate it from the rest of the arguments
+for arg in "$@"; do
+  if [ "$arg" = "--copilot" ]; then
+    MODE="copilot"
+  elif [ "$arg" = "--anthropic" ]; then
+    MODE="anthropic"
+  else
+    ARGS+=("$arg")
+  fi
+done
+
+# Default case: use Claude subscription
+if [ "$MODE" = "anthropic" ]; then
+  CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1 \
+    DISABLE_NON_ESSENTIAL_MODEL_CALLS=1 \
+    CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 \
+    DISABLE_AUTOUPDATER=1 \
+    DISABLE_BUG_COMMAND=1 \
+    DISABLE_ERROR_REPORTING=1 \
+    DISABLE_TELEMETRY=1 \
+    $CLAUDE_BINARY "${ARGS[@]}"
+fi
+
+# Copilot mode: start local Copilot API server and point Claude to it
+if [ "$MODE" = "copilot" ]; then
+  if [ -z "$PORT" ]; then
+    PORT=4141
+  fi
+  if [ -z "$DEFAULT_MODEL" ]; then
+    DEFAULT_MODEL="claude-sonnet-4.5"
+  fi
+  if [ -z "$SMALL_MODEL" ]; then
+    SMALL_MODEL="claude-haiku-4.5"
+  fi
+
+  if command -v bun >/dev/null; then
+    NODE_PACKAGE_MANAGER_TO_USE="bunx"
+  elif command -v pnpm >/dev/null; then
+    NODE_PACKAGE_MANAGER_TO_USE="pnpx"
+  elif command -v npm >/dev/null; then
+    NODE_PACKAGE_MANAGER_TO_USE="npx -y"
+  else
+    echo "Error: No supported package manager found (bun, pnpm, npm)." >&2
+    exit 1
+  fi
+
+  if ! lsof -i:$PORT >/dev/null; then
+    $NODE_PACKAGE_MANAGER_TO_USE copilot-api start --port $PORT >/dev/null 2>&1 &
+    COPILOT_PID=$!
+  fi
+
+  cleanup() {
+    kill $COPILOT_PID 2>/dev/null || true
+  }
+  trap cleanup EXIT
+
+  ANTHROPIC_BASE_URL="http://localhost:$PORT" \
+    CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1 \
+    DISABLE_NON_ESSENTIAL_MODEL_CALLS=1 \
+    CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 \
+    DISABLE_AUTOUPDATER=1 \
+    DISABLE_BUG_COMMAND=1 \
+    DISABLE_ERROR_REPORTING=1 \
+    DISABLE_TELEMETRY=1 \
+    ANTHROPIC_AUTH_TOKEN="dummy" \
+    ANTHROPIC_MODEL="$DEFAULT_MODEL" \
+    ANTHROPIC_DEFAULT_OPUS_MODEL="$DEFAULT_MODEL" \
+    ANTHROPIC_DEFAULT_SONNET_MODEL="$DEFAULT_MODEL" \
+    ANTHROPIC_DEFAULT_HAIKU_MODEL="$SMALL_MODEL" \
+    $CLAUDE_BINARY "${ARGS[@]}"
+fi
