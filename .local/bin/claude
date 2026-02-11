@@ -58,7 +58,7 @@ if [ "$MODE" = "copilot" ]; then
   fi
 
   if ! lsof -i:$PORT >/dev/null; then
-    $NODE_PACKAGE_MANAGER_TO_USE copilot-api start --port $PORT >/dev/null 2>&1 &
+    $NODE_PACKAGE_MANAGER_TO_USE @jeffreycao/copilot-api@latest start --port $PORT >/dev/null 2>&1 &
     COPILOT_PID=$!
   fi
 
