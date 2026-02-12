@@ -11,18 +11,36 @@ if [ -z "$CLAUDE_BINARY" ]; then
   exit 1
 fi
 
-# Get the mode argument and separate it from the rest of the arguments
-for arg in "$@"; do
-  if [ "$arg" = "--copilot" ]; then
-    MODE="copilot"
-  elif [ "$arg" = "--anthropic" ]; then
-    MODE="anthropic"
-  else
-    ARGS+=("$arg")
-  fi
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    --copilot)
+      MODE="copilot"
+      shift
+      ;;
+    --anthropic)
+      MODE="anthropic"
+      shift
+      ;;
+    --ollama)
+      MODE="ollama"
+      shift
+      ;;
+    --model)
+      DEFAULT_MODEL="$2"
+      shift 2
+      ARGS+=("--model" "$DEFAULT_MODEL")
+      ;;
+    --small-model)
+      SMALL_MODEL="$2"
+      shift 2
+      ;;
+    *)
+      ARGS+=("$1")
+      shift
+      ;;
+  esac
 done
 
-# Default case: use Claude subscription
 if [ "$MODE" = "anthropic" ]; then
   CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1 \
     DISABLE_NON_ESSENTIAL_MODEL_CALLS=1 \
@@ -34,18 +52,7 @@ if [ "$MODE" = "anthropic" ]; then
     $CLAUDE_BINARY "${ARGS[@]}"
 fi
 
-# Copilot mode: start local Copilot API server and point Claude to it
 if [ "$MODE" = "copilot" ]; then
-  if [ -z "$PORT" ]; then
-    PORT=4141
-  fi
-  if [ -z "$DEFAULT_MODEL" ]; then
-    DEFAULT_MODEL="claude-sonnet-4.5"
-  fi
-  if [ -z "$SMALL_MODEL" ]; then
-    SMALL_MODEL="gpt-5-mini"
-  fi
-
   if command -v bun >/dev/null; then
     NODE_PACKAGE_MANAGER_TO_USE="bunx"
   elif command -v pnpm >/dev/null; then
@@ -57,8 +64,17 @@ if [ "$MODE" = "copilot" ]; then
     exit 1
   fi
 
-  if ! lsof -i:$PORT >/dev/null; then
-    $NODE_PACKAGE_MANAGER_TO_USE @jeffreycao/copilot-api@latest start --port $PORT >/dev/null 2>&1 &
+
+  if [ -z "$DEFAULT_MODEL" ]; then
+    DEFAULT_MODEL="claude-sonnet-4.5"
+  fi
+
+  if [ -z "$SMALL_MODEL" ]; then
+    SMALL_MODEL="gpt-5-mini"
+  fi
+
+  if ! lsof -i:4141 >/dev/null; then
+    $NODE_PACKAGE_MANAGER_TO_USE @jeffreycao/copilot-api@latest start >/dev/null 2>&1 &
     COPILOT_PID=$!
   fi
 
@@ -67,7 +83,7 @@ if [ "$MODE" = "copilot" ]; then
   }
   trap cleanup EXIT
 
-  ANTHROPIC_BASE_URL="http://localhost:$PORT" \
+  ANTHROPIC_BASE_URL="http://localhost:4141" \
     CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1 \
     DISABLE_NON_ESSENTIAL_MODEL_CALLS=1 \
     CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 \
@@ -75,8 +91,38 @@ if [ "$MODE" = "copilot" ]; then
     DISABLE_BUG_COMMAND=1 \
     DISABLE_ERROR_REPORTING=1 \
     DISABLE_TELEMETRY=1 \
+    ANTHROPIC_API_KEY="" \
     ANTHROPIC_AUTH_TOKEN="dummy" \
-    ANTHROPIC_MODEL="$DEFAULT_MODEL" \
+    ANTHROPIC_DEFAULT_OPUS_MODEL="$DEFAULT_MODEL" \
+    ANTHROPIC_DEFAULT_SONNET_MODEL="$DEFAULT_MODEL" \
+    ANTHROPIC_DEFAULT_HAIKU_MODEL="$SMALL_MODEL" \
+    $CLAUDE_BINARY "${ARGS[@]}"
+fi
+
+if [ "$MODE" = "ollama" ]; then
+  if ! command -v ollama >/dev/null; then
+    echo "Error: Ollama CLI not found. Please install Ollama to use this mode." >&2
+    exit 1
+  fi
+
+  if [ -z "$DEFAULT_MODEL" ]; then
+    DEFAULT_MODEL="gpt-oss"
+  fi
+
+  if [ -z "$SMALL_MODEL" ]; then
+    SMALL_MODEL="gpt-oss"
+  fi
+
+  ANTHROPIC_BASE_URL="http://localhost:11434" \
+    CLAUDE_CODE_DISABLE_BACKGROUND_TASKS=1 \
+    DISABLE_NON_ESSENTIAL_MODEL_CALLS=1 \
+    CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC=1 \
+    DISABLE_AUTOUPDATER=1 \
+    DISABLE_BUG_COMMAND=1 \
+    DISABLE_ERROR_REPORTING=1 \
+    DISABLE_TELEMETRY=1 \
+    ANTHROPIC_API_KEY="" \
+    ANTHROPIC_AUTH_TOKEN="ollama" \
     ANTHROPIC_DEFAULT_OPUS_MODEL="$DEFAULT_MODEL" \
     ANTHROPIC_DEFAULT_SONNET_MODEL="$DEFAULT_MODEL" \
     ANTHROPIC_DEFAULT_HAIKU_MODEL="$SMALL_MODEL" \
