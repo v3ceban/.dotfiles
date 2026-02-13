@@ -4,7 +4,7 @@ set -e
 MODE="anthropic"
 ARGS=()
 
-CLAUDE_BINARY=$(PATH="${PATH#$(dirname "$0"):}" command -v claude)
+CLAUDE_BINARY=$(PATH="${PATH//$HOME\/.local\/bin:/}" command -v claude)
 
 if [ -z "$CLAUDE_BINARY" ]; then
   echo "Error: Could not find original app binary" >&2
