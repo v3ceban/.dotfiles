@@ -1,14 +1,19 @@
 local M = {}
 
+--- Terminal window position for Claude Code interface
+--- Can technically be top and left as well, but those are ugly
+--- @type "float" | "right" | "bottom"
+local position = "float"
+
 M.opts = {
   terminal = {
     provider = "snacks", -- "auto", "snacks", "native", "external", "none"
     split_width_percentage = 0.35,
     snacks_win_opts = {
       -- https://github.com/folke/snacks.nvim/blob/main/docs/win.md
-      position = "float",
-      height = 0.8,
-      width = 0.85,
+      position = position,
+      height = position == "float" and 0.8 or 0.45,
+      width = position == "float" and 0.85 or 0.35,
       border = "rounded",
       backdrop = false,
       wo = { winbar = "" },
@@ -73,8 +78,8 @@ M.keys = {
   },
   { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", mode = "n", desc = "AI accept claude change" },
   { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", mode = "n", desc = "AI deny claude change" },
-  { "<C-h>", "<cmd>wincmd h<cr>", mode = "t", ft = "claude_code" },
-  { "<C-k>", "<cmd>wincmd k<cr>", mode = "t", ft = "claude_code" },
+  { "<M-k>", "<C-\\><C-n><C-b>", mode = { "n", "t" }, ft = "claude_code" },
+  { "<M-j>", "<C-\\><C-n><C-f>", mode = { "n", "t" }, ft = "claude_code" },
   {
     "<C-n>",
     function()
@@ -130,5 +135,11 @@ M.keys = {
     desc = "AI generate PR review",
   },
 }
+
+if position == "right" then
+  table.insert(M.keys, { "<C-h>", "<cmd>wincmd h<cr>", mode = "t", ft = "claude_code" })
+elseif position == "bottom" then
+  table.insert(M.keys, { "<C-k>", "<cmd>wincmd k<cr>", mode = "t", ft = "claude_code" })
+end
 
 return M
