@@ -14,12 +14,12 @@ allowed-tools:
 ## Context
 
 - Current git status: `git status`
-- Current git diff: `git diff --staged`
+- Current git diff: `git diff`
 - Recent commits (10): `git log -10 --oneline`
 
 ## Instructions
 
-Use allowed `Bash` tool and `git` command to get the information about all staged changes. After you access the changes, analyze them and write a short, but comprehensive commit message, that follows commitizen convention. It needs to look like this:
+Use allowed `Bash` tool and `git` commands to get the information about all current changes. If changes are not staged yet - stage them with `git add` command. After you access the changes, analyze them and write a short, but comprehensive commit message, that follows commitizen convention. It needs to look like this:
 
 ```gitcommit
 feat(commit): title of the commit message
