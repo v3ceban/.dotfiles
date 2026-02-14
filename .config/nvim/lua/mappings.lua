@@ -12,9 +12,8 @@ map({ "v" }, "<C-x>", "d", { desc = "general cut selection" })
 
 -- Search and replace
 local function escape_pattern(text)
-  return text:gsub("[/\\]", "\\%0")
+  return text:gsub("[/\\.]", "\\%0")
 end
-
 map({ "n" }, "<leader>sw", [[:/<C-r><C-w><CR>]], { desc = "search word", noremap = true })
 map(
   { "n" },

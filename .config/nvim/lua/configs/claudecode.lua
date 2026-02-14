@@ -3,12 +3,12 @@ local M = {}
 M.opts = {
   terminal = {
     provider = "snacks", -- "auto", "snacks", "native", "external", "none"
-    split_width_percentage = 0.45,
+    split_width_percentage = 0.35,
     snacks_win_opts = {
       -- https://github.com/folke/snacks.nvim/blob/main/docs/win.md
       position = "right",
-      height = 0.45,
-      width = 0.45,
+      height = 0.35,
+      width = 0.35,
       wo = { winbar = "" },
       bo = { filetype = "claude_code" },
     },
