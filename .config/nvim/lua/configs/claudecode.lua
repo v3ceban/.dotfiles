@@ -8,7 +8,7 @@ M.opts = {
       -- https://github.com/folke/snacks.nvim/blob/main/docs/win.md
       position = "float",
       height = 0.8,
-      width = 0.7,
+      width = 0.85,
       border = "rounded",
       backdrop = false,
       wo = { winbar = "" },
