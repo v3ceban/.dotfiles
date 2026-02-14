@@ -50,7 +50,7 @@ local function focus_and_send(text, callback)
         timer:close()
         vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-c>", true, false, true), "n", true)
         vim.defer_fn(function()
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(text, true, false, true), "n", true)
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(text .. " ", true, false, true), "n", true)
           if callback then
             callback()
           end
