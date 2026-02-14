@@ -6,9 +6,11 @@ M.opts = {
     split_width_percentage = 0.35,
     snacks_win_opts = {
       -- https://github.com/folke/snacks.nvim/blob/main/docs/win.md
-      position = "right",
-      height = 0.35,
-      width = 0.35,
+      position = "float",
+      height = 0.8,
+      width = 0.7,
+      border = "rounded",
+      backdrop = false,
       wo = { winbar = "" },
       bo = { filetype = "claude_code" },
     },
@@ -19,6 +21,35 @@ M.opts = {
     on_new_file_reject = "close_window",
   },
 }
+
+--- Focus the Claude terminal and send a slash command once connected.
+--- @param text string The text to feed (e.g. "/commit ")
+--- @param callback? function Optional callback to run callback feeding text
+local function focus_and_send(text, callback)
+  if vim.bo.filetype ~= "claude_code" then
+    vim.cmd "ClaudeCodeFocus"
+  else
+    vim.cmd "startinsert"
+  end
+  local timer = vim.uv.new_timer()
+  if timer then
+    timer:start(
+      50,
+      50,
+      vim.schedule_wrap(function()
+        if not require("claudecode").is_claude_connected() then
+          return
+        end
+        timer:stop()
+        timer:close()
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(text, true, false, true), "n", true)
+        if callback then
+          callback()
+        end
+      end)
+    )
+  end
+end
 
 M.keys = {
   { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
@@ -34,6 +65,7 @@ M.keys = {
   { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", mode = "n", desc = "AI accept claude change" },
   { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", mode = "n", desc = "AI deny claude change" },
   { "<C-h>", "<cmd>wincmd h<cr>", mode = "t", ft = "claude_code" },
+  { "<C-k>", "<cmd>wincmd k<cr>", mode = "t", ft = "claude_code" },
   {
     "<C-n>",
     function()
@@ -44,31 +76,21 @@ M.keys = {
     mode = "t",
     ft = "claude_code",
   },
-  { "<leader>agc", "<cmd>ClaudeCode /commit<cr>", mode = "n", desc = "AI generate commit message" },
+  {
+    "<leader>agc",
+    function()
+      focus_and_send "/commit"
+    end,
+    mode = "n",
+    desc = "AI generate commit message",
+  },
   {
     "<leader>agd",
     function()
-      if vim.bo.filetype ~= "claude_code" then
-        vim.cmd "ClaudeCodeFocus"
-      else
-        vim.cmd "startinsert"
-      end
-      local timer = vim.uv.new_timer()
-      if timer then
-        timer:start(
-          50,
-          50,
-          vim.schedule_wrap(function()
-            if require("claudecode").is_claude_connected() then
-              timer:stop()
-              timer:close()
-              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("/document ", true, false, true), "n", true)
-              vim.cmd "ClaudeCode"
-              vim.cmd "ClaudeCodeAdd %"
-            end
-          end)
-        )
-      end
+      focus_and_send("/document ", function()
+        vim.cmd "ClaudeCode"
+        vim.cmd "ClaudeCodeAdd %"
+      end)
     end,
     mode = "n",
     desc = "AI generate documentation for file",
@@ -79,30 +101,13 @@ M.keys = {
       local start_pos = vim.api.nvim_buf_get_mark(0, "<")
       local end_pos = vim.api.nvim_buf_get_mark(0, ">")
       vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", true)
-      if vim.bo.filetype ~= "claude_code" then
-        vim.cmd "ClaudeCodeFocus"
-      else
-        vim.cmd "startinsert"
-      end
-      local timer = vim.uv.new_timer()
-      if timer then
-        timer:start(
-          50,
-          50,
-          vim.schedule_wrap(function()
-            if require("claudecode").is_claude_connected() then
-              timer:stop()
-              timer:close()
-              vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("/document ", true, false, true), "n", true)
-              vim.cmd "ClaudeCode"
-              vim.api.nvim_buf_set_mark(0, "<", start_pos[1], start_pos[2], {})
-              vim.api.nvim_buf_set_mark(0, ">", end_pos[1], end_pos[2], {})
-              vim.cmd "normal! gv"
-              vim.cmd "ClaudeCodeSend"
-            end
-          end)
-        )
-      end
+      focus_and_send("/document ", function()
+        vim.cmd "ClaudeCode"
+        vim.api.nvim_buf_set_mark(0, "<", start_pos[1], start_pos[2], {})
+        vim.api.nvim_buf_set_mark(0, ">", end_pos[1], end_pos[2], {})
+        vim.cmd "normal! gv"
+        vim.cmd "ClaudeCodeSend"
+      end)
     end,
     mode = "v",
     desc = "AI generate documentation for selection",
@@ -110,11 +115,7 @@ M.keys = {
   {
     "<leader>agr",
     function()
-      local pr_number = vim.fn.system "gh pr view --json number --jq .number 2>/dev/null"
-      if pr_number ~= "" then
-        pr_number = pr_number:gsub("%s+", "")
-        vim.cmd('ClaudeCode "/review #"' .. pr_number)
-      end
+      focus_and_send "/review"
     end,
     mode = "n",
     desc = "AI generate PR review",
