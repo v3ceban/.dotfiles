@@ -20,6 +20,12 @@ M.opts = {
     hide_terminal_in_new_tab = true,
     on_new_file_reject = "close_window",
   },
+  models = {
+    { name = "Claude Opus", value = "opus" },
+    { name = "Claude Sonnet", value = "sonnet" },
+    { name = "Opusplan: Claude Opus + Sonnet", value = "opusplan" },
+    { name = "Claude Haiku", value = "haiku" },
+  },
 }
 
 --- Focus the Claude terminal and send a slash command once connected.
@@ -42,10 +48,13 @@ local function focus_and_send(text, callback)
         end
         timer:stop()
         timer:close()
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(text, true, false, true), "n", true)
-        if callback then
-          callback()
-        end
+        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-c>", true, false, true), "n", true)
+        vim.defer_fn(function()
+          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(text, true, false, true), "n", true)
+          if callback then
+            callback()
+          end
+        end, 100)
       end)
     )
   end

@@ -20,10 +20,6 @@
     ],
     "defaultMode": "default"
   },
-  "enabledPlugins": {
-    "typescript-lsp@claude-plugins-official": true,
-    "lua-lsp@claude-plugins-official": true
-  },
   "syntaxHighlightingDisabled": false,
   "alwaysThinkingEnabled": false,
   "promptSuggestionEnabled": false,
