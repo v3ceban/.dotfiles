@@ -1,9 +1,6 @@
 ---
 description: Generate Documentation Comments
 model: haiku
-allowed-tools:
-  - Read
-  - Write
 ---
 
 ## Purpose
@@ -12,8 +9,8 @@ Generate comprehensive documentation comments for code files using language-spec
 
 ## Details and Instructions
 
-Your goal is to add documentation comments to the provided code selection or all undocumented code blocks in the selection(s) or file(s).
-Review attached file(s) and add docummentation comments to all logical parts of the code. Use the appropriate documentation style for the programming language of selection. For example:
+Your goal is to add documentation comments to the provided code range or all undocumented code blocks in the range(s) or file(s).
+Review attached file(s) and add docummentation comments to all logical parts of the code. Use the appropriate documentation style for the programming language of range. For example:
 
 - For Python, use triple quotes for docstrings: `""" """`
 - For JavaScript/TypeScript, use JSDoc style comments: `/** */` with `@param`, `@returns`, `@example`, and other appropiate tags with example usages wrapped in corresponding language code blocks, e.g.:
@@ -65,10 +62,9 @@ Apply comments directly above the relevant code elements (functions, classes, me
 
 ## Rules
 
-1. **ALWAYS** use the appropriate documentation style for the programming language of the selection.
-2. **ALWAYS** ensure comments are clear, concise, and informative.
-3. **NEVER** add comments to trivial code that is self-explanatory.
-4. **NEVER** use emojis in comments.
-5. **NEVER** add Claude, Claude Code, Openai, Codex, Opencode, or any other AI tool or agent as an author or a co-author of the comments or code.
-6. Provide examples of usage in the comments where applicable.
-7. If the programming language of the selection is not recognized, use plain English comments.
+1. **ALWAYS** use the appropriate documentation style for the programming language of the range
+2. **ALWAYS** ensure comments are clear, concise, and informative
+3. **NEVER** add comments to trivial code that is self-explanatory
+4. **NEVER** use emojis in comments
+5. Provide examples of usage in the comments where applicable
+6. If the programming language of the range is not recognized, use plain English comments

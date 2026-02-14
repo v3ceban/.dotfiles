@@ -44,6 +44,7 @@ M.keys = {
     mode = "t",
     ft = "claude_code",
   },
+  { "<leader>agc", "<cmd>ClaudeCode /commit<cr>", mode = "n", desc = "AI generate commit message" },
 }
 
 return M
