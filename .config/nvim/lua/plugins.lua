@@ -74,7 +74,8 @@ return {
   },
   {
     "nvim-tree/nvim-tree.lua",
-    opts = require "configs.nvim-tree",
+    opts = require("configs.nvim-tree").opts,
+    keys = require("configs.nvim-tree").keys,
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",

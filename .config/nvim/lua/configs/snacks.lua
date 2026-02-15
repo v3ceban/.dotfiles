@@ -1,10 +1,11 @@
 local opts = {
   bigfile = {
     enabled = true,
-    notify = true,
+    notify = false,
   },
   input = {
-    enabled = true,
+    enabled = false,
+    -- saving the opts if ever want to enable it back
     prompt_pos = "left",
     icon_pos = "left",
     expand = false,
