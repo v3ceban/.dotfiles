@@ -43,8 +43,8 @@ local opts = {
       },
       list = {
         keys = {
-          ["<Tab>"] = { { "list_down" }, mode = { "n", "x" } },
-          ["<S-Tab>"] = { { "list_up" }, mode = { "n", "x" } },
+          ["<Tab>"] = { { "list_down" }, mode = { "n", "v" } },
+          ["<S-Tab>"] = { { "list_up" }, mode = { "n", "v" } },
         },
       },
     },

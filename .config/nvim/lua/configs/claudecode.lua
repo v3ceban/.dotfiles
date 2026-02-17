@@ -114,7 +114,7 @@ M.keys = {
     function()
       local start_pos = vim.api.nvim_buf_get_mark(0, "<")
       local end_pos = vim.api.nvim_buf_get_mark(0, ">")
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", true)
+      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "v", true)
       focus_and_send("/document ", function()
         vim.cmd "ClaudeCode"
         vim.api.nvim_buf_set_mark(0, "<", start_pos[1], start_pos[2], {})

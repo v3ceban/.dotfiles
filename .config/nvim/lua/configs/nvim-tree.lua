@@ -15,7 +15,7 @@ local function for_each_visual_node(fn)
   local view = require "nvim-tree.view"
   local cursor_pos = vim.api.nvim_win_get_cursor(0)
 
-  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "x", false)
+  vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "v", false)
 
   local winid = view.get_winnr()
   local bufnr = vim.api.nvim_win_get_buf(winid)
@@ -46,7 +46,7 @@ M.keys = {
         api.marks.toggle(node)
       end)
     end,
-    mode = "x",
+    mode = "v",
     ft = "NvimTree",
     noremap = true,
     nowait = true,
@@ -72,7 +72,7 @@ M.keys = {
         end
       end)
     end,
-    mode = "x",
+    mode = "v",
     ft = "NvimTree",
     noremap = true,
     nowait = true,
@@ -84,7 +84,7 @@ M.keys = {
         api.fs.copy.node()
       end)
     end,
-    mode = "x",
+    mode = "v",
     ft = "NvimTree",
     noremap = true,
     nowait = true,
@@ -96,7 +96,7 @@ M.keys = {
         api.fs.cut()
       end)
     end,
-    mode = "x",
+    mode = "v",
     ft = "NvimTree",
     noremap = true,
     nowait = true,
@@ -106,7 +106,7 @@ M.keys = {
     function()
       api.marks.clear()
     end,
-    mode = { "n", "x" },
+    mode = { "n", "v" },
     ft = "NvimTree",
     noremap = true,
     nowait = true,
