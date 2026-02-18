@@ -40,7 +40,7 @@ end
 M.opts = {
   terminal = {
     provider = custom_provider,
-    split_width_percentage = 0.375,
+    split_width_percentage = 0.40,
     show_native_term_exit_tip = false,
   },
   diff_opts = {
@@ -68,8 +68,8 @@ local function send_slash_command(text, callback)
   local timer = vim.uv.new_timer()
   if timer then
     timer:start(
-      10,
-      10,
+      50,
+      50,
       vim.schedule_wrap(function()
         if not require("claudecode").is_claude_connected() then
           return
@@ -88,8 +88,8 @@ local function send_slash_command(text, callback)
                 if callback then
                   callback()
                 end
-              end, 50)
-            end, 50)
+              end, 100)
+            end, 100)
           end
         end
       end)
