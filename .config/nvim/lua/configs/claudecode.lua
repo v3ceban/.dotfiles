@@ -1,24 +1,46 @@
 local M = {}
 
---- Terminal window position for Claude Code interface
---- Can technically be top and left as well, but those are ugly
---- @type "float" | "right" | "bottom"
-local position = "right"
+--- @type table | nil
+local native = nil
+
+local function get_native()
+  if not native then
+    native = require "claudecode.terminal.native"
+  end
+  return native
+end
+
+local function apply_buf_opts()
+  local bufnr = get_native().get_active_bufnr()
+  if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
+    vim.bo[bufnr].filetype = "claude_code"
+    vim.bo[bufnr].buflisted = false
+    for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
+      vim.wo[win].winfixwidth = true
+    end
+  end
+end
+
+local custom_provider = setmetatable({}, {
+  __index = function(_, key)
+    local fn = get_native()[key]
+    if fn then
+      return fn
+    end
+  end,
+})
+
+for _, method in ipairs { "open", "simple_toggle", "focus_toggle" } do
+  custom_provider[method] = function(...)
+    get_native()[method](...)
+    apply_buf_opts()
+  end
+end
 
 M.opts = {
   terminal = {
-    provider = "snacks", -- "auto", "snacks", "native", "external", "none"
+    provider = custom_provider,
     split_width_percentage = 0.375,
-    snacks_win_opts = {
-      -- https://github.com/folke/snacks.nvim/blob/main/docs/win.md
-      position = position,
-      height = position == "float" and 0.8 or 0.45,
-      width = position == "float" and 0.85 or 0.375,
-      border = "rounded",
-      backdrop = false,
-      wo = { winbar = "" },
-      bo = { filetype = "claude_code" },
-    },
   },
   diff_opts = {
     open_in_new_tab = true,
@@ -36,7 +58,7 @@ M.opts = {
 --- Focus the Claude terminal and send a slash command once connected.
 --- @param text string The text to feed (e.g. "/commit ")
 --- @param callback? function Optional callback to run callback feeding text
-local function focus_and_send(text, callback)
+local function send_slash_command(text, callback)
   if vim.bo.filetype ~= "claude_code" then
     vim.cmd "ClaudeCodeFocus"
   else
@@ -45,21 +67,30 @@ local function focus_and_send(text, callback)
   local timer = vim.uv.new_timer()
   if timer then
     timer:start(
-      50,
-      50,
+      10,
+      10,
       vim.schedule_wrap(function()
         if not require("claudecode").is_claude_connected() then
           return
         end
         timer:stop()
         timer:close()
-        vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<C-c>", true, false, true), "n", true)
-        vim.defer_fn(function()
-          vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes(text .. " ", true, false, true), "n", true)
-          if callback then
-            callback()
+        local bufnr = get_native().get_active_bufnr()
+        if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
+          local chan = vim.b[bufnr].terminal_job_id
+          if chan then
+            vim.fn.chansend(chan, "\x03")
+            vim.defer_fn(function()
+              vim.fn.chansend(chan, text .. " ")
+              vim.defer_fn(function()
+                vim.fn.chansend(chan, "\r")
+                if callback then
+                  callback()
+                end
+              end, 25)
+            end, 25)
           end
-        end, 100)
+        end
       end)
     )
   end
@@ -78,8 +109,8 @@ M.keys = {
   },
   { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", mode = "n", desc = "AI accept claude change" },
   { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", mode = "n", desc = "AI deny claude change" },
-  { "<M-k>", "<C-\\><C-n><C-b>", mode = { "n", "t" }, ft = "claude_code" },
-  { "<M-j>", "<C-\\><C-n><C-f>", mode = { "n", "t" }, ft = "claude_code" },
+  { "<M-k>", "<C-\\><C-n><C-u>", mode = { "n", "t" }, ft = "claude_code" },
+  { "<M-j>", "<C-\\><C-n><C-d>", mode = { "n", "t" }, ft = "claude_code" },
   {
     "<C-n>",
     function()
@@ -91,9 +122,33 @@ M.keys = {
     ft = "claude_code",
   },
   {
+    "<leader>ac",
+    function()
+      send_slash_command "/clear"
+    end,
+    mode = "n",
+    desc = "AI clear claude session",
+  },
+  {
+    "<leader>ar",
+    function()
+      send_slash_command "/resume"
+    end,
+    mode = "n",
+    desc = "AI resume claude session",
+  },
+  {
+    "<leader>ae",
+    function()
+      send_slash_command "/export"
+    end,
+    mode = "n",
+    desc = "AI export claude session",
+  },
+  {
     "<leader>agc",
     function()
-      focus_and_send "/commit"
+      send_slash_command "/commit"
     end,
     mode = "n",
     desc = "AI generate commit message",
@@ -101,45 +156,20 @@ M.keys = {
   {
     "<leader>agd",
     function()
-      focus_and_send("/document ", function()
-        vim.cmd "ClaudeCode"
-        vim.cmd "ClaudeCodeAdd %"
-      end)
+      send_slash_command "/document"
     end,
     mode = "n",
     desc = "AI generate documentation for file",
   },
   {
-    "<leader>agd",
-    function()
-      local start_pos = vim.api.nvim_buf_get_mark(0, "<")
-      local end_pos = vim.api.nvim_buf_get_mark(0, ">")
-      vim.api.nvim_feedkeys(vim.api.nvim_replace_termcodes("<Esc>", true, false, true), "v", true)
-      focus_and_send("/document ", function()
-        vim.cmd "ClaudeCode"
-        vim.api.nvim_buf_set_mark(0, "<", start_pos[1], start_pos[2], {})
-        vim.api.nvim_buf_set_mark(0, ">", end_pos[1], end_pos[2], {})
-        vim.cmd "normal! gv"
-        vim.cmd "ClaudeCodeSend"
-      end)
-    end,
-    mode = "v",
-    desc = "AI generate documentation for selection",
-  },
-  {
     "<leader>agr",
     function()
-      focus_and_send "/review"
+      send_slash_command "/review"
     end,
     mode = "n",
     desc = "AI generate PR review",
   },
+  { "<C-h>", "<cmd>wincmd h<cr>", mode = "t", ft = "claude_code" },
 }
-
-if position == "right" then
-  table.insert(M.keys, { "<C-h>", "<cmd>wincmd h<cr>", mode = "t", ft = "claude_code" })
-elseif position == "bottom" then
-  table.insert(M.keys, { "<C-k>", "<cmd>wincmd k<cr>", mode = "t", ft = "claude_code" })
-end
 
 return M

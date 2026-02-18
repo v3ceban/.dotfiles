@@ -85,3 +85,12 @@ vim.api.nvim_create_autocmd("FileType", {
     )
   end,
 })
+
+-- disable tab and shift-tab in terminals
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function(args)
+    local opts = { buffer = args.buf }
+    vim.keymap.set("n", "<Tab>", "<Nop>", opts)
+    vim.keymap.set("n", "<S-Tab>", "<Nop>", opts)
+  end,
+})
