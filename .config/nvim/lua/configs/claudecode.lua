@@ -3,17 +3,17 @@ local M = {}
 --- Terminal window position for Claude Code interface
 --- Can technically be top and left as well, but those are ugly
 --- @type "float" | "right" | "bottom"
-local position = "float"
+local position = "right"
 
 M.opts = {
   terminal = {
     provider = "snacks", -- "auto", "snacks", "native", "external", "none"
-    split_width_percentage = 0.35,
+    split_width_percentage = 0.375,
     snacks_win_opts = {
       -- https://github.com/folke/snacks.nvim/blob/main/docs/win.md
       position = position,
       height = position == "float" and 0.8 or 0.45,
-      width = position == "float" and 0.85 or 0.35,
+      width = position == "float" and 0.85 or 0.375,
       border = "rounded",
       backdrop = false,
       wo = { winbar = "" },
