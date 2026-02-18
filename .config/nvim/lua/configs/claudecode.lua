@@ -81,14 +81,14 @@ local function send_slash_command(text, callback)
           if chan then
             vim.fn.chansend(chan, "\x03")
             vim.defer_fn(function()
-              vim.fn.chansend(chan, text .. " ")
+              vim.fn.chansend(chan, text)
               vim.defer_fn(function()
                 vim.fn.chansend(chan, "\r")
                 if callback then
                   callback()
                 end
-              end, 25)
-            end, 25)
+              end, 50)
+            end, 50)
           end
         end
       end)
