@@ -41,6 +41,7 @@ M.opts = {
   terminal = {
     provider = custom_provider,
     split_width_percentage = 0.375,
+    show_native_term_exit_tip = false,
   },
   diff_opts = {
     open_in_new_tab = true,
