@@ -1,5 +1,8 @@
 require("nvchad.configs.lspconfig").defaults()
 
+-- [1] = unnecessary, [2] = deprecated
+local suppressed_ts_diagnostic_tags = { [1] = true, [2] = true }
+
 local servers = {
   bashls = {},
   docker_compose_language_service = {},
@@ -28,11 +31,23 @@ local servers = {
       "typescriptreact",
     },
   },
-  ts_ls = {
-    init_options = {
-      preferences = {
-        disableSuggestions = true,
-      },
+  tsgo = {
+    handlers = {
+      ["textDocument/diagnostic"] = function(err, result, ctx)
+        if result and result.items then
+          result.items = vim.tbl_filter(function(d)
+            if d.tags then
+              for _, tag in ipairs(d.tags) do
+                if suppressed_ts_diagnostic_tags[tag] then
+                  return false
+                end
+              end
+            end
+            return true
+          end, result.items)
+        end
+        vim.lsp.diagnostic.on_diagnostic(err, result, ctx)
+      end,
     },
   },
   intelephense = {
@@ -139,6 +154,5 @@ local servers = {
 
 for name, opts in pairs(servers) do
   vim.lsp.config(name, opts)
+  vim.lsp.enable(name)
 end
-
-vim.lsp.enable(vim.tbl_keys(servers))

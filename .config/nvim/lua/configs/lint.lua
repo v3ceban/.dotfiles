@@ -91,7 +91,7 @@ vim.api.nvim_create_autocmd("BufEnter", {
   callback = try_lint,
 })
 
-vim.o.updatetime = 150
+vim.o.updatetime = 100
 
 local lint_timer = assert(vim.uv.new_timer())
 
