@@ -82,7 +82,7 @@ lint.linters_by_ft = {
 
 local try_lint = function()
   local file = vim.api.nvim_buf_get_name(0)
-  if file ~= "" and not file:match "node_modules" and not file:match "term" then
+  if file ~= "" and not file:match "/node_modules/" and not file:match "term://" then
     lint.try_lint()
   end
 end
