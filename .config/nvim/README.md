@@ -70,14 +70,13 @@ adding your API keys as env variables for AI providers).
 
 ### JavaScript/TypeScript
 
-- Uses [typescript-language-server](https://github.com/typescript-language-server/typescript-language-server) for LSP
+- Uses [tsgo](https://github.com/microsoft/typescript-go) (TypeScript native LSP written in Go) for LSP
 - Uses [eslintd](https://github.com/mantoni/eslint_d.js/) for linting
 - Uses [prettier](https://prettier.io) for formatting
 - Requires eslint config to run linting server
   - Run `npm init` if not already done
   - Run `npm init @eslint/config@latest` in the root of the project
 - Uses [prisma-language-server](https://github.com/prisma/language-tools) for LSP in Prisma files
-<!-- - Uses [eslint-lsp](https://github.com/Microsoft/vscode-eslint) for linting -->
 
 ### JSON
 
@@ -114,7 +113,7 @@ adding your API keys as env variables for AI providers).
 ### Go
 
 - Uses [gopls](https://pkg.go.dev/golang.org/x/tools/gopls) for LSP and linting
-- Uses [gofumpt](https://pkg.go.dev/mvdan.cc/gofumpt), [goimports-reviser](https://github.com/incu6us/goimports-reviser), and [golines](https://github.com/segmentio/golines) for formatting
+- Uses [gofumpt](https://pkg.go.dev/mvdan.cc/gofumpt) and [golines](https://github.com/segmentio/golines) for formatting
 
 ### Markdown
 
@@ -162,23 +161,22 @@ Run `claude --ide` or use `/ide` command in claude code to connect and configure
 ide connection. You, of course, need to be authenticated to use Claude Code
 (you'll get prompted to login when first running `claude` CLI).
 
-- Uses the [Claude Code](https://github.com/coder/claudecode.nvim) plugin for AI-assisted development
+- Uses the [claudecode.nvim](https://github.com/coder/claudecode.nvim) plugin for AI-assisted development
+- Toggle Claude terminal with `<M-a>` (Alt+a)
 - Use `<leader>aa` to add files or selections to Claude
   - In normal mode: add current file
   - In visual mode: add selection
   - In file explorer (NvimTree, neo-tree, oil, etc.): add file/directory
 - Use `<leader>ay` to accept Claude's suggested changes
 - Use `<leader>an` to deny Claude's suggested changes
-- Use `<leader>agc` to generate commit messages using Claude AI
-  - This will open a separate claude instance in [headless mode](https://anthropic.mintlify.app/en/docs/claude-code/headless),
-    stage all files in current working directory with `git add .` and generate
-    a commit message, prompting you (y/N) twice to:
-    1. Accept or deny it (you'll see commit message when prompted)
-    2. Push to remote or leave it local
-  - Claude Code will have access to the following bash commands:
-    - `git log *`
-    - `git status *`
-    - `git diff *`
+- Session management:
+  - `<leader>ac` - Clear Claude session
+  - `<leader>ar` - Resume Claude session
+  - `<leader>ae` - Export Claude session
+- Generation commands (sends slash commands to Claude):
+  - `<leader>agc` - Generate commit message (`/commit`)
+  - `<leader>agd` - Generate documentation for file (`/document`)
+  - `<leader>agr` - Generate PR review (`/review`)
 
 ### Copilot
 
@@ -201,7 +199,7 @@ Navigation with search labels and treesitter
 
 Plugin that helps resolve git conflicts
 
-- Uses [git-conflict](https://github.com/akinsho/git-conflict.nvim) plugin
+- Uses [git-conflict](https://github.com/v3ceban/git-conflict.nvim) plugin (fork)
 - Navigate conflicts: `[c` (previous), `]c` (next)
 - Resolve conflicts: `<leader>co` (ours), `<leader>ct` (theirs), `<leader>cb` (both), `<leader>cn` (none)
 - See `:h git-conflict` for usage info
@@ -230,6 +228,15 @@ Adds a sorting functionality using text objects and motions
   - `gsip` in normal mode to sort paragraph
   - `gsi{` to sort inside curly braces
   - etc...
+
+### Snacks.nvim
+
+Multi-purpose plugin providing several small utilities
+
+- Uses [snacks.nvim](https://github.com/folke/snacks.nvim) plugin
+- Provides a picker (fuzzy finder) with `<Tab>`/`<S-Tab>` navigation
+- Bigfile detection for large files (silently disables heavy features)
+- Quickfile for faster file loading on startup
 
 ### Vim-matchquote
 

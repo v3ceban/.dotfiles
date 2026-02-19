@@ -108,8 +108,6 @@ M.keys = {
   },
   { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", mode = "n", desc = "AI accept claude change" },
   { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", mode = "n", desc = "AI deny claude change" },
-  { "<M-k>", "<C-\\><C-n><C-u>", mode = { "n", "t" }, ft = "claude_code" },
-  { "<M-j>", "<C-\\><C-n><C-d>", mode = { "n", "t" }, ft = "claude_code" },
   {
     "<C-n>",
     function()

@@ -31,7 +31,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Standard servers: bashls, docker_compose_language_service, dockerls, html, jsonls, prismals
 - Special configurations:
   - `clangd` - UTF-16 offset encoding for C/C++
-  - `ts_ls` - TypeScript with disabled suggestions (relies on other tools)
+  - `tsgo` - TypeScript native LSP written in Go, with unnecessary/deprecated diagnostic tags suppressed
   - `intelephense` - PHP with custom global storage path and telemetry disabled
   - `gopls` - Go with complete unimported, placeholders, unused params analysis
   - `pylsp` - Python with mccabe threshold 50, E501/W503 ignore, 120 char line length
@@ -45,7 +45,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Language-specific:
   - `stylua` (Lua)
   - `black` + `isort` (Python) with fast mode
-  - `gofumpt` + `goimports-reviser` + `golines` (Go) with unused imports removal
+  - `gofumpt` + `golines` (Go)
   - `clang-format` (C/C++/Java/Proto/CUDA/C#)
   - `beautysh` (Shell scripts) with 2-space indent
   - `fixjson` (JSON), `prettier` (JSON5/YAML/Markdown/GraphQL)
@@ -56,7 +56,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Dynamic ESLint configuration detection with directory caching
 - Searches for ESLint configs in current/parent directories (supports both legacy and flat config formats)
 - Caches config directory paths to avoid repeated filesystem traversal
-- Auto-triggers on `BufEnter`, `BufWritePost`, `CursorHold`
+- Auto-triggers on `BufEnter`, debounced `BufWritePost`/`CursorHold` (50ms timer, `updatetime=100`)
 
 ## Development Commands
 
@@ -91,12 +91,20 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 **Claude Code** (`lua/configs/claudecode.lua`):
 
 - Integration: Full AI-powered development environment via Claude models with Claude Code CLI.
-- Main keybinds:
-  - `<leader>aa` - Add file/selection to Claude (context-aware)
+- Terminal: `<M-a>` toggle, custom provider with `claude_code` filetype, 40% split width
+- Context keybinds:
+  - `<leader>aa` - Add file/selection to Claude (context-aware: normal=file, visual=selection, tree=tree node)
   - `<leader>ay` - Accept Claude's suggested changes
   - `<leader>an` - Deny Claude's suggested changes
-  - `<leader>agc` - Generate commit messages (uses Bash, git log/status/diff tools)
-- Commit message generation: Follows commitizen convention, analyzes staged changes
+- Session management:
+  - `<leader>ac` - Clear session (`/clear`)
+  - `<leader>ar` - Resume session (`/resume`)
+  - `<leader>ae` - Export session (`/export`)
+- Generation slash commands:
+  - `<leader>agc` - Generate commit message (`/commit`)
+  - `<leader>agd` - Generate documentation (`/document`)
+  - `<leader>agr` - Generate PR review (`/review`)
+- Diff opts: opens in new tab, hides terminal, rejects new files by closing window
 - Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw)
 
 **GitHub Copilot**:
@@ -121,7 +129,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Global statusline (`laststatus=3`)
 - Relative line numbers with Treesitter folding
 - Rounded borders for LSP floats and diagnostics
-- Custom highlight groups for Markdown rendering and Git conflicts
+- Custom highlight groups for Markdown rendering, Git conflicts, and Snacks input
 
 **Auto-commands**:
 
@@ -131,6 +139,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Quickfix window behaviors: `<CR>` (open and close), `q`/`<Esc>` (close), `o` (open only), `d` (delete entry)
 - Auto file reload on external changes (`autoread` + multiple triggers)
 - ESLint config cache clearing on directory change
+- Tab/Shift-Tab disabled in terminal buffers
 
 ## Plugin Ecosystem
 
@@ -139,11 +148,12 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - `blink.cmp` - Experimental fast completion engine (alongside nvim-cmp)
 - `claudecode.nvim` - Full AI development environment with Claude models (`<M-a>`, `<leader>a*`)
 - `flash.nvim` - Enhanced navigation with treesitter visual selection (`v`)
-- `git-conflict.nvim` - Conflict resolution (`[c]`/`]c` navigation, `<leader>c*` actions)
+- `git-conflict.nvim` - Conflict resolution (`[c]`/`]c` navigation, `<leader>c*` actions) (fork: v3ceban)
 - `indent-blankline.nvim` - Visual indentation guides
 - `nvim-surround` - Text surrounding operations (`cs`, `ds`, `ys`, visual `s`)
 - `nvim-ts-autotag` - Auto HTML tag closing/renaming
 - `render-markdown.nvim` + `markdowny.nvim` - Enhanced markdown editing
+- `snacks.nvim` - Picker (fuzzy finder), bigfile detection, quickfile loading
 - `vim-abolish` - Search/replace trinity (`<leader>sw`/`sr`/`ss`) with smart word variations
 - `vim-matchquote` - Enhanced `%` command for quotes/brackets
 - `vim-sort-motion` - Sorting functionality (`gs` motion)
