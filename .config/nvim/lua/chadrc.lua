@@ -22,6 +22,7 @@ M.ui = {
       -- "btns",
     },
     bufwidth = 21,
+    lazyload = false,
   },
 
   cmp = {

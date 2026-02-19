@@ -67,7 +67,6 @@ vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
     vim.bo.filetype = "yaml.docker-compose"
   end,
 })
-
 -- close quickfix window after pressing enter, q, or escape, leave open when pressing o
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",
@@ -85,12 +84,26 @@ vim.api.nvim_create_autocmd("FileType", {
     )
   end,
 })
-
 -- disable tab and shift-tab in terminals
 vim.api.nvim_create_autocmd("TermOpen", {
   callback = function(args)
     local opts = { buffer = args.buf }
     vim.keymap.set("n", "<Tab>", "<Nop>", opts)
     vim.keymap.set("n", "<S-Tab>", "<Nop>", opts)
+  end,
+})
+-- open Nvdash when closing the last buffer
+vim.api.nvim_create_autocmd("BufDelete", {
+  callback = function()
+    local bufs = vim.t.bufs
+    if
+      #bufs == 1
+      and vim.api.nvim_buf_get_name(bufs[1]) == ""
+      and vim.api.nvim_buf_line_count(bufs[1]) == 1
+      and vim.api.nvim_buf_get_lines(bufs[1], 0, -1, true)[1] == ""
+    then
+      vim.cmd "Nvdash"
+      vim.api.nvim_buf_delete(bufs[1], { force = true })
+    end
   end,
 })
