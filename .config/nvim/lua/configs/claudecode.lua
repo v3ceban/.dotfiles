@@ -58,43 +58,41 @@ M.opts = {
 
 --- Focus the Claude terminal and send a slash command once connected.
 --- @param text string The text to feed (e.g. "/commit ")
---- @param callback? function Optional callback to run callback feeding text
-local function send_slash_command(text, callback)
+local function send_slash_command(text)
   if vim.bo.filetype ~= "claude_code" then
     vim.cmd "ClaudeCodeFocus"
   else
     vim.cmd "startinsert"
   end
-  local timer = vim.uv.new_timer()
-  if timer then
-    timer:start(
-      50,
-      50,
-      vim.schedule_wrap(function()
-        if not require("claudecode").is_claude_connected() then
-          return
-        end
-        timer:stop()
-        timer:close()
-        local bufnr = get_native().get_active_bufnr()
-        if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-          local chan = vim.b[bufnr].terminal_job_id
-          if chan then
+
+  local timer = assert(vim.uv.new_timer())
+
+  timer:start(
+    50,
+    50,
+    vim.schedule_wrap(function()
+      if not require("claudecode").is_claude_connected() then
+        return
+      end
+      timer:stop()
+      timer:close()
+      local bufnr = get_native().get_active_bufnr()
+      if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
+        local chan = vim.b[bufnr].terminal_job_id
+        if chan then
+          vim.defer_fn(function()
             vim.fn.chansend(chan, "\x03")
             vim.defer_fn(function()
               vim.fn.chansend(chan, text)
               vim.defer_fn(function()
                 vim.fn.chansend(chan, "\r")
-                if callback then
-                  callback()
-                end
-              end, 100)
+              end, 50)
             end, 100)
-          end
+          end, 100)
         end
-      end)
-    )
-  end
+      end
+    end)
+  )
 end
 
 M.keys = {
