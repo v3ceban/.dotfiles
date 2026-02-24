@@ -73,9 +73,8 @@ return {
     end,
   },
   {
-    "nvim-tree/nvim-tree.lua",
-    opts = require("configs.nvim-tree").opts,
-    keys = require("configs.nvim-tree").keys,
+    "v3ceban/nvim-tree.lua",
+    opts = require "configs.nvim-tree",
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
@@ -97,15 +96,13 @@ return {
   {
     "kylechui/nvim-surround",
     version = "*",
-    keys = {
-      { "cs", mode = { "n" } },
-      { "ds", mode = { "n" } },
-      { "ys", mode = { "n" } },
-      { "s", mode = { "v", "x" } },
-    },
+    init = function()
+      return require("configs.surround").init()
+    end,
     config = function()
       return require("configs.surround").setup()
     end,
+    keys = require("configs.surround").keys,
   },
   {
     "nvim-telescope/telescope.nvim",
