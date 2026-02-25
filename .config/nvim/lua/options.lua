@@ -19,11 +19,14 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
   pattern = { "*" },
 })
 
--- for better syntax highlighting in .env and .ssh/hosts files
 vim.filetype.add {
   pattern = {
     [".env.*"] = "bash",
     ["~/.ssh/hosts"] = "sshconfig",
+    ["docker%-compose.*%.yml"] = "yaml.docker-compose",
+    ["docker%-compose.*%.yaml"] = "yaml.docker-compose",
+    [".*docker%-compose%.yml"] = "yaml.docker-compose",
+    [".*docker%-compose%.yaml"] = "yaml.docker-compose",
   },
 }
 
@@ -55,18 +58,6 @@ vim.api.nvim_set_hl(0, "SnacksInputBorder", { fg = "#a6e3a1" })
 vim.api.nvim_set_hl(0, "SnacksInputTitle", { fg = "#a6e3a1" })
 vim.api.nvim_set_hl(0, "SnacksInputIcon", { fg = "#cba6f7" })
 
--- for docker-compose lsp
-vim.api.nvim_create_autocmd({ "BufRead", "BufNewFile" }, {
-  pattern = {
-    "docker-compose*.yml",
-    "docker-compose*.yaml",
-    "*docker-compose.yml",
-    "*docker-compose.yaml",
-  },
-  callback = function()
-    vim.bo.filetype = "yaml.docker-compose"
-  end,
-})
 -- close quickfix window after pressing enter, q, or escape, leave open when pressing o
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "qf",
@@ -84,14 +75,7 @@ vim.api.nvim_create_autocmd("FileType", {
     )
   end,
 })
--- disable tab and shift-tab in terminals
-vim.api.nvim_create_autocmd("TermOpen", {
-  callback = function(args)
-    local opts = { buffer = args.buf }
-    vim.keymap.set("n", "<Tab>", "<Nop>", opts)
-    vim.keymap.set("n", "<S-Tab>", "<Nop>", opts)
-  end,
-})
+
 -- open Nvdash when closing the last buffer
 vim.api.nvim_create_autocmd("BufDelete", {
   callback = function()
@@ -107,18 +91,3 @@ vim.api.nvim_create_autocmd("BufDelete", {
     end
   end,
 })
-
-vim.g.nvim_surround = {
-  keymaps = {
-    visual = "s",
-    visual_line = "S",
-  },
-  aliases = {
-    ["b"] = { "}", "]", ")" }, -- brackets
-    ["B"] = { "}", "]", ")", ">" }, -- all brackets
-    ["q"] = { '"', "'", "`" }, -- quotes
-    ["s"] = { "}", "]", ")", ">", '"', "'", "`" }, -- surroundings
-    ["r"] = {}, -- disabled default keymap
-    ["a"] = {}, -- disabled default keymap
-  },
-}

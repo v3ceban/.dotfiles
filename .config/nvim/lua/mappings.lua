@@ -3,8 +3,8 @@ require "nvchad.mappings"
 local map = vim.keymap.set
 
 -- General
-map({ "n", "i", "v", "t" }, "<C-s>", "<cmd>wa<CR>", { desc = "save all files" })
-map({ "n", "i", "v", "t" }, "<C-q>", "<cmd>qa!<CR>", { desc = "close all buffers and quit" })
+map({ "n" }, "<C-s>", "<cmd>wa<CR>", { desc = "save all files" })
+map({ "n" }, "<C-q>", "<cmd>qa!<CR>", { desc = "close all buffers and quit" })
 map({ "n", "i", "v", "t" }, "<C-z>", "<nop>")
 map({ "n", "v" }, "Q", "q")
 map({ "v" }, "<C-c>", "y", { desc = "general copy selection" })
@@ -68,15 +68,8 @@ map({ "n" }, "<C-Right>", "<C-w>>", { desc = "resize increase window width" })
 map({ "n" }, "<C-Left>", "<C-w><", { desc = "resize decrease window width" })
 
 -- Tabufline
-local tabufline = require "nvchad.tabufline"
-local close_floats = function()
-  for _, win in ipairs(vim.api.nvim_list_wins()) do
-    if vim.api.nvim_win_get_config(win).relative ~= "" then
-      vim.api.nvim_win_close(win, true)
-    end
-  end
-end
 map("n", "<leader>x", function()
+  local tabufline = require "nvchad.tabufline"
   local count = vim.v.count > 0 and vim.v.count or 1
   for _ = 1, count do
     local success = pcall(function()
@@ -88,25 +81,6 @@ map("n", "<leader>x", function()
     end
   end
 end, { desc = "close tab or window" })
-map("n", "<tab>", function()
-  if vim.bo.filetype ~= "snacks_terminal" and vim.bo.filetype ~= "NvTerm_float" then
-    close_floats()
-    tabufline.next()
-  end
-end, { desc = "buffer goto next" })
-map("n", "<S-tab>", function()
-  if vim.bo.filetype ~= "snacks_terminal" and vim.bo.filetype ~= "NvTerm_float" then
-    close_floats()
-    tabufline.prev()
-  end
-end, { desc = "buffer goto prev" })
-for i = 1, 9, 1 do
-  map("n", string.format("%s<Tab>", i), function()
-    if vim.t.bufs and vim.t.bufs[i] then
-      vim.api.nvim_set_current_buf(vim.t.bufs[i])
-    end
-  end, { desc = string.format("tabufline go to buffer %s", i), silent = true })
-end
 
 -- Diagnostics and LSP
 map({ "n" }, "[d", function()
