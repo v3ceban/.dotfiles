@@ -6,6 +6,7 @@ local map = vim.keymap.set
 map({ "n" }, "<C-s>", "<cmd>wa<CR>", { desc = "save all files" })
 map({ "n" }, "<C-q>", "<cmd>qa!<CR>", { desc = "close all buffers and quit" })
 map({ "n", "i", "v", "t" }, "<C-z>", "<nop>")
+map({ "n", "i", "v", "t" }, "<C-S-z>", "<nop>")
 map({ "n", "v" }, "Q", "q")
 map({ "v" }, "<C-c>", "y", { desc = "general copy selection" })
 map({ "v" }, "<C-x>", "d", { desc = "general cut selection" })
