@@ -10,6 +10,22 @@ local function get_native()
   return native
 end
 
+local function force_redraw()
+  local bufnr = get_native().get_active_bufnr()
+  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
+  for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
+    local width = vim.api.nvim_win_get_width(win)
+    vim.api.nvim_win_set_width(win, width - 1)
+    vim.defer_fn(function()
+      if vim.api.nvim_win_is_valid(win) then
+        vim.api.nvim_win_set_width(win, width)
+      end
+    end, 10)
+  end
+end
+
 local function apply_buf_opts()
   local bufnr = get_native().get_active_bufnr()
   if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
@@ -87,8 +103,8 @@ local function send_slash_command(text)
               vim.defer_fn(function()
                 vim.fn.chansend(chan, "\r")
               end, 50)
-            end, 100)
-          end, 100)
+            end, 150)
+          end, 150)
         end
       end
     end)
@@ -167,6 +183,7 @@ M.keys = {
     desc = "AI generate PR review",
   },
   { "<C-h>", "<cmd>wincmd h<cr>", mode = "t", ft = "claude_code" },
+  { "<C-l>", force_redraw, mode = "t", ft = "claude_code", desc = "AI force terminal redraw" },
 }
 
 return M
