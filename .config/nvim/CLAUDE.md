@@ -6,6 +6,8 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository doesn't use default configurations, so do not try using default `git` command. Instead,
 use the following: `/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME` instead of `git`.
+When using `git` commands, use relative paths from the repository root instead of global ones (e.g.
+`/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add README.md` to add the `README.md`).
 
 ## Repository Overview
 
