@@ -8,6 +8,7 @@ This repository doesn't use default configurations, so do not try using default 
 use the following: `/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME` instead of `git`.
 When using `git` commands, use relative paths from the repository root instead of global ones (e.g.
 `/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add README.md` to add the `README.md`).
+It is a bare git repository, so using full path from `$HOME` will not work.
 
 ## Repository Overview
 
