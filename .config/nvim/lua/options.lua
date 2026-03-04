@@ -79,22 +79,6 @@ vim.api.nvim_create_autocmd("FileType", {
   end,
 })
 
--- open Nvdash when closing the last buffer
-vim.api.nvim_create_autocmd("BufDelete", {
-  callback = function()
-    local bufs = vim.t.bufs
-    if
-      #bufs == 1
-      and vim.api.nvim_buf_get_name(bufs[1]) == ""
-      and vim.api.nvim_buf_line_count(bufs[1]) == 1
-      and vim.api.nvim_buf_get_lines(bufs[1], 0, -1, true)[1] == ""
-    then
-      vim.cmd "Nvdash"
-      vim.api.nvim_buf_delete(bufs[1], { force = true })
-    end
-  end,
-})
-
 -- disable buffer mappings on nvdash
 vim.api.nvim_create_autocmd("FileType", {
   pattern = "nvdash",
@@ -119,10 +103,26 @@ vim.api.nvim_create_autocmd("FileType", {
       "gs",
       "d",
       "s",
+      "S",
+      "x",
+      "X",
       "v",
       "V",
       "<C-v>",
+      "i",
+      "I",
+      "a",
+      "A",
     } do
+      vim.keymap.set("n", key, "<Nop>", { noremap = true, silent = true, buffer = 0 })
+    end
+  end,
+})
+
+-- disable buffer mappings in terminal
+vim.api.nvim_create_autocmd("TermOpen", {
+  callback = function()
+    for _, key in ipairs { "<Tab>", "<S-Tab>" } do
       vim.keymap.set("n", key, "<Nop>", { noremap = true, silent = true, buffer = 0 })
     end
   end,

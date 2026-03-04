@@ -18,7 +18,6 @@ return {
   },
   {
     "coder/claudecode.nvim",
-    -- event = "VeryLazy",
     config = true,
     opts = require("configs.claudecode").opts,
     keys = require("configs.claudecode").keys,
