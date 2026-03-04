@@ -15,8 +15,11 @@ vim.opt.laststatus = 3
 -- Auto-reload files when changed externally
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
-  command = "if mode() != 'c' | checktime | endif",
-  pattern = { "*" },
+  callback = function(args)
+    if vim.fn.mode() ~= "c" and vim.fn.getbufvar(args.buf, "&buftype") == "" then
+      vim.cmd("checktime " .. args.buf)
+    end
+  end,
 })
 
 vim.filetype.add {
@@ -88,6 +91,39 @@ vim.api.nvim_create_autocmd("BufDelete", {
     then
       vim.cmd "Nvdash"
       vim.api.nvim_buf_delete(bufs[1], { force = true })
+    end
+  end,
+})
+
+-- disable buffer mappings on nvdash
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = "nvdash",
+  callback = function()
+    for _, key in ipairs {
+      "<Tab>",
+      "<S-Tab>",
+      "<C-i>",
+      "<leader>x",
+      "gg",
+      "G",
+      "<C-d>",
+      "<C-u>",
+      "<C-e>",
+      "<C-y>",
+      "e",
+      "b",
+      "w",
+      "E",
+      "B",
+      "W",
+      "gs",
+      "d",
+      "s",
+      "v",
+      "V",
+      "<C-v>",
+    } do
+      vim.keymap.set("n", key, "<Nop>", { noremap = true, silent = true, buffer = 0 })
     end
   end,
 })
