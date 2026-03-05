@@ -66,7 +66,7 @@ return {
   },
   {
     "antonk52/markdowny.nvim",
-    ft = { "markdown", "copilot-chat" },
+    ft = { "markdown" },
     config = function()
       require("markdowny").setup()
     end,
@@ -77,7 +77,7 @@ return {
   },
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    ft = { "markdown", "copilot-chat" },
+    ft = { "markdown" },
     opts = require "configs.render-markdown",
   },
   {
