@@ -6,9 +6,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 This repository doesn't use default configurations, so do not try using default `git` command. Instead,
 use the following: `/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME` instead of `git`.
-When using `git` commands, use relative paths from the repository root instead of global ones (e.g.
-`/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME add README.md` to add the `README.md`).
-It is a bare git repository, so using full path from `$HOME` will not work.
+When using `git` commands, use paths relative to the current working directory, not paths relative to
+`$HOME`. For example, if CWD is `~/.config/nvim`, use `lua/plugins.lua` (not
+`.config/nvim/lua/plugins.lua`). It is a bare git repository with `$HOME` as the work tree, so git
+resolves paths from CWD automatically. Using `$HOME`-relative paths will double up the path and fail.
 
 ## Repository Overview
 
