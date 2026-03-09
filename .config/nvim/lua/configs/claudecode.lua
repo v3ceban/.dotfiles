@@ -112,7 +112,7 @@ local function send_slash_command(text)
 end
 
 M.keys = {
-  { "<M-a>", "<cmd>ClaudeCodeFocus<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
+  { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
   { "<leader>aa", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI send file to claude" },
   { "<leader>aa", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI send selection to claude" },
   {

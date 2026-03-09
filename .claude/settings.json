@@ -23,6 +23,6 @@
   "syntaxHighlightingDisabled": false,
   "alwaysThinkingEnabled": false,
   "promptSuggestionEnabled": false,
-  "effortLevel": "medium",
+  "effortLevel": "high",
   "terminalProgressBarEnabled": false
 }
