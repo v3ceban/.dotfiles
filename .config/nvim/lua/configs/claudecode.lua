@@ -34,6 +34,14 @@ local function apply_buf_opts()
     for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
       vim.wo[win].winfixwidth = true
     end
+    local group = vim.api.nvim_create_augroup("ClaudeCodeAutoInsert", { clear = true })
+    vim.api.nvim_create_autocmd("BufEnter", {
+      group = group,
+      buffer = bufnr,
+      callback = function()
+        vim.cmd "startinsert"
+      end,
+    })
   end
 end
 
@@ -72,9 +80,9 @@ M.opts = {
   },
 }
 
---- Focus the Claude terminal and send a slash command once connected.
---- @param text string The text to feed (e.g. "/commit ")
-local function send_slash_command(text)
+--- Focus the Claude terminal and send a prompt once connected.
+--- @param prompt string The prompt to feed (e.g. "/commit ")
+local function send_prompt(prompt)
   if vim.bo.filetype ~= "claude_code" then
     vim.cmd "ClaudeCodeFocus"
   else
@@ -97,12 +105,15 @@ local function send_slash_command(text)
         local chan = vim.b[bufnr].terminal_job_id
         if chan then
           vim.defer_fn(function()
-            vim.fn.chansend(chan, "\x03")
+            vim.fn.chansend(chan, "\x15") -- Ctrl+U to clear the input
             vim.defer_fn(function()
-              vim.fn.chansend(chan, text)
+              vim.fn.chansend(chan, "\x03") -- Ctrl+C to interrupt any running command
               vim.defer_fn(function()
-                vim.fn.chansend(chan, "\r")
-              end, 50)
+                vim.fn.chansend(chan, prompt) -- Send the prompt
+                vim.defer_fn(function()
+                  vim.fn.chansend(chan, "\r") -- Press Enter
+                end, 150)
+              end, 150)
             end, 150)
           end, 150)
         end
@@ -110,6 +121,52 @@ local function send_slash_command(text)
     end)
   )
 end
+
+local function find_claudecode_diff_win()
+  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
+    local buf = vim.api.nvim_win_get_buf(win)
+    if vim.b[buf].claudecode_diff_tab_name then
+      return win
+    end
+  end
+end
+
+local function run_in_diff_win(cmd)
+  local win = find_claudecode_diff_win()
+  if not win then
+    return
+  end
+  local prev_win = vim.api.nvim_get_current_win()
+  vim.api.nvim_set_current_win(win)
+  vim.cmd(cmd)
+  if vim.api.nvim_win_is_valid(prev_win) then
+    pcall(vim.api.nvim_set_current_win, prev_win)
+  end
+end
+
+local diff_group = vim.api.nvim_create_augroup("ClaudeCodeDiffKeys", { clear = true })
+vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "OptionSet" }, {
+  group = diff_group,
+  callback = function(ev)
+    if ev.event == "OptionSet" and ev.match ~= "diff" then
+      return
+    end
+    vim.schedule(function()
+      local bufnr = vim.api.nvim_get_current_buf()
+      if vim.wo.diff and find_claudecode_diff_win() then
+        vim.keymap.set("n", "<leader>ay", function()
+          run_in_diff_win "ClaudeCodeDiffAccept"
+        end, { buffer = bufnr, desc = "AI accept claude change" })
+        vim.keymap.set("n", "<leader>an", function()
+          run_in_diff_win "ClaudeCodeDiffDeny"
+        end, { buffer = bufnr, desc = "AI deny claude change" })
+      else
+        pcall(vim.keymap.del, "n", "<leader>ay", { buffer = bufnr })
+        pcall(vim.keymap.del, "n", "<leader>an", { buffer = bufnr })
+      end
+    end)
+  end,
+})
 
 M.keys = {
   { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
@@ -122,8 +179,6 @@ M.keys = {
     desc = "AI send file to claude",
     ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
   },
-  { "<leader>ay", "<cmd>ClaudeCodeDiffAccept<cr>", mode = "n", desc = "AI accept claude change" },
-  { "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", mode = "n", desc = "AI deny claude change" },
   {
     "<C-n>",
     function()
@@ -137,7 +192,7 @@ M.keys = {
   {
     "<leader>ac",
     function()
-      send_slash_command "/clear"
+      send_prompt "/clear"
     end,
     mode = "n",
     desc = "AI clear claude session",
@@ -145,7 +200,7 @@ M.keys = {
   {
     "<leader>ar",
     function()
-      send_slash_command "/resume"
+      send_prompt "/resume"
     end,
     mode = "n",
     desc = "AI resume claude session",
@@ -153,7 +208,7 @@ M.keys = {
   {
     "<leader>ae",
     function()
-      send_slash_command "/export"
+      send_prompt "/export"
     end,
     mode = "n",
     desc = "AI export claude session",
@@ -161,23 +216,15 @@ M.keys = {
   {
     "<leader>agc",
     function()
-      send_slash_command "/commit"
+      send_prompt "/commit"
     end,
     mode = "n",
     desc = "AI generate commit message",
   },
   {
-    "<leader>agd",
-    function()
-      send_slash_command "/document"
-    end,
-    mode = "n",
-    desc = "AI generate documentation for file",
-  },
-  {
     "<leader>agr",
     function()
-      send_slash_command "/review"
+      send_prompt "/review"
     end,
     mode = "n",
     desc = "AI generate PR review",
