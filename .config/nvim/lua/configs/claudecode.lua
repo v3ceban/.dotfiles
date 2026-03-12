@@ -10,22 +10,6 @@ local function get_native()
   return native
 end
 
-local function force_redraw()
-  local bufnr = get_native().get_active_bufnr()
-  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
-    return
-  end
-  for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
-    local width = vim.api.nvim_win_get_width(win)
-    vim.api.nvim_win_set_width(win, width - 1)
-    vim.defer_fn(function()
-      if vim.api.nvim_win_is_valid(win) then
-        vim.api.nvim_win_set_width(win, width)
-      end
-    end, 10)
-  end
-end
-
 local function apply_buf_opts()
   local bufnr = get_native().get_active_bufnr()
   if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
@@ -168,8 +152,25 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "OptionSet" }, {
   end,
 })
 
+local function force_redraw()
+  local bufnr = get_native().get_active_bufnr()
+  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
+  for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
+    local width = vim.api.nvim_win_get_width(win)
+    vim.api.nvim_win_set_width(win, width - 1)
+    vim.defer_fn(function()
+      if vim.api.nvim_win_is_valid(win) then
+        vim.api.nvim_win_set_width(win, width)
+      end
+    end, 10)
+  end
+end
+
 M.keys = {
   { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
+  { "<leader>ac", "<cmd>ClaudeCodeFocus<cr>", mode = "n", desc = "AI focus claude terminal" },
   { "<leader>aa", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI send file to claude" },
   { "<leader>aa", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI send selection to claude" },
   {
@@ -190,12 +191,12 @@ M.keys = {
     ft = "claude_code",
   },
   {
-    "<leader>ac",
+    "<leader>an",
     function()
       send_prompt "/clear"
     end,
     mode = "n",
-    desc = "AI clear claude session",
+    desc = "AI new claude session",
   },
   {
     "<leader>ar",
