@@ -72,7 +72,7 @@ return {
     end,
   },
   {
-    "v3ceban/nvim-tree.lua",
+    "nvim-tree/nvim-tree.lua",
     opts = require "configs.nvim-tree",
   },
   {
