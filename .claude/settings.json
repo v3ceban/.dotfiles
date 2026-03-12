@@ -21,7 +21,6 @@
     "defaultMode": "default"
   },
   "syntaxHighlightingDisabled": false,
-  "alwaysThinkingEnabled": false,
   "promptSuggestionEnabled": false,
   "effortLevel": "high",
   "terminalProgressBarEnabled": false
