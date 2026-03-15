@@ -6,7 +6,10 @@ lint.linters._eslint_d = lint.linters.eslint_d
 ---@diagnostic disable-next-line: assign-type-mismatch
 local base_config = lint.linters._eslint_d or {}
 
-local eslint_d_args = vim.list_extend(vim.deepcopy(base_config.args or {}), { "--no-warn-ignored" })
+local eslint_d_args = vim.list_extend(
+  vim.deepcopy(base_config.args or {}),
+  { "--no-warn-ignored", "--rule", "tailwind-canonical-classes/tailwind-canonical-classes: off" }
+)
 
 local eslint_config_cache = {}
 
