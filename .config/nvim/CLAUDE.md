@@ -45,14 +45,14 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 
 **Formatting** (`lua/configs/conform.lua`):
 
-- Multi-tool chains: `rustywind` + `prettier` for Tailwind + Prettier formatting
+- Multi-tool chains: `rustywind` + `prettierd` for Tailwind + Prettierd formatting
 - Language-specific:
   - `stylua` (Lua)
   - `black` + `isort` (Python) with fast mode
   - `gofumpt` + `golines` (Go)
   - `clang-format` (C/C++/Java/Proto/CUDA/C#)
   - `beautysh` (Shell scripts) with 2-space indent
-  - `fixjson` (JSON), `prettier` (JSON5/YAML/Markdown/GraphQL)
+  - `fixjson` (JSON/JSON5/JSONC), `prettierd` (JSON/JSON5/JSONC/YAML/Markdown/GraphQL)
 - Format-on-save enabled with 2.5s timeout, LSP fallback
 
 **Linting** (`lua/configs/lint.lua`):
