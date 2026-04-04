@@ -98,7 +98,7 @@ adding your API keys as env variables for AI providers).
 ### Bash
 
 - Uses [bash-language-server](https://github.com/bash-lsp/bash-language-server) for LSP
-- Uses [beautysh](https://github.com/lovesegfault/beautysh) for formatting
+- Uses [shfmt](https://github.com/mvdan/sh) for formatting
 
 ### C/C++
 

@@ -1,18 +1,16 @@
 local options = {
   formatters_by_ft = {
     astro = { "rustywind", "prettierd" },
-    bash = { "beautysh" },
+    bash = { "shfmt" },
     blade = { "rustywind", "prettierd" },
     c = { "clang-format" },
     cpp = { "clang-format" },
     cs = { "clang-format" },
-    csh = { "beautysh" },
     css = { "rustywind", "prettierd" },
     cuda = { "clang-format" },
     django = { "rustywind", "prettierd" },
     erb = { "rustywind", "prettierd" },
     eruby = { "rustywind", "prettierd" },
-    fish = { "beautysh" },
     go = { "gofumpt", "golines" },
     graphql = { "prettierd" },
     handlebars = { "rustywind", "prettierd" },
@@ -23,7 +21,6 @@ local options = {
     javascriptreact = { "rustywind", "prettierd" },
     json = { "fixjson", "prettierd" },
     jsonc = { "fixjson", "prettierd" },
-    ksh = { "beautysh" },
     less = { "prettierd" },
     lua = { "stylua" },
     markdown = { "prettierd" },
@@ -31,15 +28,14 @@ local options = {
     proto = { "clang-format" },
     python = { "isort", "black" },
     scss = { "rustywind", "prettierd" },
-    sh = { "beautysh" },
+    sh = { "shfmt" },
     svelte = { "rustywind", "prettierd" },
-    tcsh = { "beautysh" },
     templ = { "rustywind", "prettierd" },
     typescript = { "rustywind", "prettierd" },
     typescriptreact = { "rustywind", "prettierd" },
     vue = { "rustywind", "prettierd" },
     yaml = { "prettierd" },
-    zsh = { "beautysh" },
+    zsh = { "shfmt" },
   },
 
   formatters = {
@@ -51,10 +47,12 @@ local options = {
     ["goimports-reviser"] = {
       prepend_args = { "-rm-unused" },
     },
-    beautysh = {
+    shfmt = {
       prepend_args = {
-        "--indent-size",
+        "-i",
         "2",
+        "-ci",
+        "-sr",
       },
     },
   },

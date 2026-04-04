@@ -51,7 +51,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `black` + `isort` (Python) with fast mode
   - `gofumpt` + `golines` (Go)
   - `clang-format` (C/C++/Java/Proto/CUDA/C#)
-  - `beautysh` (Shell scripts) with 2-space indent
+  - `shfmt` (Shell scripts) with 2-space indent, switch case indentation, space redirects
   - `fixjson` (JSON/JSON5/JSONC), `prettierd` (JSON/JSON5/JSONC/YAML/Markdown/GraphQL)
 - Format-on-save enabled with 2.5s timeout, LSP fallback
 
