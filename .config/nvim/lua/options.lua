@@ -30,6 +30,7 @@ vim.filetype.add {
     ["docker%-compose.*%.yaml"] = "yaml.docker-compose",
     [".*docker%-compose%.yml"] = "yaml.docker-compose",
     [".*docker%-compose%.yaml"] = "yaml.docker-compose",
+    [".worktreeinclude"] = "gitignore",
   },
 }
 

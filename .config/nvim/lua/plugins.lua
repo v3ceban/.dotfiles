@@ -76,6 +76,10 @@ return {
     opts = require "configs.nvim-tree",
   },
   {
+    "nvim-tree/nvim-web-devicons",
+    opts = require "configs.nvim-web-devicons",
+  },
+  {
     "MeanderingProgrammer/render-markdown.nvim",
     ft = { "markdown" },
     opts = require "configs.render-markdown",
