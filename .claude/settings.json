@@ -14,14 +14,9 @@
     "pr": ""
   },
   "permissions": {
-    "deny": [
-      "Task(Explore)",
-      "Task(Plan)"
-    ],
     "defaultMode": "default"
   },
   "syntaxHighlightingDisabled": false,
-  "effortLevel": "medium",
   "promptSuggestionEnabled": false,
   "terminalProgressBarEnabled": false
 }
