@@ -1,6 +1,5 @@
 ---
 description: Generate Documentation Comments
-model: haiku
 ---
 
 ## Purpose

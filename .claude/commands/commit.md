@@ -1,6 +1,5 @@
 ---
 description: Generate Commit Message
-model: haiku
 allowed-tools:
   - Read
   - Bash(git log:*)
