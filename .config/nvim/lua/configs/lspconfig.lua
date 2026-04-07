@@ -1,5 +1,12 @@
 require("nvchad.configs.lspconfig").defaults()
 
+-- Auto-detect Python virtual environment
+local venv = vim.fs.find({ ".venv", "venv" }, { upward = true, type = "directory" })[1]
+if venv then
+  vim.env.VIRTUAL_ENV = venv
+  vim.env.PATH = venv .. "/bin:" .. vim.env.PATH
+end
+
 -- [1] = unnecessary, [2] = deprecated
 local suppressed_ts_diagnostic_tags = { [1] = true, [2] = true }
 
@@ -91,7 +98,6 @@ local servers = {
           },
           pycodestyle = {
             ignore = { "E501", "W503" },
-            maxLineLength = 120,
           },
         },
       },
