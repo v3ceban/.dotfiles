@@ -107,7 +107,7 @@ adding your API keys as env variables for AI providers).
 
 ### Python
 
-- Uses [python-lsp-server](https://github.com/python-lsp/python-lsp-server) for LSP and linting
+- Uses [Pyrefly](https://pyrefly.org/) (Meta's Python type checker) for LSP and type checking
 - Uses [black](https://pypi.org/project/black/) and [isort](https://pycqa.github.io/isort/) for formatting
 
 ### Go

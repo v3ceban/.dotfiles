@@ -63,7 +63,7 @@ local servers = {
     },
     settings = {
       intelephense = {
-        telemerty = {
+        telemetry = {
           enabled = false,
         },
       },
@@ -89,20 +89,7 @@ local servers = {
       },
     },
   },
-  pylsp = {
-    settings = {
-      pylsp = {
-        plugins = {
-          mccabe = {
-            threshold = 50,
-          },
-          pycodestyle = {
-            ignore = { "E501", "W503" },
-          },
-        },
-      },
-    },
-  },
+  pyrefly = {},
   tailwindcss = {
     filetypes = {
       "aspnetcorerazor",

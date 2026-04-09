@@ -38,7 +38,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `tsgo` - TypeScript native LSP written in Go, with unnecessary/deprecated diagnostic tags suppressed
   - `intelephense` - PHP with custom global storage path and telemetry disabled
   - `gopls` - Go with complete unimported, placeholders, unused params analysis
-  - `pylsp` - Python with mccabe threshold 50, E501/W503 ignore, 120 char line length
+  - `pyrefly` - Python type checker and LSP by Meta (https://pyrefly.org/)
   - `cssls` - CSS with unknown at-rules ignored
   - `tailwindcss` - Extensive filetype support including templating languages (40+ filetypes)
   - `emmet_language_server` - HTML/CSS snippets for templating languages
