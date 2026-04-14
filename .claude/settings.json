@@ -16,6 +16,17 @@
   "permissions": {
     "defaultMode": "default"
   },
+  "enabledPlugins": {
+    "caveman@caveman": true
+  },
+  "extraKnownMarketplaces": {
+    "caveman": {
+      "source": {
+        "source": "github",
+        "repo": "JuliusBrussee/caveman"
+      }
+    }
+  },
   "syntaxHighlightingDisabled": false,
   "promptSuggestionEnabled": false,
   "terminalProgressBarEnabled": false
