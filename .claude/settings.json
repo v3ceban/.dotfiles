@@ -28,6 +28,10 @@
     }
   },
   "syntaxHighlightingDisabled": false,
+  "alwaysThinkingEnabled": false,
+  "effortLevel": "medium",
   "promptSuggestionEnabled": false,
+  "awaySummaryEnabled": false,
+  "tui": "default",
   "terminalProgressBarEnabled": false
 }
