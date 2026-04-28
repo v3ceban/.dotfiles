@@ -33,5 +33,7 @@
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "tui": "default",
-  "terminalProgressBarEnabled": false
+  "terminalProgressBarEnabled": false,
+  "theme": "dark-ansi",
+  "preferredNotifChannel": "notifications_disabled"
 }
