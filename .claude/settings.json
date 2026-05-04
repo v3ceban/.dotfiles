@@ -18,11 +18,11 @@
   },
   "syntaxHighlightingDisabled": false,
   "alwaysThinkingEnabled": false,
-  "effortLevel": "medium",
+  "effortLevel": "xhigh",
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "tui": "default",
-  "terminalProgressBarEnabled": false,
   "theme": "dark-ansi",
-  "preferredNotifChannel": "notifications_disabled"
+  "preferredNotifChannel": "notifications_disabled",
+  "terminalProgressBarEnabled": false
 }
