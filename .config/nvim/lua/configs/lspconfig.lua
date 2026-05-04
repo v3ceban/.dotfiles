@@ -8,7 +8,7 @@ if venv then
 end
 
 -- [1] = unnecessary, [2] = deprecated
-local suppressed_ts_diagnostic_tags = { [1] = true, [2] = true }
+local suppressed_ts_diagnostic_tags = { [1] = true, [2] = false }
 
 local servers = {
   bashls = {},
