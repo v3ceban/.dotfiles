@@ -8,7 +8,13 @@ local base_config = lint.linters._eslint_d or {}
 
 local eslint_d_args = vim.list_extend(
   vim.deepcopy(base_config.args or {}),
-  { "--no-warn-ignored", "--rule", "tailwind-canonical-classes/tailwind-canonical-classes: off" }
+  {
+    "--no-warn-ignored",
+    "--rule",
+    "tailwind-canonical-classes/tailwind-canonical-classes: off",
+    "--rule",
+    "@typescript-eslint/no-deprecated: off",
+  }
 )
 
 local eslint_config_cache = {}
