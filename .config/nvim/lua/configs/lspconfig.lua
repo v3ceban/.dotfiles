@@ -12,8 +12,7 @@ local suppressed_ts_diagnostic_tags = { [1] = true, [2] = false }
 
 local servers = {
   bashls = {},
-  docker_compose_language_service = {},
-  dockerls = {},
+  docker_language_server = {},
   html = {},
   prismals = {},
   jsonls = {},
