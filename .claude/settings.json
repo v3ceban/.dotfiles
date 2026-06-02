@@ -18,7 +18,7 @@
   },
   "syntaxHighlightingDisabled": false,
   "alwaysThinkingEnabled": false,
-  "effortLevel": "xhigh",
+  "effortLevel": "high",
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
   "tui": "default",
