@@ -56,6 +56,10 @@ return {
   },
   {
     "neovim/nvim-lspconfig",
+    dependencies = {
+      -- SchemaStore catalog for jsonls completion/validation
+      "b0o/schemastore.nvim",
+    },
     config = function()
       require "configs.lspconfig"
     end,

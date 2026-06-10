@@ -32,9 +32,11 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 
 **LSP Configuration** (`lua/configs/lspconfig.lua`):
 
-- Standard servers: bashls, docker_compose_language_service, dockerls, html, jsonls, prismals
+- Standard servers: bashls, docker_language_server, html, prismals
 - Special configurations:
   - `clangd` - UTF-16 offset encoding for C/C++
+  - `jsonls` - JSON with schemas and validation from SchemaStore.nvim
+  - `yamlls` - YAML with schemas from SchemaStore.nvim (built-in schemaStore disabled in favor of the plugin)
   - `tsgo` - TypeScript native LSP written in Go, with unnecessary/deprecated diagnostic tags suppressed
   - `intelephense` - PHP with custom global storage path and telemetry disabled
   - `gopls` - Go with complete unimported, placeholders, unused params analysis

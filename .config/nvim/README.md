@@ -82,6 +82,13 @@ adding your API keys as env variables for AI providers).
 
 - Uses [json-lsp](https://github.com/microsoft/vscode-json-languageservice) for LSP in JSON files
 - Uses [fixjson](https://github.com/rhysd/fixjson) for formatting JSON files
+- Uses [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim) for completion and validation in common JSON files (package.json, tsconfig.json, etc.)
+
+### YAML
+
+- Uses [yaml-language-server](https://github.com/redhat-developer/yaml-language-server) for LSP in YAML files
+- Uses [prettierd](https://github.com/fsouza/prettierd) for formatting
+- Uses [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim) for completion and validation in common YAML files (GitHub Actions, docker-compose, etc.)
 
 ### PHP
 
@@ -126,8 +133,7 @@ adding your API keys as env variables for AI providers).
 
 ### Docker
 
-- Uses [Dockerfile Language Server](https://github.com/rcjsuen/dockerfile-language-server-nodejs) for LSP in Dockerfiles
-- Uses [Docker Compose Language Service](https://github.com/microsoft/compose-language-service) for LSP in Docker Compose files
+- Uses [Docker Language Server](https://github.com/docker/docker-language-server) for LSP in Dockerfiles, Compose files, and Bake files
 
 ## Extra Plugins/Features (not included in NvChad)
 

@@ -15,7 +15,14 @@ local servers = {
   docker_language_server = {},
   html = {},
   prismals = {},
-  jsonls = {},
+  jsonls = {
+    settings = {
+      json = {
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
+      },
+    },
+  },
   clangd = {
     capabilities = {
       offsetEncoding = { "utf-16" },
@@ -140,6 +147,17 @@ local servers = {
       "typescript",
       "typescriptreact",
       "vue",
+    },
+  },
+  yamlls = {
+    settings = {
+      yaml = {
+        schemaStore = {
+          enable = false,
+          url = "",
+        },
+        schemas = require("schemastore").yaml.schemas(),
+      },
     },
   },
 }
