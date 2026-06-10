@@ -10,6 +10,26 @@ local function get_native()
   return native
 end
 
+local function force_redraw()
+  local bufnr = get_native().get_active_bufnr()
+  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+    return
+  end
+  local chan = vim.b[bufnr].terminal_job_id
+  local win = vim.fn.win_findbuf(bufnr)[1]
+  if not chan or not win then
+    return
+  end
+  local width = vim.api.nvim_win_get_width(win)
+  local height = vim.api.nvim_win_get_height(win)
+  vim.fn.jobresize(chan, width, height - 1)
+  vim.defer_fn(function()
+    if vim.api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].terminal_job_id == chan then
+      vim.fn.jobresize(chan, width, height)
+    end
+  end, 10)
+end
+
 local function apply_buf_opts()
   local bufnr = get_native().get_active_bufnr()
   if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
@@ -152,22 +172,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "OptionSet" }, {
   end,
 })
 
-local function force_redraw()
-  local bufnr = get_native().get_active_bufnr()
-  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
-    return
-  end
-  for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
-    local width = vim.api.nvim_win_get_width(win)
-    vim.api.nvim_win_set_width(win, width - 1)
-    vim.defer_fn(function()
-      if vim.api.nvim_win_is_valid(win) then
-        vim.api.nvim_win_set_width(win, width)
-      end
-    end, 10)
-  end
-end
-
 M.keys = {
   { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
   { "<leader>ac", "<cmd>ClaudeCodeFocus<cr>", mode = "n", desc = "AI focus claude terminal" },
@@ -181,13 +185,29 @@ M.keys = {
     ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
   },
   {
+    "<M-i>",
+    function()
+      vim.cmd "ClaudeCode"
+      require("nvchad.term").toggle { pos = "float", id = "floatTerm" }
+      local term_win = vim.api.nvim_get_current_win()
+      vim.cmd "ClaudeCode"
+      vim.schedule(function()
+        if vim.api.nvim_win_is_valid(term_win) then
+          vim.api.nvim_set_current_win(term_win)
+        end
+      end)
+    end,
+    mode = { "n", "t" },
+    ft = "claude_code",
+  },
+  {
     "<C-n>",
     function()
       vim.cmd "ClaudeCode"
       vim.cmd "NvimTreeToggle"
       vim.cmd "ClaudeCode"
     end,
-    mode = "t",
+    mode = { "n", "t" },
     ft = "claude_code",
   },
   {
@@ -231,7 +251,7 @@ M.keys = {
     desc = "AI generate PR review",
   },
   { "<C-h>", "<cmd>wincmd h<cr>", mode = "t", ft = "claude_code" },
-  { "<C-l>", force_redraw, mode = "t", ft = "claude_code", desc = "AI force terminal redraw" },
+  { "<C-l>", force_redraw, mode = { "n", "t" }, ft = "claude_code", desc = "AI force terminal redraw" },
 }
 
 return M
