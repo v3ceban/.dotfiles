@@ -570,6 +570,99 @@
         {
           "type": "basic",
           "from": {
+            "key_code": "b",
+            "modifiers": {
+              "mandatory": ["control"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "b",
+              "modifiers": ["left_command"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$",
+                "^com\\.apple\\.Terminal$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^io\\.alacritty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$",
+                "^co\\.zeit\\.hyper$",
+                "^dev\\.warp\\.Warp-Stable$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "i",
+            "modifiers": {
+              "mandatory": ["control"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "i",
+              "modifiers": ["left_command"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$",
+                "^com\\.apple\\.Terminal$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^io\\.alacritty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$",
+                "^co\\.zeit\\.hyper$",
+                "^dev\\.warp\\.Warp-Stable$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "e",
+            "modifiers": {
+              "mandatory": ["control"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "e",
+              "modifiers": ["left_command"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$",
+                "^com\\.apple\\.Terminal$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^io\\.alacritty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$",
+                "^co\\.zeit\\.hyper$",
+                "^dev\\.warp\\.Warp-Stable$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
             "key_code": "1",
             "modifiers": {
               "mandatory": ["control"]
@@ -1495,22 +1588,6 @@
             {
               "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/left-half\""
             }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^com\\.googlecode\\.iterm2$",
-                "^com\\.apple\\.Terminal$",
-                "^net\\.kovidgoyal\\.kitty$",
-                "^io\\.alacritty$",
-                "^org\\.alacritty$",
-                "^com\\.github\\.wez\\.wezterm$",
-                "^com\\.mitchellh\\.ghostty$",
-                "^co\\.zeit\\.hyper$",
-                "^dev\\.warp\\.Warp-Stable$"
-              ]
-            }
           ]
         },
         {
@@ -1524,22 +1601,6 @@
           "to": [
             {
               "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/right-half\""
-            }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^com\\.googlecode\\.iterm2$",
-                "^com\\.apple\\.Terminal$",
-                "^net\\.kovidgoyal\\.kitty$",
-                "^io\\.alacritty$",
-                "^org\\.alacritty$",
-                "^com\\.github\\.wez\\.wezterm$",
-                "^com\\.mitchellh\\.ghostty$",
-                "^co\\.zeit\\.hyper$",
-                "^dev\\.warp\\.Warp-Stable$"
-              ]
             }
           ]
         },
@@ -1555,22 +1616,6 @@
             {
               "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/maximize\""
             }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^com\\.googlecode\\.iterm2$",
-                "^com\\.apple\\.Terminal$",
-                "^net\\.kovidgoyal\\.kitty$",
-                "^io\\.alacritty$",
-                "^org\\.alacritty$",
-                "^com\\.github\\.wez\\.wezterm$",
-                "^com\\.mitchellh\\.ghostty$",
-                "^co\\.zeit\\.hyper$",
-                "^dev\\.warp\\.Warp-Stable$"
-              ]
-            }
           ]
         },
         {
@@ -1584,22 +1629,6 @@
           "to": [
             {
               "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/almost-maximize\""
-            }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^com\\.googlecode\\.iterm2$",
-                "^com\\.apple\\.Terminal$",
-                "^net\\.kovidgoyal\\.kitty$",
-                "^io\\.alacritty$",
-                "^org\\.alacritty$",
-                "^com\\.github\\.wez\\.wezterm$",
-                "^com\\.mitchellh\\.ghostty$",
-                "^co\\.zeit\\.hyper$",
-                "^dev\\.warp\\.Warp-Stable$"
-              ]
             }
           ]
         },
@@ -1615,22 +1644,6 @@
             {
               "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/previous-display\""
             }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^com\\.googlecode\\.iterm2$",
-                "^com\\.apple\\.Terminal$",
-                "^net\\.kovidgoyal\\.kitty$",
-                "^io\\.alacritty$",
-                "^org\\.alacritty$",
-                "^com\\.github\\.wez\\.wezterm$",
-                "^com\\.mitchellh\\.ghostty$",
-                "^co\\.zeit\\.hyper$",
-                "^dev\\.warp\\.Warp-Stable$"
-              ]
-            }
           ]
         },
         {
@@ -1644,22 +1657,6 @@
           "to": [
             {
               "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/next-display\""
-            }
-          ],
-          "conditions": [
-            {
-              "type": "frontmost_application_unless",
-              "bundle_identifiers": [
-                "^com\\.googlecode\\.iterm2$",
-                "^com\\.apple\\.Terminal$",
-                "^net\\.kovidgoyal\\.kitty$",
-                "^io\\.alacritty$",
-                "^org\\.alacritty$",
-                "^com\\.github\\.wez\\.wezterm$",
-                "^com\\.mitchellh\\.ghostty$",
-                "^co\\.zeit\\.hyper$",
-                "^dev\\.warp\\.Warp-Stable$"
-              ]
             }
           ]
         }
