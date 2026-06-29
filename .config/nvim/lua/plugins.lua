@@ -40,7 +40,7 @@ return {
   {
     "v3ceban/git-conflict.nvim",
     event = "VeryLazy",
-    config = require "configs.git-conflict",
+    opts = require "configs.git-conflict",
   },
   {
     "lukas-reineke/indent-blankline.nvim",
