@@ -322,6 +322,68 @@
         {
           "type": "basic",
           "from": {
+            "key_code": "return_or_enter",
+            "modifiers": {
+              "mandatory": ["control"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "return_or_enter",
+              "modifiers": ["left_command"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$",
+                "^com\\.apple\\.Terminal$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^io\\.alacritty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$",
+                "^co\\.zeit\\.hyper$",
+                "^dev\\.warp\\.Warp-Stable$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "return_or_enter",
+            "modifiers": {
+              "mandatory": ["control", "shift"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "return_or_enter",
+              "modifiers": ["left_command", "left_shift"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$",
+                "^com\\.apple\\.Terminal$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^io\\.alacritty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$",
+                "^co\\.zeit\\.hyper$",
+                "^dev\\.warp\\.Warp-Stable$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
             "key_code": "t",
             "modifiers": {
               "mandatory": ["control"]
@@ -517,6 +579,37 @@
             {
               "key_code": "r",
               "modifiers": ["left_command"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_unless",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$",
+                "^com\\.apple\\.Terminal$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^io\\.alacritty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$",
+                "^co\\.zeit\\.hyper$",
+                "^dev\\.warp\\.Warp-Stable$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "r",
+            "modifiers": {
+              "mandatory": ["control", "shift"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "r",
+              "modifiers": ["left_command", "left_shift"]
             }
           ],
           "conditions": [
