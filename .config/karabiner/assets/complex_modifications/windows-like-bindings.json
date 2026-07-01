@@ -1864,6 +1864,41 @@
       ]
     },
     {
+      "description": "PC Mouse",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "pointing_button": "button1",
+            "modifiers": {
+              "mandatory": ["control"]
+            }
+          },
+          "to": [
+            {
+              "pointing_button": "button1",
+              "modifiers": ["left_command"]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "pointing_button": "button1",
+            "modifiers": {
+              "mandatory": ["command"]
+            }
+          },
+          "to": [
+            {
+              "pointing_button": "button1",
+              "modifiers": ["left_control"]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "Finder",
       "manipulators": [
         {
