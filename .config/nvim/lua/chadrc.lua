@@ -106,4 +106,8 @@ M.term = {
   },
 }
 
+M.colorify = {
+  enabled = false,
+}
+
 return M

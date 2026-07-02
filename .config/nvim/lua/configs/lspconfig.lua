@@ -1,5 +1,8 @@
 require("nvchad.configs.lspconfig").defaults()
 
+-- Highlight color codes in the buffer
+vim.lsp.document_color.enable(true, nil, { style = "virtual" })
+
 -- Auto-detect Python virtual environment
 local venv = vim.fs.find({ ".venv", "venv" }, { upward = true, type = "directory" })[1]
 if venv then

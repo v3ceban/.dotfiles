@@ -16,6 +16,7 @@
   "permissions": {
     "defaultMode": "default"
   },
+  "model": "sonnet",
   "syntaxHighlightingDisabled": false,
   "alwaysThinkingEnabled": false,
   "effortLevel": "high",
