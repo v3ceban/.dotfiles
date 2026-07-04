@@ -15,22 +15,21 @@ local suppressed_ts_diagnostic_tags = { [1] = true, [2] = false }
 
 local servers = {
   bashls = {},
-  docker_language_server = {},
-  html = {},
-  prismals = {},
-  jsonls = {
-    settings = {
-      json = {
-        schemas = require("schemastore").json.schemas(),
-        validate = { enable = true },
-      },
-    },
-  },
   clangd = {
     capabilities = {
       offsetEncoding = { "utf-16" },
     },
   },
+  cssls = {
+    settings = {
+      css = {
+        lint = {
+          unknownAtRules = "ignore",
+        },
+      },
+    },
+  },
+  docker_language_server = {},
   emmet_language_server = {
     filetypes = {
       "css",
@@ -47,25 +46,18 @@ local servers = {
       "typescriptreact",
     },
   },
-  tsgo = {
-    handlers = {
-      ["textDocument/diagnostic"] = function(err, result, ctx)
-        if result and result.items then
-          result.items = vim.tbl_filter(function(d)
-            if d.tags then
-              for _, tag in ipairs(d.tags) do
-                if suppressed_ts_diagnostic_tags[tag] then
-                  return false
-                end
-              end
-            end
-            return true
-          end, result.items)
-        end
-        vim.lsp.diagnostic.on_diagnostic(err, result, ctx)
-      end,
+  gopls = {
+    settings = {
+      gopls = {
+        completeUnimported = true,
+        usePlaceholders = true,
+        analyses = {
+          unusedparams = true,
+        },
+      },
     },
   },
+  html = {},
   intelephense = {
     init_options = {
       globalStoragePath = ".intelephense",
@@ -78,26 +70,15 @@ local servers = {
       },
     },
   },
-  gopls = {
+  jsonls = {
     settings = {
-      gopls = {
-        completeUnimported = true,
-        usePlaceholders = true,
-        analyses = {
-          unusedparams = true,
-        },
+      json = {
+        schemas = require("schemastore").json.schemas(),
+        validate = { enable = true },
       },
     },
   },
-  cssls = {
-    settings = {
-      css = {
-        lint = {
-          unknownAtRules = "ignore",
-        },
-      },
-    },
-  },
+  prismals = {},
   pyrefly = {},
   tailwindcss = {
     filetypes = {
@@ -150,6 +131,25 @@ local servers = {
       "typescript",
       "typescriptreact",
       "vue",
+    },
+  },
+  tsgo = {
+    handlers = {
+      ["textDocument/diagnostic"] = function(err, result, ctx)
+        if result and result.items then
+          result.items = vim.tbl_filter(function(d)
+            if d.tags then
+              for _, tag in ipairs(d.tags) do
+                if suppressed_ts_diagnostic_tags[tag] then
+                  return false
+                end
+              end
+            end
+            return true
+          end, result.items)
+        end
+        vim.lsp.diagnostic.on_diagnostic(err, result, ctx)
+      end,
     },
   },
   yamlls = {

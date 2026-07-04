@@ -89,6 +89,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 
 - Requires NeoVim with NvChad v2.5 dependencies (Git, Nerd Font, GCC, Make, Ripgrep)
 - Mason packages may need manual installation on ARM processors
+- Mason packages must be listed in `chadrc.lua` for auto-installation with `:MasonInstallAll`
 - JavaScript/TypeScript projects need ESLint config: `npm init @eslint/config@latest`
 - PHP projects require git repository initialization for LSP: `git init`
 

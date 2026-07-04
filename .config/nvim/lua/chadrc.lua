@@ -8,6 +8,39 @@ M.base46 = {
   theme = "catppuccin",
 }
 
+M.mason = {
+  pkgs = {
+    -- LSP (lua/configs/lspconfig.lua)
+    "bash-language-server",
+    "clangd",
+    "css-lsp",
+    "docker-language-server",
+    "emmet-language-server",
+    "gopls",
+    "html-lsp",
+    "intelephense",
+    "json-lsp",
+    "prisma-language-server",
+    "pyrefly",
+    "tailwindcss-language-server",
+    "tsgo",
+    "yaml-language-server",
+    -- Formatters (lua/configs/conform.lua)
+    "black",
+    "clang-format",
+    "fixjson",
+    "gofumpt",
+    "golines",
+    "isort",
+    "prettierd",
+    "rustywind",
+    "shfmt",
+    "stylua",
+    -- Linters (@lua/configs/lint.lua)
+    "eslint_d",
+  },
+}
+
 M.ui = {
   statusline = {
     theme = "default",
