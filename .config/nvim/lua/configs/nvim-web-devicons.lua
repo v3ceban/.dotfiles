@@ -10,6 +10,11 @@ local opts = {
       color = "#6d8086",
       name = "Hosts",
     },
+    ["eslint.config.mts"] = {
+      icon = "",
+      color = "#4b32c3",
+      name = "Eslint",
+    },
   },
 }
 
