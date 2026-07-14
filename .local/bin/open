@@ -1,0 +1,10 @@
+#!/usr/bin/env sh
+
+if command -v /usr/bin/open > /dev/null 2>&1; then
+  exec /usr/bin/open "$@"
+elif command -v xdg-open > /dev/null 2>&1; then
+  exec xdg-open "$@"
+else
+  echo "open: no way to open files/URLs found" >&2
+  exit 1
+fi
