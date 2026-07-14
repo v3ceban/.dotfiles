@@ -66,24 +66,5 @@ bindkey '^[l' autosuggest-accept
 bindkey '^[j' down-line-or-search
 bindkey '^[k' up-line-or-search
 #
-# Cliboard utility function
-if command -v pbcopy &> /dev/null; then
-  # macOS
-  copy() { pbcopy; }
-  paste() { pbpaste; }
-elif grep -qi microsoft /proc/version 2> /dev/null && command -v clip.exe &> /dev/null; then
-  # WSL
-  copy() { clip.exe; }
-  paste() { powershell.exe -noprofile -command "Get-Clipboard"; }
-elif command -v wl-copy &> /dev/null; then
-  # Wayland
-  copy() { wl-copy; }
-  paste() { wl-paste; }
-elif command -v xclip &> /dev/null; then
-  # X11
-  copy() { xclip -selection clipboard; }
-  paste() { xclip -selection clipboard -o; }
-fi
-#
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh

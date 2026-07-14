@@ -1,0 +1,14 @@
+#!/usr/bin/env sh
+
+if command -v pbpaste > /dev/null 2>&1; then
+  exec pbpaste
+elif grep -qi microsoft /proc/version 2> /dev/null && command -v powershell.exe > /dev/null 2>&1; then
+  exec powershell.exe -noprofile -command "Get-Clipboard" | tr -d '\r'
+elif command -v wl-paste > /dev/null 2>&1; then
+  exec wl-paste
+elif command -v xclip > /dev/null 2>&1; then
+  exec xclip -selection clipboard -o
+else
+  echo "paste: no clipboard utility found" >&2
+  exit 1
+fi

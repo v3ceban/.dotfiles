@@ -11,6 +11,7 @@ vim.g.markdown_recommended_style = 0
 vim.g.copilot_no_tab_map = true
 vim.opt.completeopt = "menu,menuone,noselect,popup"
 vim.opt.laststatus = 3
+vim.opt.clipboard = "unnamedplus"
 
 -- Auto-reload files when changed externally
 vim.opt.autoread = true
@@ -141,5 +142,12 @@ if vim.env.SSH_TTY then
       ["+"] = require("vim.ui.clipboard.osc52").paste "+",
       ["*"] = require("vim.ui.clipboard.osc52").paste "*",
     },
+  }
+else
+  vim.g.clipboard = {
+    name = "Clipboard",
+    copy = { ["+"] = "copy", ["*"] = "copy" },
+    paste = { ["+"] = "paste", ["*"] = "paste" },
+    cache_enabled = 0,
   }
 end
