@@ -3,7 +3,7 @@
 if command -v pbpaste > /dev/null 2>&1; then
   exec pbpaste
 elif grep -qi microsoft /proc/version 2> /dev/null && command -v powershell.exe > /dev/null 2>&1; then
-  exec powershell.exe -noprofile -command "Get-Clipboard" | tr -d '\r'
+  exec powershell.exe -noprofile -command "[Console]::Out.Write([string](Get-Clipboard -Raw))" | tr -d '\r'
 elif command -v wl-paste > /dev/null 2>&1; then
   exec wl-paste
 elif command -v xclip > /dev/null 2>&1; then
