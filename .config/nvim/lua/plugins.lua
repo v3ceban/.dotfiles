@@ -120,6 +120,10 @@ return {
     opts = require "configs.treesitter",
   },
   {
+    "christoomey/vim-tmux-navigator",
+    lazy = false,
+  },
+  {
     "windwp/nvim-ts-autotag",
     ft = require("configs.ts-autotag").ft,
     config = function()

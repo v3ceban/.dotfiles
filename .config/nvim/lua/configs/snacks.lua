@@ -11,10 +11,10 @@ local opts = {
     expand = false,
     win = {
       keys = {
-        ["<C-h>"] = { "close", mode = { "i", "n" } },
-        ["<C-j>"] = { "close", mode = { "i", "n" } },
-        ["<C-k>"] = { "close", mode = { "i", "n" } },
-        ["<C-l>"] = { "close", mode = { "i", "n" } },
+        ["<M-S-h>"] = { "close", mode = { "i", "n" } },
+        ["<M-S-j>"] = { "close", mode = { "i", "n" } },
+        ["<M-S-k>"] = { "close", mode = { "i", "n" } },
+        ["<M-S-l>"] = { "close", mode = { "i", "n" } },
       },
     },
   },

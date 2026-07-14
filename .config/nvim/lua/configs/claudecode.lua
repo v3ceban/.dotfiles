@@ -250,7 +250,10 @@ M.keys = {
     mode = "n",
     desc = "AI generate PR review",
   },
-  { "<C-h>", "<cmd>wincmd h<cr>", mode = "t", ft = "claude_code" },
+  { "<M-S-h>", "<cmd>TmuxNavigateLeft<CR>", mode = { "n", "t" }, ft = "claude_code" },
+  { "<M-S-j>", "<cmd>TmuxNavigateDown<CR>", mode = { "n", "t" }, ft = "claude_code" },
+  { "<M-S-k>", "<cmd>TmuxNavigateUp<CR>", mode = { "n", "t" }, ft = "claude_code" },
+  { "<M-S-l>", "<cmd>TmuxNavigateRight<CR>", mode = { "n", "t" }, ft = "claude_code" },
   { "<C-l>", force_redraw, mode = { "n", "t" }, ft = "claude_code", desc = "AI force terminal redraw" },
 }
 

@@ -1,6 +1,13 @@
 require "nvchad.mappings"
 
 local map = vim.keymap.set
+local unmap = vim.keymap.del
+
+-- Resets
+unmap({ "n", "t" }, "<C-h>")
+unmap({ "n", "t" }, "<C-j>")
+unmap({ "n", "t" }, "<C-k>")
+unmap({ "n", "t" }, "<C-l>")
 
 -- General
 map({ "n" }, "<C-s>", "<cmd>wa<CR>", { desc = "save all files" })
@@ -8,8 +15,12 @@ map({ "n" }, "<C-q>", "<cmd>qa!<CR>", { desc = "close all buffers and quit" })
 map({ "n", "i", "v", "t" }, "<C-z>", "<nop>")
 map({ "n", "i", "v", "t" }, "<C-S-z>", "<nop>")
 map({ "n", "v" }, "Q", "q")
-map({ "v" }, "<C-c>", "y", { desc = "general copy selection" })
-map({ "v" }, "<C-x>", "d", { desc = "general cut selection" })
+map({ "v" }, "<C-c>", "y", { desc = "clipboard copy selection" })
+map({ "v" }, "<C-x>", "d", { desc = "clipboard cut selection" })
+map("n", "<M-S-h>", "<cmd>TmuxNavigateLeft<CR>", { desc = "switch window left" })
+map("n", "<M-S-j>", "<cmd>TmuxNavigateDown<CR>", { desc = "switch window down" })
+map("n", "<M-S-k>", "<cmd>TmuxNavigateUp<CR>", { desc = "switch window up" })
+map("n", "<M-S-l>", "<cmd>TmuxNavigateRight<CR>", { desc = "switch window right" })
 
 -- Search and replace
 local function escape_pattern(text)
