@@ -4,10 +4,11 @@ local map = vim.keymap.set
 local unmap = vim.keymap.del
 
 -- Resets
-unmap({ "n", "t" }, "<C-h>")
-unmap({ "n", "t" }, "<C-j>")
-unmap({ "n", "t" }, "<C-k>")
-unmap({ "n", "t" }, "<C-l>")
+local modes = vim.env.TMUX and { "n", "t" } or { "n" }
+unmap(modes, "<C-h>")
+unmap(modes, "<C-j>")
+unmap(modes, "<C-k>")
+unmap(modes, "<C-l>")
 
 -- General
 map({ "n" }, "<C-s>", "<cmd>wa<CR>", { desc = "save all files" })
