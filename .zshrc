@@ -21,6 +21,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Disables the auto-generated title
 DISABLE_AUTO_TITLE="true"
 #
+# Disable omz auto-update
+zstyle ':omz:update' mode disabled
+#
 # List of plugins to load
 plugins=(
   git
