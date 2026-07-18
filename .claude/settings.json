@@ -14,16 +14,21 @@
     "pr": ""
   },
   "permissions": {
-    "defaultMode": "default"
+    "defaultMode": "auto"
   },
   "model": "sonnet",
+  "worktree": {
+    "baseRef": "fresh"
+  },
   "syntaxHighlightingDisabled": false,
   "alwaysThinkingEnabled": false,
   "effortLevel": "high",
   "promptSuggestionEnabled": false,
   "awaySummaryEnabled": false,
-  "tui": "default",
+  "askUserQuestionTimeout": "never",
+  "tui": "fullscreen",
   "theme": "dark-ansi",
   "preferredNotifChannel": "notifications_disabled",
-  "terminalProgressBarEnabled": false
+  "terminalProgressBarEnabled": false,
+  "useAutoModeDuringPlan": true
 }
