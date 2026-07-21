@@ -2,5 +2,6 @@
 !commands
 !commands/*
 !settings.json
+!keybindings.json
 !.gitignore
 !CLAUDE.md
