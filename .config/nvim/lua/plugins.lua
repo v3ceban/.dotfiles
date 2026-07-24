@@ -28,9 +28,9 @@ return {
     opts = require "configs.conform",
   },
   {
-    "github/copilot.vim",
+    "monkoose/neocodeium",
     event = { "BufReadPre", "BufNewFile" },
-    cmd = { "Copilot" },
+    opts = require "configs.neocodeium",
   },
   {
     "folke/flash.nvim",

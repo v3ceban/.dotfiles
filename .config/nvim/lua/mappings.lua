@@ -129,15 +129,16 @@ map({ "n" }, "<leader>gd", "<cmd>lua require('gitsigns').diffthis()<CR>", { desc
 map({ "n" }, "[h", "<cmd>lua require('gitsigns').prev_hunk()<CR>", { desc = "git previous hunk" })
 map({ "n" }, "]h", "<cmd>lua require('gitsigns').next_hunk()<CR>", { desc = "git next hunk" })
 
--- Github Copilot
-map(
-  { "i" },
-  "<M-l>",
-  [[copilot#Accept("\\<CR>")]],
-  { desc = "AI accept suggestion", expr = true, replace_keycodes = false, silent = true }
-)
-map({ "i" }, "<M-j>", "copilot#Next()", { desc = "AI next suggestion", expr = true, silent = true })
-map({ "i" }, "<M-k>", "copilot#Previous()", { desc = "AI previous suggestion", expr = true, silent = true })
+-- NeoCodeium
+map({ "i" }, "<M-l>", function()
+  require("neocodeium").accept()
+end, { desc = "AI accept suggestion", silent = true })
+map({ "i" }, "<M-j>", function()
+  require("neocodeium").cycle(1)
+end, { desc = "AI next suggestion", silent = true })
+map({ "i" }, "<M-k>", function()
+  require("neocodeium").cycle(-1)
+end, { desc = "AI previous suggestion", silent = true })
 
 -- Flash.nvim
 map({ "v", "o" }, "v", function()

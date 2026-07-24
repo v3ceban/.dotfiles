@@ -8,7 +8,6 @@ vim.opt.foldmethod = "expr"
 vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
 vim.opt.foldlevel = 99
 vim.g.markdown_recommended_style = 0
-vim.g.copilot_no_tab_map = true
 vim.g.tmux_navigator_no_wrap = 1
 vim.opt.completeopt = "menu,menuone,noselect,popup"
 vim.opt.laststatus = 3

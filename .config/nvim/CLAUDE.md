@@ -114,11 +114,12 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Diff opts: opens in new tab, hides terminal, rejects new files by closing window
 - Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw)
 
-**GitHub Copilot**:
+**NeoCodeium** (`lua/configs/neocodeium.lua`):
 
-- Authentication: `:Copilot auth`
-- Insert mode: `<M-l>` accept, `<M-j>`/`<M-k>` cycle suggestions
-- Configured with `g:copilot_no_tab_map = true` to prevent Tab conflicts
+- Windsurf-powered AI autocompletion, replaces GitHub Copilot
+- Authentication: `:NeoCodeium auth`
+- Insert mode: `<M-l>` accept, `<M-j>`/`<M-k>` cycle suggestions (mappings defined in `lua/mappings.lua`, wrapped in functions since `neocodeium.cycle()` must be called with an argument rather than passed by reference)
+- Lazy-loaded on `BufReadPre`/`BufNewFile`
 
 ## Key Customizations
 

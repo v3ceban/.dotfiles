@@ -184,13 +184,13 @@ ide connection. You, of course, need to be authenticated to use Claude Code
   - `<leader>agd` - Generate documentation for file (`/document`)
   - `<leader>agr` - Generate PR review (`/review`)
 
-### Copilot
+### NeoCodeium
 
-Enables Copilot autocompletion
+Enables Windsurf-powered AI autocompletion
 
-- Uses the [Copilot](https://github.com/github/copilot.vim) plugin for autocompletion
-- Run `:Copilot auth` to authenticate with GitHub
-- Press `<M-l>` in insert mode to accept Copilot autocompletion suggestions
+- Uses the [neocodeium](https://github.com/monkoose/neocodeium) plugin for autocompletion
+- Run `:NeoCodeium auth` to authenticate with Windsurf
+- Press `<M-l>` in insert mode to accept the suggestion
 - Press `<M-j>` or `<M-k>` in insert mode to cycle through suggestions
 
 ### Flash.nvim
