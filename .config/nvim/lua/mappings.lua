@@ -123,11 +123,12 @@ map({ "n", "v" }, "<leader>ca", function()
 end, { desc = "lsp code action", silent = true })
 
 -- Gitsigns
-map({ "n" }, "<leader>gb", "<cmd>lua require('gitsigns').blame_line()<CR>", { desc = "git blame line" })
-map({ "n" }, "<leader>gB", "<cmd>lua require('gitsigns').blame()<CR>", { desc = "git blame file" })
-map({ "n" }, "<leader>gd", "<cmd>lua require('gitsigns').diffthis()<CR>", { desc = "git diff file" })
-map({ "n" }, "[h", "<cmd>lua require('gitsigns').prev_hunk()<CR>", { desc = "git previous hunk" })
-map({ "n" }, "]h", "<cmd>lua require('gitsigns').next_hunk()<CR>", { desc = "git next hunk" })
+map({ "n" }, "<leader>gb", "<cmd>Gitsigns blame_line<CR>", { desc = "git blame line", silent = true })
+map({ "n" }, "<leader>gB", "<cmd>Gitsigns blame<CR>", { desc = "git blame file", silent = true })
+map({ "n" }, "<leader>gd", "<cmd>Gitsigns diffthis<CR>", { desc = "git diff file", silent = true })
+map({ "n" }, "<leader>gD", "<cmd>Gitsigns diffthis 'main'<CR>", { desc = "git diff file vs main", silent = true })
+map({ "n" }, "[h", "<cmd>Gitsigns nav_hunk 'prev'<CR>", { desc = "git previous hunk", silent = true })
+map({ "n" }, "]h", "<cmd>Gitsigns nav_hunk 'next'<CR>", { desc = "git next hunk", silent = true })
 
 -- NeoCodeium
 map({ "i" }, "<M-l>", function()
