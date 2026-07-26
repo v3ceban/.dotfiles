@@ -49,14 +49,19 @@ export EDITOR='nvim'
 # Preferred man pager
 export MANPAGER='nvim +Man!'
 #
-# Preferred browser
-export BROWSER='firefox'
+# Preferred browser firefox unless set in .zprofile
+export BROWSER="${BROWSER:-firefox}"
 #
 # Run fastfetch instead of neofetch
 alias neofetch="fastfetch"
 #
-# Dotfiles git alias
-alias dotfiles='/usr/bin/git --git-dir="$HOME/.dotfiles/" --work-tree="$HOME"'
+# Git completion for dotfiles (~/.local/bin/dotfiles), scoped to the bare repo
+_dotfiles() {
+  local -x GIT_DIR="$HOME/.dotfiles" GIT_WORK_TREE="$HOME"
+  local service=git
+  _git
+}
+compdef _dotfiles dotfiles
 #
 # History Substring Search Options
 bindkey '^[[A' history-substring-search-up
@@ -71,3 +76,6 @@ bindkey '^[k' up-line-or-search
 #
 # To customize prompt, run `p10k configure` or edit ~/.p10k.zsh
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
+
+# bun completions
+[ -s "/home/v3ceban/.bun/_bun" ] && source "/home/v3ceban/.bun/_bun"
