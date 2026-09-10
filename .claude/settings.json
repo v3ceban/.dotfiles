@@ -17,6 +17,7 @@
   "permissions": {
     "defaultMode": "auto"
   },
+  "model": "fable",
   "worktree": {
     "baseRef": "fresh"
   },
