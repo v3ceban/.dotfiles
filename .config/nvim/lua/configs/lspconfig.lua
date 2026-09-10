@@ -133,7 +133,7 @@ local servers = {
       "vue",
     },
   },
-  tsgo = {
+  tsc = {
     handlers = {
       ["textDocument/diagnostic"] = function(err, result, ctx)
         if result and result.items then

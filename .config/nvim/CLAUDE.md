@@ -37,7 +37,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `clangd` - UTF-16 offset encoding for C/C++
   - `jsonls` - JSON with schemas and validation from SchemaStore.nvim
   - `yamlls` - YAML with schemas from SchemaStore.nvim (built-in schemaStore disabled in favor of the plugin)
-  - `tsgo` - TypeScript native LSP written in Go, with unnecessary/deprecated diagnostic tags suppressed
+  - `tsc` - TypeScript 7 run as an LSP via `tsc --lsp --stdio`, with unnecessary/deprecated diagnostic tags suppressed; prefers the project's `node_modules/.bin/tsc`, falls back to the Mason `tsc` package
   - `intelephense` - PHP with custom global storage path and telemetry disabled
   - `gopls` - Go with complete unimported, placeholders, unused params analysis
   - `pyrefly` - Python type checker and LSP by Meta (https://pyrefly.org/)

@@ -70,7 +70,8 @@ adding your API keys as env variables for AI providers).
 
 ### JavaScript/TypeScript
 
-- Uses [tsgo](https://github.com/microsoft/typescript-go) (TypeScript native LSP written in Go) for LSP
+- Uses [tsc](https://github.com/microsoft/typescript) (TypeScript 7, run as an LSP via `tsc --lsp --stdio`) for LSP
+  - Prefers the project's `node_modules/.bin/tsc` when it is TypeScript 7+, otherwise falls back to the Mason `tsc` package
 - Uses [eslintd](https://github.com/mantoni/eslint_d.js/) for linting
 - Uses [prettierd](https://github.com/fsouza/prettierd) for formatting
 - Requires eslint config to run linting server

@@ -23,7 +23,7 @@ M.mason = {
     "prisma-language-server",
     "pyrefly",
     "tailwindcss-language-server",
-    "tsgo",
+    "tsc",
     "yaml-language-server",
     -- Formatters (lua/configs/conform.lua)
     "black",
