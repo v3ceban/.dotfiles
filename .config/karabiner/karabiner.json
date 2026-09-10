@@ -1836,6 +1836,19 @@
                                 "type": "basic"
                             }
                         ]
+                    },
+                    {
+                        "description": "Screenshot",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "s",
+                                    "modifiers": { "mandatory": ["option", "shift"] }
+                                },
+                                "to": [{ "key_code": "f13" }],
+                                "type": "basic"
+                            }
+                        ]
                     }
                 ]
             },
