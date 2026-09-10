@@ -1694,7 +1694,7 @@
                                     "key_code": "left_arrow",
                                     "modifiers": { "mandatory": ["option", "shift"] }
                                 },
-                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/previous-display\"" }],
+                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/move-to-previous-display\"" }],
                                 "type": "basic"
                             },
                             {
@@ -1710,7 +1710,7 @@
                                     "key_code": "right_arrow",
                                     "modifiers": { "mandatory": ["option", "shift"] }
                                 },
-                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/next-display\"" }],
+                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/move-to-next-display\"" }],
                                 "type": "basic"
                             },
                             {
@@ -1836,40 +1836,6 @@
                                 "type": "basic"
                             }
                         ]
-                    },
-                    {
-                        "description": "Lock Screen",
-                        "manipulators": [
-                            {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.googlecode\\.iterm2$",
-                                            "^com\\.apple\\.Terminal$",
-                                            "^net\\.kovidgoyal\\.kitty$",
-                                            "^io\\.alacritty$",
-                                            "^org\\.alacritty$",
-                                            "^com\\.github\\.wez\\.wezterm$",
-                                            "^com\\.mitchellh\\.ghostty$",
-                                            "^co\\.zeit\\.hyper$",
-                                            "^dev\\.warp\\.Warp-Stable$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
-                                "from": {
-                                    "key_code": "l",
-                                    "modifiers": { "mandatory": ["option"] }
-                                },
-                                "to": [
-                                    {
-                                        "key_code": "q",
-                                        "modifiers": ["left_control", "left_command"]
-                                    }
-                                ],
-                                "type": "basic"
-                            }
-                        ]
                     }
                 ]
             },
@@ -1911,8 +1877,7 @@
                         "vendor_id": 1133
                     },
                     "ignore": false,
-                    "ignore_vendor_events": true,
-                    "mouse_flip_vertical_wheel": true
+                    "ignore_vendor_events": true
                 },
                 {
                     "identifiers": {
