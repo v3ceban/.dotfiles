@@ -686,6 +686,37 @@
           "to": [
             {
               "key_code": "comma",
+              "modifiers": ["right_command"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$",
+                "^com\\.apple\\.Terminal$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^io\\.alacritty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$",
+                "^co\\.zeit\\.hyper$",
+                "^dev\\.warp\\.Warp-Stable$"
+              ]
+            }
+          ]
+        },
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "comma",
+            "modifiers": {
+              "mandatory": ["control"]
+            }
+          },
+          "to": [
+            {
+              "key_code": "comma",
               "modifiers": ["left_command"]
             }
           ],
@@ -1866,6 +1897,37 @@
     {
       "description": "PC Mouse",
       "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "pointing_button": "button1",
+            "modifiers": {
+              "mandatory": ["control"]
+            }
+          },
+          "to": [
+            {
+              "pointing_button": "button1",
+              "modifiers": ["right_command"]
+            }
+          ],
+          "conditions": [
+            {
+              "type": "frontmost_application_if",
+              "bundle_identifiers": [
+                "^com\\.googlecode\\.iterm2$",
+                "^com\\.apple\\.Terminal$",
+                "^net\\.kovidgoyal\\.kitty$",
+                "^io\\.alacritty$",
+                "^org\\.alacritty$",
+                "^com\\.github\\.wez\\.wezterm$",
+                "^com\\.mitchellh\\.ghostty$",
+                "^co\\.zeit\\.hyper$",
+                "^dev\\.warp\\.Warp-Stable$"
+              ]
+            }
+          ]
+        },
         {
           "type": "basic",
           "from": {
