@@ -1,0 +1,9 @@
+#!/usr/bin/env sh
+
+[ "$1 $2" = "-Y sign" ] || exec /usr/bin/ssh-keygen "$@"
+for a; do
+  shift
+  [ -e "$a" ] && a=$(wslpath -w "$a")
+  set -- "$@" "$a"
+done
+exec /mnt/c/Windows/System32/OpenSSH/ssh-keygen.exe "$@"
