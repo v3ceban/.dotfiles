@@ -3,11 +3,13 @@
 if command -v pbcopy > /dev/null 2>&1; then
   exec pbcopy
 elif grep -qi microsoft /proc/version 2> /dev/null && command -v clip.exe > /dev/null 2>&1; then
-  exec clip.exe
-elif command -v wl-copy > /dev/null 2>&1; then
+  { printf '\377\376'; iconv -f utf-8 -t utf-16le; } | clip.exe
+elif [ -n "$WAYLAND_DISPLAY" ] && command -v wl-copy > /dev/null 2>&1; then
   exec wl-copy
 elif command -v xclip > /dev/null 2>&1; then
   exec xclip -selection clipboard
+elif command -v xsel > /dev/null 2>&1; then
+  exec xsel --clipboard --input
 else
   echo "copy: no clipboard utility found" >&2
   exit 1
