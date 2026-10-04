@@ -6,16 +6,13 @@ lint.linters._eslint_d = lint.linters.eslint_d
 ---@diagnostic disable-next-line: assign-type-mismatch
 local base_config = lint.linters._eslint_d or {}
 
-local eslint_d_args = vim.list_extend(
-  vim.deepcopy(base_config.args or {}),
-  {
-    "--no-warn-ignored",
-    "--rule",
-    "tailwind-canonical-classes/tailwind-canonical-classes: off",
-    "--rule",
-    "@typescript-eslint/no-deprecated: off",
-  }
-)
+local eslint_d_args = vim.list_extend(vim.deepcopy(base_config.args or {}), {
+  "--no-warn-ignored",
+  "--rule",
+  "tailwind-canonical-classes/tailwind-canonical-classes: off",
+  "--rule",
+  "@typescript-eslint/no-deprecated: off",
+})
 
 local eslint_config_cache = {}
 
@@ -92,7 +89,11 @@ lint.linters_by_ft = {
 local try_lint = function()
   local file = vim.api.nvim_buf_get_name(0)
   if file ~= "" and not file:match "/node_modules/" and not file:match "term://" then
-    lint.try_lint()
+    lint.try_lint(nil, {
+      filter = function(linter)
+        return linter.name ~= "eslint_d" or find_eslint_config_dir(file) ~= false
+      end,
+    })
   end
 end
 
