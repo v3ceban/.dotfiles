@@ -120,8 +120,8 @@ adding your API keys as env variables for AI providers).
 
 ### Go
 
-- Uses [gopls](https://pkg.go.dev/golang.org/x/tools/gopls) for LSP and linting
-- Uses [gofumpt](https://pkg.go.dev/mvdan.cc/gofumpt) and [golines](https://github.com/segmentio/golines) for formatting
+- Uses [gopls](https://pkg.go.dev/golang.org/x/tools/gopls) for LSP and linting (with staticcheck)
+- Uses [goimports](https://pkg.go.dev/golang.org/x/tools/cmd/goimports) for formatting and import management
 
 ### Markdown
 

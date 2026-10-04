@@ -11,7 +11,7 @@ local options = {
     django = { "rustywind", "prettierd" },
     erb = { "rustywind", "prettierd" },
     eruby = { "rustywind", "prettierd" },
-    go = { "gofumpt", "golines" },
+    go = { "goimports" },
     graphql = { "prettierd" },
     handlebars = { "rustywind", "prettierd" },
     html = { "rustywind", "prettierd" },
@@ -43,9 +43,6 @@ local options = {
       prepend_args = {
         "--fast",
       },
-    },
-    ["goimports-reviser"] = {
-      prepend_args = { "-rm-unused" },
     },
     shfmt = {
       prepend_args = {

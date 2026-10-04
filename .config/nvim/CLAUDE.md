@@ -39,7 +39,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `yamlls` - YAML with schemas from SchemaStore.nvim (built-in schemaStore disabled in favor of the plugin)
   - `tsc` - TypeScript 7 run as an LSP via `tsc --lsp --stdio`, with unnecessary/deprecated diagnostic tags suppressed; prefers the project's `node_modules/.bin/tsc`, falls back to the Mason `tsc` package
   - `intelephense` - PHP with custom global storage path and telemetry disabled
-  - `gopls` - Go with complete unimported, placeholders, unused params analysis
+  - `gopls` - Go with placeholders, staticcheck, shadow analysis
   - `pyrefly` - Python type checker and LSP by Meta (https://pyrefly.org/)
   - `cssls` - CSS with unknown at-rules ignored
   - `tailwindcss` - Extensive filetype support including templating languages (40+ filetypes)
@@ -51,7 +51,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Language-specific:
   - `stylua` (Lua)
   - `black` + `isort` (Python) with fast mode
-  - `gofumpt` + `golines` (Go)
+  - `goimports` (Go)
   - `clang-format` (C/C++/Java/Proto/CUDA/C#)
   - `shfmt` (Shell scripts) with 2-space indent, switch case indentation, space redirects
   - `fixjson` (JSON/JSON5/JSONC), `prettierd` (JSON/JSON5/JSONC/YAML/Markdown/GraphQL)
