@@ -1700,14 +1700,14 @@
                         ]
                     },
                     {
-                        "description": "PC Windows (Raycast)",
+                        "description": "PC Windows",
                         "manipulators": [
                             {
                                 "from": {
                                     "key_code": "down_arrow",
                                     "modifiers": { "mandatory": ["option"] }
                                 },
-                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/almost-maximize\"" }],
+                                "to": [{ "shell_command": "\"$HOME/.config/karabiner/scripts/window\" almost-maximize" }],
                                 "type": "basic"
                             },
                             {
@@ -1715,7 +1715,7 @@
                                     "key_code": "left_arrow",
                                     "modifiers": { "mandatory": ["option"] }
                                 },
-                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/left-half\"" }],
+                                "to": [{ "shell_command": "\"$HOME/.config/karabiner/scripts/window\" left" }],
                                 "type": "basic"
                             },
                             {
@@ -1723,7 +1723,7 @@
                                     "key_code": "left_arrow",
                                     "modifiers": { "mandatory": ["option", "shift"] }
                                 },
-                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/move-to-previous-display\"" }],
+                                "to": [{ "shell_command": "\"$HOME/.config/karabiner/scripts/window\" prev-display" }],
                                 "type": "basic"
                             },
                             {
@@ -1731,7 +1731,7 @@
                                     "key_code": "right_arrow",
                                     "modifiers": { "mandatory": ["option"] }
                                 },
-                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/right-half\"" }],
+                                "to": [{ "shell_command": "\"$HOME/.config/karabiner/scripts/window\" right" }],
                                 "type": "basic"
                             },
                             {
@@ -1739,7 +1739,7 @@
                                     "key_code": "right_arrow",
                                     "modifiers": { "mandatory": ["option", "shift"] }
                                 },
-                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/move-to-next-display\"" }],
+                                "to": [{ "shell_command": "\"$HOME/.config/karabiner/scripts/window\" next-display" }],
                                 "type": "basic"
                             },
                             {
@@ -1747,7 +1747,7 @@
                                     "key_code": "up_arrow",
                                     "modifiers": { "mandatory": ["option"] }
                                 },
-                                "to": [{ "shell_command": "/usr/bin/open -g \"raycast://extensions/raycast/window-management/maximize\"" }],
+                                "to": [{ "shell_command": "\"$HOME/.config/karabiner/scripts/window\" maximize" }],
                                 "type": "basic"
                             }
                         ]
@@ -1865,32 +1865,11 @@
                         "description": "Lock Screen",
                         "manipulators": [
                             {
-                                "conditions": [
-                                    {
-                                        "bundle_identifiers": [
-                                            "^com\\.googlecode\\.iterm2$",
-                                            "^com\\.apple\\.Terminal$",
-                                            "^net\\.kovidgoyal\\.kitty$",
-                                            "^io\\.alacritty$",
-                                            "^org\\.alacritty$",
-                                            "^com\\.github\\.wez\\.wezterm$",
-                                            "^com\\.mitchellh\\.ghostty$",
-                                            "^co\\.zeit\\.hyper$",
-                                            "^dev\\.warp\\.Warp-Stable$"
-                                        ],
-                                        "type": "frontmost_application_unless"
-                                    }
-                                ],
                                 "from": {
                                     "key_code": "l",
                                     "modifiers": { "mandatory": ["option"] }
                                 },
-                                "to": [
-                                    {
-                                        "key_code": "q",
-                                        "modifiers": ["left_control", "left_command"]
-                                    }
-                                ],
+                                "to": [{ "shell_command": "/usr/bin/osascript -l JavaScript -e '$.NSBundle.bundleWithPath(\"/System/Library/PrivateFrameworks/login.framework\").load; ObjC.bindFunction(\"SACLockScreenImmediate\", [\"int\", []]); $.SACLockScreenImmediate()'" }],
                                 "type": "basic"
                             }
                         ]
@@ -1980,6 +1959,15 @@
                 {
                     "from": { "key_code": "caps_lock" },
                     "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
+                },
+                {
+                    "from": { "key_code": "f11" },
+                    "to": [
+                        {
+                            "key_code": "f",
+                            "modifiers": ["fn"]
+                        }
+                    ]
                 }
             ],
             "virtual_hid_keyboard": {
