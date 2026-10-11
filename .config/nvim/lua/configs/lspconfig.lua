@@ -53,6 +53,7 @@ local servers = {
         staticcheck = true,
         analyses = {
           shadow = true,
+          ST1000 = false,
         },
       },
     },
