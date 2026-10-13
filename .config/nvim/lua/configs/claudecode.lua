@@ -35,6 +35,7 @@ local function apply_buf_opts()
   if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
     vim.bo[bufnr].filetype = "claude_code"
     vim.bo[bufnr].buflisted = false
+    vim.bo[bufnr].matchpairs = ""
     for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
       vim.wo[win].winfixwidth = true
     end
@@ -66,6 +67,7 @@ for _, method in ipairs { "open", "simple_toggle", "focus_toggle" } do
 end
 
 M.opts = {
+  env = { TMUX = "" },
   terminal = {
     provider = custom_provider,
     split_width_percentage = 0.40,
