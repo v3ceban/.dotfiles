@@ -86,6 +86,18 @@ M.opts = {
   },
 }
 
+--- Send keys to a terminal job one at a time, `delay` ms apart.
+--- @param chan integer
+--- @param keys string[]
+--- @param delay integer
+local function send_keys(chan, keys, delay)
+  for i, key in ipairs(keys) do
+    vim.defer_fn(function()
+      vim.fn.chansend(chan, key)
+    end, delay * i)
+  end
+end
+
 --- Focus the Claude terminal and send a prompt once connected.
 --- @param prompt string The prompt to feed (e.g. "/commit ")
 local function send_prompt(prompt)
@@ -95,34 +107,29 @@ local function send_prompt(prompt)
     vim.cmd "startinsert"
   end
 
+  local claudecode = require "claudecode"
+  local deadline = vim.uv.now() + 10000
   local timer = assert(vim.uv.new_timer())
 
   timer:start(
-    50,
+    0,
     50,
     vim.schedule_wrap(function()
-      if not require("claudecode").is_claude_connected() then
+      local connected = claudecode.is_claude_connected()
+      if not connected and vim.uv.now() < deadline then
         return
       end
       timer:stop()
       timer:close()
+      if not connected then
+        vim.notify("Claude didn't connect, prompt not sent", vim.log.levels.WARN)
+        return
+      end
       local bufnr = get_native().get_active_bufnr()
-      if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-        local chan = vim.b[bufnr].terminal_job_id
-        if chan then
-          vim.defer_fn(function()
-            vim.fn.chansend(chan, "\x15") -- Ctrl+U to clear the input
-            vim.defer_fn(function()
-              vim.fn.chansend(chan, "\x03") -- Ctrl+C to interrupt any running command
-              vim.defer_fn(function()
-                vim.fn.chansend(chan, prompt) -- Send the prompt
-                vim.defer_fn(function()
-                  vim.fn.chansend(chan, "\r") -- Press Enter
-                end, 150)
-              end, 150)
-            end, 150)
-          end, 150)
-        end
+      local chan = bufnr and vim.api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].terminal_job_id
+      if chan then
+        -- Ctrl+U clears input, Ctrl+C interrupts any running turn, then submit
+        send_keys(chan, { "\x15", "\x03", prompt, "\r" }, 150)
       end
     end)
   )
