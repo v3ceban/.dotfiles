@@ -183,7 +183,6 @@ vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "OptionSet" }, {
 
 M.keys = {
   { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
-  { "<leader>ac", "<cmd>ClaudeCodeFocus<cr>", mode = "n", desc = "AI focus claude terminal" },
   { "<leader>aa", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI send file to claude" },
   { "<leader>aa", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI send selection to claude" },
   {
@@ -228,6 +227,14 @@ M.keys = {
     desc = "AI new claude session",
   },
   {
+    "<leader>ac",
+    function()
+      send_prompt "/compact"
+    end,
+    mode = "n",
+    desc = "AI compact claude session",
+  },
+  {
     "<leader>ar",
     function()
       send_prompt "/resume"
@@ -254,10 +261,26 @@ M.keys = {
   {
     "<leader>agr",
     function()
-      send_prompt "/review"
+      send_prompt "/code-review"
     end,
     mode = "n",
-    desc = "AI generate PR review",
+    desc = "AI generate code review",
+  },
+  {
+    "<leader>ags",
+    function()
+      send_prompt "/simplify report the suggested cleanups; do NOT edit any files!"
+    end,
+    mode = "n",
+    desc = "AI generate simplify review",
+  },
+  {
+    "<leader>agv",
+    function()
+      send_prompt "/security-review"
+    end,
+    mode = "n",
+    desc = "AI generate vulnerability review",
   },
   { "<M-S-h>", "<cmd>TmuxNavigateLeft<CR>", mode = { "n", "t" }, ft = "claude_code" },
   { "<M-S-j>", "<cmd>TmuxNavigateDown<CR>", mode = { "n", "t" }, ft = "claude_code" },

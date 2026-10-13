@@ -104,13 +104,15 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `<leader>ay` - Accept Claude's suggested changes
   - `<leader>an` - Deny Claude's suggested changes
 - Session management:
-  - `<leader>ac` - Clear session (`/clear`)
+  - `<leader>an` - New session (`/clear`)
+  - `<leader>ac` - Compact session (`/compact`)
   - `<leader>ar` - Resume session (`/resume`)
   - `<leader>ae` - Export session (`/export`)
 - Generation slash commands:
   - `<leader>agc` - Generate commit message (`/commit`)
-  - `<leader>agd` - Generate documentation (`/document`)
-  - `<leader>agr` - Generate PR review (`/review`)
+  - `<leader>agr` - Generate code review (`/code-review`, report only)
+  - `<leader>ags` - Generate simplify review (`/simplify`, told to report only)
+  - `<leader>agv` - Generate vulnerability review (`/security-review`, report only)
 - Diff opts: opens in new tab, hides terminal, rejects new files by closing window
 - Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw)
 
