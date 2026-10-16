@@ -3,7 +3,6 @@
   "env": {
     "CLAUDE_CODE_DISABLE_BACKGROUND_TASKS": "1",
     "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": "1",
-    "CLAUDE_CODE_NO_FLICKER": "1",
     "DISABLE_AUTOUPDATER": "1",
     "DISABLE_BUG_COMMAND": "1",
     "DISABLE_ERROR_REPORTING": "1",
@@ -35,6 +34,7 @@
   "awaySummaryEnabled": false,
   "askUserQuestionTimeout": "never",
   "tui": "fullscreen",
+  "timeFormat": "24-hour",
   "theme": "dark-ansi",
   "preferredNotifChannel": "notifications_disabled",
   "terminalProgressBarEnabled": false,
