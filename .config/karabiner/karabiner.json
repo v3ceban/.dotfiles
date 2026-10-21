@@ -1909,6 +1909,14 @@
                         {
                             "from": { "key_code": "right_command" },
                             "to": [{ "key_code": "right_option" }]
+                        },
+                        {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "caps_lock" }]
+                        },
+                        {
+                            "from": { "key_code": "f18" },
+                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
                         }
                     ]
                 },
