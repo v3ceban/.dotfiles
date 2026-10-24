@@ -1,0 +1,26 @@
+#!/usr/bin/env sh
+
+self_dir=$(cd -- "$(dirname -- "$0")" && pwd -P)
+gh=
+set -f
+IFS=:
+for dir in $PATH; do
+  [ -x "$dir/gh" ] || continue
+  [ "$(cd -- "$dir" && pwd -P)" = "$self_dir" ] && continue
+  gh="$dir/gh"
+  break
+done
+unset IFS
+set +f
+
+if [ -z "$gh" ]; then
+  echo "gh: no gh binary found in PATH" >&2
+  exit 127
+fi
+
+if [ "$1" = "pr" ] && [ "$2" = "draft" ]; then
+  shift 2
+  exec "$gh" pr ready --undo "$@"
+fi
+
+exec "$gh" "$@"

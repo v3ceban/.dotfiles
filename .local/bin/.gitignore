@@ -1,6 +1,7 @@
 *
 !copy
 !dotfiles
+!gh
 !open
 !paste
 !wsl-ssh-keygen
