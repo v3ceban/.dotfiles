@@ -80,4 +80,6 @@ bindkey '^[k' up-line-or-search
 [[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh
 #
 # Adds bun completions
-[ -s "/home/v3ceban/.bun/_bun" ] && source "/home/v3ceban/.bun/_bun"
+if [[ -s "$HOME/.bun/_bun" ]]; then
+  source "$HOME/.bun/_bun"
+fi
