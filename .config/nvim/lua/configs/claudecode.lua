@@ -74,32 +74,16 @@ M.opts = {
     show_native_term_exit_tip = false,
   },
   diff_opts = {
+    layout = "unified",
     open_in_new_tab = true,
     hide_terminal_in_new_tab = true,
+    auto_resize_terminal = false,
     on_new_file_reject = "close_window",
-  },
-  models = {
-    { name = "Claude Opus", value = "opus" },
-    { name = "Claude Sonnet", value = "sonnet" },
-    { name = "Opusplan: Claude Opus + Sonnet", value = "opusplan" },
-    { name = "Claude Haiku", value = "haiku" },
   },
 }
 
---- Send keys to a terminal job one at a time, `delay` ms apart.
---- @param chan integer
---- @param keys string[]
---- @param delay integer
-local function send_keys(chan, keys, delay)
-  for i, key in ipairs(keys) do
-    vim.defer_fn(function()
-      vim.fn.chansend(chan, key)
-    end, delay * i)
-  end
-end
-
---- Focus the Claude terminal and send a prompt once connected.
---- @param prompt string The prompt to feed (e.g. "/commit ")
+--- Focus the Claude terminal and submit a prompt once connected.
+--- @param prompt string The prompt to submit (e.g. "/commit")
 local function send_prompt(prompt)
   if vim.bo.filetype ~= "claude_code" then
     vim.cmd "ClaudeCodeFocus"
@@ -108,6 +92,7 @@ local function send_prompt(prompt)
   end
 
   local claudecode = require "claudecode"
+  local terminal = require "claudecode.terminal"
   local deadline = vim.uv.now() + 10000
   local timer = assert(vim.uv.new_timer())
 
@@ -125,59 +110,30 @@ local function send_prompt(prompt)
         vim.notify("Claude didn't connect, prompt not sent", vim.log.levels.WARN)
         return
       end
-      local bufnr = get_native().get_active_bufnr()
-      local chan = bufnr and vim.api.nvim_buf_is_valid(bufnr) and vim.b[bufnr].terminal_job_id
-      if chan then
-        -- Ctrl+U clears input, Ctrl+C interrupts any running turn, then submit
-        send_keys(chan, { "\x15", "\x03", prompt, "\r" }, 150)
+      -- Ctrl+S stashes input, Ctrl+C interrupts any running turn, then submit
+      local steps = { { "\x13", { submit = false } }, { "\x03", { submit = false } }, { prompt } }
+      for _, step in ipairs(steps) do
+        terminal.send_to_terminal(unpack(step))
       end
     end)
   )
 end
 
-local function find_claudecode_diff_win()
-  for _, win in ipairs(vim.api.nvim_tabpage_list_wins(0)) do
-    local buf = vim.api.nvim_win_get_buf(win)
-    if vim.b[buf].claudecode_diff_tab_name then
-      return win
-    end
-  end
-end
-
-local function run_in_diff_win(cmd)
-  local win = find_claudecode_diff_win()
-  if not win then
-    return
-  end
-  local prev_win = vim.api.nvim_get_current_win()
-  vim.api.nvim_set_current_win(win)
-  vim.cmd(cmd)
-  if vim.api.nvim_win_is_valid(prev_win) then
-    pcall(vim.api.nvim_set_current_win, prev_win)
-  end
-end
-
-local diff_group = vim.api.nvim_create_augroup("ClaudeCodeDiffKeys", { clear = true })
-vim.api.nvim_create_autocmd({ "BufWinEnter", "WinEnter", "OptionSet" }, {
-  group = diff_group,
+vim.api.nvim_create_autocmd("User", {
+  group = vim.api.nvim_create_augroup("ClaudeCodeDiffKeys", { clear = true }),
+  pattern = "ClaudeCodeDiffOpened",
   callback = function(ev)
-    if ev.event == "OptionSet" and ev.match ~= "diff" then
-      return
+    if ev.data.tab_number and ev.data.target_window ~= ev.data.diff_window then
+      pcall(vim.api.nvim_win_close, ev.data.target_window, false)
     end
-    vim.schedule(function()
-      local bufnr = vim.api.nvim_get_current_buf()
-      if vim.wo.diff and find_claudecode_diff_win() then
-        vim.keymap.set("n", "<leader>ay", function()
-          run_in_diff_win "ClaudeCodeDiffAccept"
-        end, { buffer = bufnr, desc = "AI accept claude change" })
-        vim.keymap.set("n", "<leader>an", function()
-          run_in_diff_win "ClaudeCodeDiffDeny"
-        end, { buffer = bufnr, desc = "AI deny claude change" })
-      else
-        pcall(vim.keymap.del, "n", "<leader>ay", { buffer = bufnr })
-        pcall(vim.keymap.del, "n", "<leader>an", { buffer = bufnr })
-      end
-    end)
+    local buf = vim.api.nvim_win_get_buf(ev.data.diff_window)
+    vim.keymap.set(
+      "n",
+      "<leader>ay",
+      "<cmd>ClaudeCodeDiffAccept<cr>",
+      { buffer = buf, desc = "AI accept claude change" }
+    )
+    vim.keymap.set("n", "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", { buffer = buf, desc = "AI deny claude change" })
   end,
 })
 
@@ -190,7 +146,7 @@ M.keys = {
     "<cmd>ClaudeCodeTreeAdd<cr>",
     mode = "n",
     desc = "AI send file to claude",
-    ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw" },
+    ft = { "NvimTree", "neo-tree", "oil", "minifiles", "netrw", "snacks_picker_list" },
   },
   {
     "<M-i>",

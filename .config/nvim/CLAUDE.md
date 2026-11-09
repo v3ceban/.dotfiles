@@ -113,8 +113,8 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `<leader>agr` - Generate code review (`/code-review`, report only)
   - `<leader>ags` - Generate simplify review (`/simplify`, told to report only)
   - `<leader>agv` - Generate vulnerability review (`/security-review`, report only)
-- Diff opts: opens in new tab, hides terminal, rejects new files by closing window
-- Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw)
+- Diff opts: unified layout (on `ClaudeCodeDiffOpened`: closes the new tab's empty placeholder window and sets accept/deny keymaps on the diff buffer), opens in new tab, hides terminal, rejects new files by closing window
+- Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw, Snacks picker)
 
 **NeoCodeium** (`lua/configs/neocodeium.lua`):
 
