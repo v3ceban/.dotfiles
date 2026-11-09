@@ -11,7 +11,7 @@ The configuration can be used as is and doesn't require any further setup (aside
 adding your API keys as env variables for AI providers).
 
 > [!NOTE]
-> Some Mason packages aren't avaliable on certain ARM processors. Watch out for
+> Some Mason packages aren't available on certain ARM processors. Watch out for
 > errors and install them manually if needed.
 
 > [!IMPORTANT]
