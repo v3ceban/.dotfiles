@@ -20,6 +20,7 @@
   "worktree": {
     "baseRef": "fresh"
   },
+  "workflowKeywordTriggerEnabled": false,
   "syntaxHighlightingDisabled": false,
   "effortLevel": "high",
   "modelSettings": {
@@ -35,7 +36,9 @@
   "tui": "fullscreen",
   "timeFormat": "24-hour",
   "theme": "dark-ansi",
+  "editorMode": "normal",
   "preferredNotifChannel": "notifications_disabled",
+  "idleCompaction": false,
   "terminalProgressBarEnabled": false,
   "useAutoModeDuringPlan": true
 }
