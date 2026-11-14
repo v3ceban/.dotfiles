@@ -2047,6 +2047,24 @@
       ]
     },
     {
+      "description": "F11 Fullscreen",
+      "manipulators": [
+        {
+          "type": "basic",
+          "from": {
+            "key_code": "f11",
+            "modifiers": { "optional": ["caps_lock", "shift"] }
+          },
+          "to": [
+            {
+              "key_code": "f",
+              "modifiers": ["fn"]
+            }
+          ]
+        }
+      ]
+    },
+    {
       "description": "Task Manager",
       "manipulators": [
         {

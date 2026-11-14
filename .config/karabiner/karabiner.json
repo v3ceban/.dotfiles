@@ -2023,6 +2023,24 @@
                         ]
                     },
                     {
+                        "description": "F11 Fullscreen",
+                        "manipulators": [
+                            {
+                                "from": {
+                                    "key_code": "f11",
+                                    "modifiers": { "optional": ["caps_lock", "shift"] }
+                                },
+                                "to": [
+                                    {
+                                        "key_code": "f",
+                                        "modifiers": ["fn"]
+                                    }
+                                ],
+                                "type": "basic"
+                            }
+                        ]
+                    },
+                    {
                         "description": "Task Manager",
                         "manipulators": [
                             {
@@ -2103,6 +2121,14 @@
                     "ignore_vendor_events": true,
                     "simple_modifications": [
                         {
+                            "from": { "key_code": "caps_lock" },
+                            "to": [{ "key_code": "caps_lock" }]
+                        },
+                        {
+                            "from": { "key_code": "f18" },
+                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
+                        },
+                        {
                             "from": { "key_code": "left_command" },
                             "to": [{ "key_code": "left_option" }]
                         },
@@ -2113,14 +2139,6 @@
                         {
                             "from": { "key_code": "right_command" },
                             "to": [{ "key_code": "right_option" }]
-                        },
-                        {
-                            "from": { "key_code": "caps_lock" },
-                            "to": [{ "key_code": "caps_lock" }]
-                        },
-                        {
-                            "from": { "key_code": "f18" },
-                            "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
                         }
                     ]
                 },
@@ -2171,15 +2189,6 @@
                 {
                     "from": { "key_code": "caps_lock" },
                     "to": [{ "apple_vendor_top_case_key_code": "keyboard_fn" }]
-                },
-                {
-                    "from": { "key_code": "f11" },
-                    "to": [
-                        {
-                            "key_code": "f",
-                            "modifiers": ["fn"]
-                        }
-                    ]
                 }
             ],
             "virtual_hid_keyboard": {
