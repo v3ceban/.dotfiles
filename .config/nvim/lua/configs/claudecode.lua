@@ -1,25 +1,68 @@
 local M = {}
 
---- @type table | nil
-local native = nil
+M.opts = {
+  env = { TMUX = "" },
+  terminal = {
+    provider = "native",
+    split_width_percentage = 0.40,
+    show_native_term_exit_tip = false,
+  },
+  diff_opts = {
+    open_in_new_tab = true,
+    hide_terminal_in_new_tab = true,
+    on_new_file_reject = "close_window",
+  },
+}
 
-local function get_native()
-  if not native then
-    native = require "claudecode.terminal.native"
-  end
-  return native
-end
+vim.api.nvim_create_autocmd("FileType", {
+  group = vim.api.nvim_create_augroup("ClaudeCodeTerminal", { clear = true }),
+  pattern = "claudecode",
+  callback = function(ev)
+    vim.bo[ev.buf].buflisted = false
+    vim.bo[ev.buf].matchpairs = ""
+    vim.keymap.set("t", "<C-z>", "<nop>", { buffer = ev.buf })
+    for _, win in ipairs(vim.fn.win_findbuf(ev.buf)) do
+      vim.wo[win].winfixwidth = true
+    end
+    vim.api.nvim_create_autocmd("BufEnter", { buffer = ev.buf, command = "startinsert" })
+  end,
+})
 
+vim.api.nvim_create_autocmd("User", {
+  group = vim.api.nvim_create_augroup("ClaudeCodeDiffKeys", { clear = true }),
+  pattern = "ClaudeCodeDiffOpened",
+  callback = function(ev)
+    local diff_win = ev.data.diff_window
+    local orig_buf = vim.api.nvim_win_get_buf(ev.data.target_window)
+    local function map(lhs, cmd, desc)
+      for _, buf in ipairs { vim.api.nvim_win_get_buf(diff_win), orig_buf } do
+        vim.keymap.set("n", lhs, function()
+          vim.api.nvim_set_current_win(diff_win)
+          vim.cmd(cmd)
+        end, { buffer = buf, desc = desc })
+      end
+    end
+    map("<leader>ay", "ClaudeCodeDiffAccept", "AI accept claude change")
+    map("<leader>an", "ClaudeCodeDiffDeny", "AI deny claude change")
+    vim.api.nvim_create_autocmd("User", {
+      pattern = "ClaudeCodeDiffClosed",
+      once = true,
+      callback = function()
+        pcall(vim.keymap.del, "n", "<leader>ay", { buffer = orig_buf })
+        pcall(vim.keymap.del, "n", "<leader>an", { buffer = orig_buf })
+      end,
+    })
+  end,
+})
+
+--- Force the Claude terminal to redraw by shrinking its PTY one row, then restoring it.
 local function force_redraw()
-  local bufnr = get_native().get_active_bufnr()
-  if not bufnr or not vim.api.nvim_buf_is_valid(bufnr) then
+  local chan = vim.b.terminal_job_id
+  if not chan then
     return
   end
-  local chan = vim.b[bufnr].terminal_job_id
-  local win = vim.fn.win_findbuf(bufnr)[1]
-  if not chan or not win then
-    return
-  end
+  local bufnr = vim.api.nvim_get_current_buf()
+  local win = vim.api.nvim_get_current_win()
   local width = vim.api.nvim_win_get_width(win)
   local height = vim.api.nvim_win_get_height(win)
   vim.fn.jobresize(chan, width, height - 1)
@@ -30,62 +73,10 @@ local function force_redraw()
   end, 10)
 end
 
-local function apply_buf_opts()
-  local bufnr = get_native().get_active_bufnr()
-  if bufnr and vim.api.nvim_buf_is_valid(bufnr) then
-    vim.bo[bufnr].filetype = "claude_code"
-    vim.bo[bufnr].buflisted = false
-    vim.bo[bufnr].matchpairs = ""
-    for _, win in ipairs(vim.fn.win_findbuf(bufnr)) do
-      vim.wo[win].winfixwidth = true
-    end
-    local group = vim.api.nvim_create_augroup("ClaudeCodeAutoInsert", { clear = true })
-    vim.api.nvim_create_autocmd("BufEnter", {
-      group = group,
-      buffer = bufnr,
-      callback = function()
-        vim.cmd "startinsert"
-      end,
-    })
-  end
-end
-
-local custom_provider = setmetatable({}, {
-  __index = function(_, key)
-    local fn = get_native()[key]
-    if fn then
-      return fn
-    end
-  end,
-})
-
-for _, method in ipairs { "open", "simple_toggle", "focus_toggle" } do
-  custom_provider[method] = function(...)
-    get_native()[method](...)
-    apply_buf_opts()
-  end
-end
-
-M.opts = {
-  env = { TMUX = "" },
-  terminal = {
-    provider = custom_provider,
-    split_width_percentage = 0.40,
-    show_native_term_exit_tip = false,
-  },
-  diff_opts = {
-    layout = "unified",
-    open_in_new_tab = true,
-    hide_terminal_in_new_tab = true,
-    auto_resize_terminal = false,
-    on_new_file_reject = "close_window",
-  },
-}
-
 --- Focus the Claude terminal and submit a prompt once connected.
 --- @param prompt string The prompt to submit (e.g. "/commit")
 local function send_prompt(prompt)
-  if vim.bo.filetype ~= "claude_code" then
+  if vim.bo.filetype ~= "claudecode" then
     vim.cmd "ClaudeCodeFocus"
   else
     vim.cmd "startinsert"
@@ -119,24 +110,6 @@ local function send_prompt(prompt)
   )
 end
 
-vim.api.nvim_create_autocmd("User", {
-  group = vim.api.nvim_create_augroup("ClaudeCodeDiffKeys", { clear = true }),
-  pattern = "ClaudeCodeDiffOpened",
-  callback = function(ev)
-    if ev.data.tab_number and ev.data.target_window ~= ev.data.diff_window then
-      pcall(vim.api.nvim_win_close, ev.data.target_window, false)
-    end
-    local buf = vim.api.nvim_win_get_buf(ev.data.diff_window)
-    vim.keymap.set(
-      "n",
-      "<leader>ay",
-      "<cmd>ClaudeCodeDiffAccept<cr>",
-      { buffer = buf, desc = "AI accept claude change" }
-    )
-    vim.keymap.set("n", "<leader>an", "<cmd>ClaudeCodeDiffDeny<cr>", { buffer = buf, desc = "AI deny claude change" })
-  end,
-})
-
 M.keys = {
   { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
   { "<leader>aa", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI send file to claude" },
@@ -162,7 +135,7 @@ M.keys = {
       end)
     end,
     mode = { "n", "t" },
-    ft = "claude_code",
+    ft = "claudecode",
   },
   {
     "<C-n>",
@@ -172,7 +145,7 @@ M.keys = {
       vim.cmd "ClaudeCode"
     end,
     mode = { "n", "t" },
-    ft = "claude_code",
+    ft = "claudecode",
   },
   {
     "<leader>an",
@@ -238,11 +211,11 @@ M.keys = {
     mode = "n",
     desc = "AI generate vulnerability review",
   },
-  { "<M-S-h>", "<cmd>TmuxNavigateLeft<CR>", mode = { "n", "t" }, ft = "claude_code" },
-  { "<M-S-j>", "<cmd>TmuxNavigateDown<CR>", mode = { "n", "t" }, ft = "claude_code" },
-  { "<M-S-k>", "<cmd>TmuxNavigateUp<CR>", mode = { "n", "t" }, ft = "claude_code" },
-  { "<M-S-l>", "<cmd>TmuxNavigateRight<CR>", mode = { "n", "t" }, ft = "claude_code" },
-  { "<C-l>", force_redraw, mode = { "n", "t" }, ft = "claude_code", desc = "AI force terminal redraw" },
+  { "<M-S-h>", "<cmd>TmuxNavigateLeft<CR>", mode = { "n", "t" }, ft = "claudecode" },
+  { "<M-S-j>", "<cmd>TmuxNavigateDown<CR>", mode = { "n", "t" }, ft = "claudecode" },
+  { "<M-S-k>", "<cmd>TmuxNavigateUp<CR>", mode = { "n", "t" }, ft = "claudecode" },
+  { "<M-S-l>", "<cmd>TmuxNavigateRight<CR>", mode = { "n", "t" }, ft = "claudecode" },
+  { "<C-l>", force_redraw, mode = { "n", "t" }, ft = "claudecode", desc = "AI force terminal redraw" },
 }
 
 return M

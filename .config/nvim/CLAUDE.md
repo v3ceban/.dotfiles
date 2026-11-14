@@ -98,7 +98,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 **Claude Code** (`lua/configs/claudecode.lua`):
 
 - Integration: Full AI-powered development environment via Claude models with Claude Code CLI.
-- Terminal: `<M-a>` toggle, custom provider with `claude_code` filetype, 40% split width
+- Terminal: `<M-a>` toggle, native provider with `claudecode` filetype, `<C-z>` disabled, 40% split width
 - Context keybinds:
   - `<leader>aa` - Add file/selection to Claude (context-aware: normal=file, visual=selection, tree=tree node)
   - `<leader>ay` - Accept Claude's suggested changes
@@ -113,7 +113,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `<leader>agr` - Generate code review (`/code-review`, report only)
   - `<leader>ags` - Generate simplify review (`/simplify`, told to report only)
   - `<leader>agv` - Generate vulnerability review (`/security-review`, report only)
-- Diff opts: unified layout (on `ClaudeCodeDiffOpened`: closes the new tab's empty placeholder window and sets accept/deny keymaps on the diff buffer), opens in new tab, hides terminal, rejects new files by closing window
+- Diff opts: vertical split layout (on `ClaudeCodeDiffOpened`: sets accept/deny keymaps on both panes, run from the proposal window; the original pane's keymaps are removed on `ClaudeCodeDiffClosed` since it may be a regular file buffer), opens in new tab, hides terminal, rejects new files by closing window
 - Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw, Snacks picker)
 
 **NeoCodeium** (`lua/configs/neocodeium.lua`):
@@ -139,7 +139,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Global statusline (`laststatus=3`)
 - Relative line numbers with Treesitter folding
 - Rounded borders for LSP floats and diagnostics
-- Custom highlight groups for Markdown rendering, Git conflicts, and Snacks input
+- Custom highlight groups for Markdown rendering, Git conflicts, Claude Code unified diffs, and Snacks input
 
 **Auto-commands**:
 
