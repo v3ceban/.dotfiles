@@ -1,6 +1,6 @@
 ---
-description: Generate Commit Message
-argument-hint: "[single|multiple] ADDITIONAL_INSTRUCTIONS"
+name: commit
+description: Commit and push changes with Conventional Commits messages. Use when asked to commit.
 allowed-tools:
   - Read
   - Bash(git log:*)
@@ -9,13 +9,18 @@ allowed-tools:
   - Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME log:*)
   - Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status:*)
   - Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff:*)
+model: sonnet
+effort: medium
+argument-hint: [single|multiple] ADDITIONAL_INSTRUCTIONS
 ---
 
 ## Context
 
-- Current git status: `git status`
-- Current git diff: `git diff`
-- Recent commits (10): `git log -10 --oneline`
+- Current git status: !`git status 2>&1 || true`
+- Current git diff (staged and unstaged): !`git diff HEAD 2>&1 || true`
+- Recent commits (10): !`git log -10 --oneline 2>&1 || true`
+
+If the above shows `not a git repository`, the changes likely live in an aliased repo (see Rule 8); gather the context with that command instead.
 
 ## Arguments
 
@@ -51,7 +56,7 @@ When making multiple commits:
 
 ## Message Format
 
-Messages follow the [Conventional Commits](https://www.conventionalcommits.org) spec, matching commitlint's `config-conventional` ruleset:
+Messages follow the [Conventional Commits](references/conventional-commits.md) spec, matching commitlint's `config-conventional` ruleset:
 
 ```gitcommit
 type(scope): imperative summary of the change
@@ -77,4 +82,4 @@ BREAKING CHANGE: description of what breaks and how to migrate
 5. **NEVER** add Claude, Claude Code, Anthropic, or any other AI tool, agent, or company as an author or a co-author of the commit or commit message
 6. **ALWAYS** mention breaking changes in the commit message if there are any by adding `BREAKING CHANGE:` section to the commit message body
 7. **NEVER** bypass git hooks with `--no-verify`. If a hook rejects a commit, fix the cause and retry.
-8. If a project is using a different `git` command or an alias for it such as `dotfiles` or is in a scope of such alias, **ALWAYS** use that command or alias instead of `git`.
+8. If a project is using a different `git` command or an alias for it such as `dotfiles` or is in a scope of such alias, **ALWAYS** use that command or alias instead of `git`. Make sure to **ONLY** add the files that were already tracked when using `dotfiles`.
