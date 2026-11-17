@@ -44,6 +44,27 @@ local options = {
         "--fast",
       },
     },
+    rustywind = {
+      condition = function(_, ctx)
+        local markers = {
+          "node_modules/tailwindcss",
+          "tailwind.config.js",
+          "tailwind.config.cjs",
+          "tailwind.config.mjs",
+          "tailwind.config.ts",
+        }
+        local uses_tailwind = false
+        for dir in vim.fs.parents(ctx.filename) do
+          if vim.uv.fs_stat(dir .. "/node_modules/prettier-plugin-tailwindcss") then
+            return false
+          end
+          for _, marker in ipairs(markers) do
+            uses_tailwind = uses_tailwind or vim.uv.fs_stat(dir .. "/" .. marker) ~= nil
+          end
+        end
+        return uses_tailwind
+      end,
+    },
     shfmt = {
       prepend_args = {
         "-i",
