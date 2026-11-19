@@ -50,7 +50,7 @@ Do not split by file, package, or diff size for its own sake. A single feature t
 
 When making multiple commits:
 
-- Stage each commit's changes by path with `git add <paths>`. If a file mixes hunks that belong to different commits, stage only the relevant hunks by piping a patch with those hunks into `git apply --cached`. If a clean split is not feasible, fall back to a single commit and say why.
+- Stage each commit's changes by path with `git add <paths>`. If a file mixes hunks that belong to different commits, stage only the relevant hunks by piping a patch with those hunks into `git apply --cached`. If a clean split is not feasible, fall back to a single commit.
 - Order the commits so each one builds on the previous: mechanical and preparatory changes first, behavioral changes after.
 - Before each commit, verify with `git diff --cached --stat` that exactly the intended changes are staged.
 
@@ -75,7 +75,7 @@ BREAKING CHANGE: description of what breaks and how to migrate
 
 ## Rules
 
-1. **ALWAYS** respond with the exact commit message wrapped in a code block, one block per commit
+1. **NEVER** print the commit messages or a summary of the commits
 2. **ALWAYS** keep the header (type, scope, and summary) at 50 characters or less and wrap body lines at 72 characters
 3. **ALWAYS** follow the Message Format above
 4. **NEVER** use emojis
