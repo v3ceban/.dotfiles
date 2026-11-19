@@ -1,0 +1,28 @@
+#!/usr/bin/env sh
+set -eu
+
+pr=${1:?usage: threads <pr-url>}
+path=${pr#https://github.com/}
+owner=$(printf '%s\n' "$path" | cut -d/ -f1)
+repo=$(printf '%s\n' "$path" | cut -d/ -f2)
+num=$(printf '%s\n' "$path" | cut -d/ -f4)
+
+gh api graphql -F o="$owner" -F r="$repo" -F n="$num" -f query='
+  query($o: String!, $r: String!, $n: Int!) {
+    repository(owner: $o, name: $r) {
+      pullRequest(number: $n) {
+        reviewThreads(first: 100) {
+          nodes {
+            id
+            isResolved
+            path
+            line
+            comments(first: 50) { nodes { databaseId body author { login } } }
+          }
+        }
+      }
+    }
+  }' --jq '.data.repository.pullRequest.reviewThreads.nodes[]
+    | select(.isResolved | not)
+    | {thread: .id, reply_to: .comments.nodes[0].databaseId, path, line,
+       comments: [.comments.nodes[] | {author: .author.login, body}]}'
