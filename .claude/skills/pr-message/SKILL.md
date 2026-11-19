@@ -14,7 +14,6 @@ allowed-tools:
   - "Bash(gh repo view:*)"
 model: "opus"
 effort: "medium"
-argument-hint: "ADDITIONAL_INSTRUCTIONS"
 ---
 
 ## Context

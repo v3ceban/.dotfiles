@@ -11,7 +11,7 @@ allowed-tools:
   - "Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff:*)"
 model: "sonnet"
 effort: "medium"
-argument-hint: "[single|multiple] ADDITIONAL_INSTRUCTIONS"
+argument-hint: "[single|multiple]"
 ---
 
 ## Context
