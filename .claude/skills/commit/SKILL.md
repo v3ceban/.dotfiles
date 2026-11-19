@@ -1,17 +1,17 @@
 ---
-name: commit
-description: Commit and push changes with Conventional Commits messages. Use when asked to commit.
+name: "commit"
+description: "Commit and push changes with Conventional Commits messages. Use when asked to commit."
 allowed-tools:
-  - Read
-  - Bash(git log:*)
-  - Bash(git status:*)
-  - Bash(git diff:*)
-  - Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME log:*)
-  - Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status:*)
-  - Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff:*)
-model: sonnet
-effort: medium
-argument-hint: [single|multiple] ADDITIONAL_INSTRUCTIONS
+  - "Read"
+  - "Bash(git log:*)"
+  - "Bash(git status:*)"
+  - "Bash(git diff:*)"
+  - "Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME log:*)"
+  - "Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME status:*)"
+  - "Bash(/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME diff:*)"
+model: "sonnet"
+effort: "medium"
+argument-hint: "[single|multiple] ADDITIONAL_INSTRUCTIONS"
 ---
 
 ## Context

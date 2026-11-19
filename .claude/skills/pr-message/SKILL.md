@@ -1,20 +1,20 @@
 ---
-name: pr-message
-description: Write and apply a PR title and description for the current branch. Use when asked to write a pr message.
+name: "pr-message"
+description: "Write and apply a PR title and description for the current branch. Use when asked to write a pr message."
 allowed-tools:
-  - Read
-  - Bash(git log:*)
-  - Bash(git status:*)
-  - Bash(git diff:*)
-  - Bash(git branch:*)
-  - Bash(gh pr view:*)
-  - Bash(gh pr diff:*)
-  - Bash(gh pr list:*)
-  - Bash(gh issue view:*)
-  - Bash(gh repo view:*)
-model: opus
-effort: medium
-argument-hint: ADDITIONAL_INSTRUCTIONS
+  - "Read"
+  - "Bash(git log:*)"
+  - "Bash(git status:*)"
+  - "Bash(git diff:*)"
+  - "Bash(git branch:*)"
+  - "Bash(gh pr view:*)"
+  - "Bash(gh pr diff:*)"
+  - "Bash(gh pr list:*)"
+  - "Bash(gh issue view:*)"
+  - "Bash(gh repo view:*)"
+model: "opus"
+effort: "medium"
+argument-hint: "ADDITIONAL_INSTRUCTIONS"
 ---
 
 ## Context
