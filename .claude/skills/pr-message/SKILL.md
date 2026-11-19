@@ -37,13 +37,13 @@ Find related GitHub issues:
 - Issues already linked to the PR via `closingIssuesReferences`.
 - Issue references (`#123`, `owner/repo#123`, issue URLs) in the branch name, commit messages, PR body, and comments.
 
-Read each one with `gh issue view <number>` to understand the motivation behind the change. Do not invent issue numbers; if none are found, omit the section.
+Read each one with `gh issue view <number>` to understand the motivation behind the change. Do not invent issue numbers.
 
-Then write the PR message in Markdown:
+Then write the PR message in Markdown, the way one teammate writes to another:
 
-- A concise title on the first line as plain text (not a header), following the repository's existing PR title convention if one is evident from `gh pr list --state merged --limit 10`.
-- A description covering the background and motivation, what changed and why, any breaking changes with migration notes, and future implications or follow-up work.
-- Links to related issues using closing keywords (`Closes #123`) only when the PR fully resolves the issue; otherwise reference it plainly (`Related to #123`).
+- **Title:** plain text on the first line, not a header. Short, and about what changes for the reader, not how. Follow the repository's PR title convention if `gh pr list --state merged --limit 10` shows one.
+- **Description:** open with the problem in a sentence or two, then say what the PR does about it in a sentence or two. Most PRs need nothing more. Add only what a reviewer needs and can't get from the diff: a breaking change and how to migrate, a decision they would otherwise question, or how to test it when that isn't obvious. Use a short list only when the PR does several separate things, and headers only when the description has sections that need them.
+- **Issues:** link them with closing keywords (`Closes #123`) only when the PR fully resolves them. Otherwise reference them plainly (`Related to #123`).
 
 Apply the title and description directly to the PR without printing them in your response. Pass the body through stdin with a quoted heredoc so Markdown and backticks are not interpreted by the shell:
 
@@ -54,16 +54,17 @@ EOF
 ```
 
 - **PR exists:** update it with `gh pr edit` as above. Only **AFTER** the message is applied, if the PR is in draft mode, mark it ready for review with `gh pr ready`.
-- **No PR yet:** create it with `gh pr create --base <default branch> --title "<title>" --body-file -` and the same heredoc, then report its URL. If the current branch is the default branch, or has no upstream, or is ahead of its upstream (see Branch status), do not create the PR; tell the user what to push first, and only then print the title and description in a single code block, since they can't be applied yet. If Branch status shows uncommitted changes, mention that they are not part of the PR.
+- **No PR yet:** create it with `gh pr create --base <default branch> --title "<title>" --body-file -` and the same heredoc, then print only its URL. If the current branch is the default branch, or has no upstream, or is ahead of its upstream (see Branch status), do not create the PR; tell the user what to push first, and only then print the title and description in a single code block, since they can't be applied yet. If Branch status shows uncommitted changes, mention that they are not part of the PR.
 
 Follow any additional instructions in `$ARGUMENTS`; they override the defaults above.
 
 ## Rules
 
-1. **NEVER** use level 1 or level 2 headers in the PR description. The first header must be level 3 (`###`).
-2. **NEVER** use emojis.
-3. For checklists use `- [x]` and `- [ ]`. Never use any other characters or symbols for checkmarks.
-4. **NEVER** add Claude, Claude Code, Anthropic, or any other AI tool as an author or co-author.
-5. **ALWAYS** describe breaking changes if there are any.
-6. **ALWAYS** include the background and future implications of the PR.
-7. **NEVER** describe changes that are not in the diff, and do not restate the diff file by file. Explain the intent and impact.
+1. **NEVER** pad the description. No `Background`, `Changes`, `Summary`, or `Follow-up` scaffolding, no future work unless the PR leaves something a reviewer must know, no filler, no hedging. Cut every sentence that doesn't help a reviewer.
+2. **NEVER** describe changes that are not in the diff, and never restate the diff or walk through it file by file.
+3. **ALWAYS** describe breaking changes.
+4. Headers, when used, start at level 3 (`###`).
+5. For checklists use `- [x]` and `- [ ]`. Never use any other characters or symbols for checkmarks.
+6. **NEVER** use emojis.
+7. **NEVER** add Claude, Claude Code, Anthropic, or any other AI tool as an author or co-author.
+8. **NEVER** print the title, the description, or a summary of what you did once it is applied. Print nothing, or only the URL of a PR you created.

@@ -34,9 +34,9 @@ Everything after the mode, or all of `$ARGUMENTS` when no mode is given, is addi
 
 ## Instructions
 
-Use allowed `Bash` tool and `git` commands to get the information about all current changes, including untracked files. Analyze them and decide the commit mode unless it was passed explicitly. Then, for each commit: stage exactly the changes that belong to it, write a short, but comprehensive commit message that follows the Message Format below, and commit with `git commit -m "<commit message>"`.
+Use allowed `Bash` tool and `git` commands to get the information about all current changes, including untracked files. Analyze them and decide the commit mode unless it was passed explicitly. Then, for each commit: stage exactly the changes that belong to it, write a short commit message that follows the Message Format below, and commit with `git commit -m "<commit message>"`.
 
-After the last commit, push to remote with `git push`.
+After the last commit, push with `git push`, or with `git push -u origin HEAD` when the branch has no upstream.
 
 ## Commit Mode
 
@@ -70,12 +70,14 @@ BREAKING CHANGE: description of what breaks and how to migrate
 - `type` is one of `feat`, `fix`, `docs`, `style`, `refactor`, `perf`, `test`, `build`, `ci`, `chore`, `revert`. `feature` is not a legal alias for `feat`.
 - `scope` is the package, module, or area touched. Omit it for cross-cutting changes. If the project has an established scope vocabulary in its history, reuse it.
 - The summary is in imperative mood, lower case, with no trailing period.
-- The body explains why the change was made and what it implies, not which files changed.
+- The body explains why the change was made and what it implies, not which files changed. Leave it out when the header already says everything.
 - A breaking change gets a `BREAKING CHANGE:` footer and, optionally, a `!` after the type or scope (`feat(api)!: ...`).
+
+If the project's recent history or contributing docs show a different message convention, follow that one instead.
 
 ## Rules
 
-1. **NEVER** print the commit messages or a summary of the commits
+1. **NEVER** report what you did: no commit messages, no summary, and no account of the steps or of problems you worked around. Mention only a failure you couldn't recover from
 2. **ALWAYS** keep the header (type, scope, and summary) at 50 characters or less and wrap body lines at 72 characters
 3. **ALWAYS** follow the Message Format above
 4. **NEVER** use emojis
