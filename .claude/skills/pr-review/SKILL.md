@@ -17,13 +17,13 @@ allowed-tools:
   - "Bash(gh api:*)"
 ---
 
+## Silence
+
+Ask nothing and write no text at all until the final output. Every message before it contains only tool calls.
+
 ## Arguments
 
 `$ARGUMENTS` is a PR URL or number. If it is empty, end the turn without doing or printing anything.
-
-## Silence
-
-Don't ask questions or print anything until the final output.
 
 ## Standards
 
@@ -52,14 +52,14 @@ The bar is [standards.md](../ship/references/standards.md), the same one `/ship`
        }'
      ```
 
-2. **Read the code around the diff** at the PR's head, without touching the working tree.
+2. **Read the code around the diff and the project's conventions** at the PR's head, without touching the working tree. The conventions live in instruction files such as `CLAUDE.md`, `AGENTS.md`, and `CONTRIBUTING.md`, including ones in the changed directories, and in linter and formatter configs.
    - **From a clone of the PR's repository:** run `git fetch origin pull/<number>/head`, then read with `git show FETCH_HEAD:<path>` and search with `git grep <pattern> FETCH_HEAD`.
    - **From anywhere else:** use `gh api "repos/<owner>/<repo>/contents/<path>?ref=<headRefOid>" --jq .content | base64 -d`.
 3. **Review it yourself**, the way a senior teammate would, without review skills or subagents. Look at two things:
    - **The code:** bugs a careful reader would catch, and standards violations.
    - **The vibe:** does the approach fit the problem and the codebase? Is it in the right place and the right size? Does it do what its tickets ask, and no more?
 
-   Flag what matters. Don't hunt for every possible issue. A PR that is fine gets no comments.
+   Flag what matters, and don't hunt for every possible issue. Standards violations matter even when they are small, such as comments the standards rule out. Raise each kind once, on its first occurrence, and say it applies throughout. A PR that is fine gets no comments.
 4. **Re-review.** For each unresolved thread you started, check whether the head commit addresses it. Unaddressed threads get a reply. Addressed ones get nothing.
 5. **Filter.** Drop anything an existing thread already raises, whoever wrote it, and anything a linter or formatter would catch.
 6. **Post as pending.** Use your pending review from step 1 when `viewerDidAuthor` is true. Otherwise create one. Never create a second one, and never submit it.
@@ -70,8 +70,8 @@ The bar is [standards.md](../ship/references/standards.md), the same one `/ship`
 
 ## Comments
 
-One problem per comment, in one or two short sentences. Say what is wrong and what to do instead. Use a `suggestion` block when the fix is small and exact. No praise, no summaries, no headings, no severity labels.
+One problem per comment, in one or two short sentences. Say what is wrong and what to do instead, in plain terms the author can act on without context. Never mention the standards, this skill, or any review tooling. Use a `suggestion` block when the fix is small and exact. No praise, no summaries, no headings, no severity labels.
 
 ## Output
 
-Print one line: `<N> pending comments on <pr-url>`, or `Nothing to flag on <pr-url>` when there are no findings.
+Print exactly one line, and nothing else: `<N> pending comments on <pr-url>`, or `Nothing to flag on <pr-url>` when there are no findings. Don't list or summarize the comments.
