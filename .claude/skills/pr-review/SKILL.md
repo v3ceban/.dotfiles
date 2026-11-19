@@ -2,7 +2,7 @@
 name: "pr-review"
 description: "Review someone else's pull request and leave the findings as a pending GitHub review for the user to edit and submit. Use when asked to review a PR."
 disable-model-invocation: true
-argument-hint: "<pr-url|number>"
+argument-hint: "[pr-url|number]"
 allowed-tools:
   - "Read"
   - "Bash(git fetch:*)"
@@ -23,7 +23,7 @@ Ask nothing and write no text at all until the final output. Every message befor
 
 ## Arguments
 
-`$ARGUMENTS` is a PR URL or number, or a link that leads to a PR, such as a tracker's review page. Resolve such a link to its GitHub PR with whatever can read it. If `$ARGUMENTS` is empty, end the turn without doing or printing anything.
+`$ARGUMENTS` is a PR URL or number, or a link that leads to a PR, such as a tracker's review page. Resolve such a link to its GitHub PR with whatever can read it. If `$ARGUMENTS` is empty, review the PR of the current branch, found with `gh pr view --json number --jq .number`. If the branch has no PR, end the turn without doing or printing anything.
 
 ## Standards
 
