@@ -23,7 +23,7 @@ Ask nothing and write no text at all until the final output. Every message befor
 
 ## Arguments
 
-`$ARGUMENTS` is a PR URL or number. If it is empty, end the turn without doing or printing anything.
+`$ARGUMENTS` is a PR URL or number, or a link that leads to a PR, such as a tracker's review page. Resolve such a link to its GitHub PR with whatever can read it. If `$ARGUMENTS` is empty, end the turn without doing or printing anything.
 
 ## Standards
 
@@ -74,4 +74,4 @@ One problem per comment, in one or two short sentences. Say what is wrong and wh
 
 ## Output
 
-Print exactly one line, and nothing else: `<N> pending comments on <pr-url>`, or `Nothing to flag on <pr-url>` when there are no findings. Don't list or summarize the comments.
+Print exactly one line, and nothing else: `<N> pending comments on <pr-url>/changes` (`1 pending comment` for one), or `Nothing to flag on <pr-url>/changes` when there are no findings. Don't list or summarize the comments.
