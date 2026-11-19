@@ -1,0 +1,44 @@
+#!/usr/bin/env sh
+set -u
+
+pr=${1:?usage: watch-pr <pr-url>}
+path=${pr#https://github.com/}
+repo=$(printf '%s\n' "$path" | cut -d/ -f1-2)
+num=$(printf '%s\n' "$path" | cut -d/ -f4)
+since=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+: > "$tmp/seen"
+empty=0
+
+bots() {
+  gh api "repos/$repo/issues/$num/comments?since=$1" \
+    --jq '.[] | select(.user.type == "Bot") | "bot-comment \(.user.login) \(.html_url)"' 2> /dev/null
+  gh api "repos/$repo/pulls/$num/comments?since=$1" \
+    --jq '.[] | select(.user.type == "Bot") | "bot-comment \(.user.login) \(.html_url)"' 2> /dev/null
+  gh api "repos/$repo/pulls/$num/reviews" \
+    --jq ".[] | select(.user.type == \"Bot\" and .submitted_at >= \"$1\") | \"bot-review \(.user.login) \(.html_url)\"" 2> /dev/null
+}
+
+while :; do
+  now=$(date -u +%Y-%m-%dT%H:%M:%SZ)
+  gh pr checks "$pr" --json name,bucket,link > "$tmp/checks" 2> /dev/null
+  if [ ! -s "$tmp/checks" ] || [ "$(cat "$tmp/checks")" = "[]" ]; then
+    empty=$((empty + 1))
+    if [ "$empty" -ge 10 ]; then
+      echo "no-checks"
+      exit 0
+    fi
+  else
+    jq -r '.[] | select(.bucket != "pending") | "check \(.bucket) \(.name) \(.link)"' "$tmp/checks" | sort > "$tmp/finished"
+    comm -13 "$tmp/seen" "$tmp/finished"
+    mv "$tmp/finished" "$tmp/seen"
+  fi
+  bots "$since"
+  since=$now
+  if [ -s "$tmp/checks" ] && jq -e 'length > 0 and all(.bucket != "pending")' "$tmp/checks" > /dev/null 2>&1; then
+    echo "done"
+    exit 0
+  fi
+  sleep 30
+done
