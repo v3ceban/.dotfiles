@@ -43,7 +43,7 @@ Then write the PR message in Markdown, the way one teammate writes to another:
 
 - **Title:** plain text on the first line, not a header. Short, and about what changes for the reader, not how. Follow the repository's PR title convention if `gh pr list --state merged --limit 10` shows one.
 - **Description:** open with the problem in a sentence or two, then say what the PR does about it in a sentence or two. Most PRs need nothing more. Add only what a reviewer needs and can't get from the diff: a breaking change and how to migrate, a decision they would otherwise question, or how to test it when that isn't obvious. Use a short list only when the PR does several separate things, and headers only when the description has sections that need them.
-- **Issues:** link them with closing keywords (`Closes #123`) only when the PR fully resolves them. Otherwise reference them plainly (`Related to #123`).
+- **Issues:** link them with closing keywords (`Closes #123`) only when the PR fully resolves them. Otherwise reference them plainly (`Related to #123`). Link each piece of work once. A GitHub issue that mirrors a ticket in another tracker, which its body or title usually shows, is the same work, so link the tracker's ticket and leave the GitHub issue out. Use the GitHub issue only when no other tracker has the work.
 
 Apply the title and description directly to the PR without printing them in your response. Pass the body through stdin with a quoted heredoc so Markdown and backticks are not interpreted by the shell:
 
