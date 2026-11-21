@@ -55,13 +55,14 @@ The bar is [standards.md](../ship/references/standards.md), the same one `/ship`
 2. **Read the code around the diff and the project's conventions** at the PR's head, without touching the working tree. The conventions live in instruction files such as `CLAUDE.md`, `AGENTS.md`, and `CONTRIBUTING.md`, including ones in the changed directories, and in linter and formatter configs.
    - **From a clone of the PR's repository:** run `git fetch origin pull/<number>/head`, then read with `git show FETCH_HEAD:<path>` and search with `git grep <pattern> FETCH_HEAD`.
    - **From anywhere else:** use `gh api "repos/<owner>/<repo>/contents/<path>?ref=<headRefOid>" --jq .content | base64 -d`.
-3. **Review it yourself**, the way a senior teammate would, without review skills or subagents. Look at two things:
-   - **The code:** bugs a careful reader would catch, and standards violations.
-   - **The vibe:** does the approach fit the problem and the codebase? Is it in the right place and the right size? Does it do what its tickets ask, and no more?
+3. **Review it yourself**, the way a senior teammate would, without review skills or subagents. Make three passes over the whole diff, and don't stop after the first finding:
+   - **The approach:** does it fit the problem and the codebase? Is it in the right place and the right size? Does it do what its tickets ask, and no more?
+   - **The standards, file by file:** go through every changed file and hunk in order, and check each against every section of the standards and the project's conventions from step 2. Note every violation, in every place it occurs.
+   - **The behavior:** for each changed function, type, or value, look at its callers and what depends on it, including code outside the diff. Look for bugs, missed callers, edge cases, and tests that wouldn't catch a regression.
 
-   Flag what matters, and don't hunt for every possible issue. Standards violations matter even when they are small, such as comments the standards rule out. Raise each kind once, on its first occurrence, and say it applies throughout. A PR that is fine gets no comments.
+   Every real problem found gets a comment, wherever it occurs. If the same problem appears in several places, comment on each one, briefly. Don't flag guesses: each finding needs a concrete failure or a clear rule it breaks. A PR that is fine gets no comments.
 4. **Re-review.** For each unresolved thread you started, check whether the head commit addresses it. Unaddressed threads get a reply. Addressed ones get nothing.
-5. **Filter.** Drop anything an existing thread already raises, whoever wrote it, and anything a linter or formatter would catch.
+5. **Filter.** Drop anything an existing thread already raises at the same place, whoever wrote it, and anything a linter or formatter would catch. Don't drop a finding because a similar one was raised elsewhere.
 6. **Post as pending.** Use your pending review from step 1 when `viewerDidAuthor` is true. Otherwise create one. Never create a second one, and never submit it.
    - **Create:** `addPullRequestReview(input: {pullRequestId})` with no `event`.
    - **Finding on a diff line:** `addPullRequestReviewThread(input: {pullRequestReviewId, path, line, side: RIGHT, body})`, adding `startLine` and `startSide` for a range.
