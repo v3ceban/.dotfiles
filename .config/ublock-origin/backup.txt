@@ -1,0 +1,62 @@
+{
+  "timeStamp": 1795460372756,
+  "version": "1.77.0",
+  "userSettings": {
+    "externalLists": "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-lists/yt-shorts.txt\nhttps://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-autodubbed.txt\nhttps://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-membersonly.txt\nhttps://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-playables.txt",
+    "importedLists": [
+      "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-lists/yt-shorts.txt",
+      "https://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-autodubbed.txt",
+      "https://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-membersonly.txt",
+      "https://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-playables.txt"
+    ],
+    "popupPanelSections": 15,
+    "showIconBadge": false
+  },
+  "selectedFilterLists": [
+    "user-filters",
+    "ublock-filters",
+    "ublock-badware",
+    "ublock-privacy",
+    "ublock-quick-fixes",
+    "ublock-unbreak",
+    "easylist",
+    "easyprivacy",
+    "adguard-spyware-url",
+    "block-lan",
+    "urlhaus-1",
+    "curben-phishing",
+    "plowe-0",
+    "fanboy-cookiemonster",
+    "ublock-cookies-easylist",
+    "adguard-cookies",
+    "ublock-cookies-adguard",
+    "fanboy-ai-suggestions",
+    "easylist-chat",
+    "easylist-notifications",
+    "ublock-annoyances",
+    "ROU-1",
+    "RUS-0",
+    "RUS-1",
+    "UKR-0",
+    "https://raw.githubusercontent.com/brave/adblock-lists/master/brave-lists/yt-shorts.txt",
+    "https://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-autodubbed.txt",
+    "https://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-membersonly.txt",
+    "https://raw.githubusercontent.com/easylist/easylist/refs/heads/master/custom-lists/youtube-playables.txt"
+  ],
+  "hiddenSettings": {},
+  "whitelist": [
+    "chrome-extension-scheme",
+    "moz-extension-scheme"
+  ],
+  "dynamicFilteringString": "behind-the-scene * * noop\nbehind-the-scene * inline-script noop\nbehind-the-scene * 1p-script noop\nbehind-the-scene * 3p-script noop\nbehind-the-scene * 3p-frame noop\nbehind-the-scene * image noop\nbehind-the-scene * 3p noop",
+  "urlFilteringString": "",
+  "hostnameSwitchesString": "no-large-media: behind-the-scene false\nno-csp-reports: * true",
+  "userFilters": [
+    "! Jan 27, 2026 https://chatgpt.com",
+    "chatgpt.com##.rtl\\:translate-x-1\\/2.ltr\\:-translate-x-1\\/2.lg\\:start-1\\/2.gap-2.items-center.flex-col.flex.start-0.absolute.pointer-events-none",
+    "",
+    "! Nov 2, 2026 https://linear.app",
+    "linear.app##.sx-qvfhly.sx-1lmytr0.sx-2lah0s.sx-6s0dn4.sx-l56j7k.sx-78zum5",
+    "linear.app##.theme-provider-13a42de82027e928cbf4eb95da174c1bb1d29d79 > .sx-2lah0s.sx-h8yej3"
+  ]
+}
