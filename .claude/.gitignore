@@ -1,6 +1,7 @@
 *
 !skills
 !skills/**/*
+skills/synced
 !settings.json
 !keybindings.json
 !.gitignore
