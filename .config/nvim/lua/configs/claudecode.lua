@@ -21,9 +21,14 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.bo[ev.buf].buflisted = false
     vim.bo[ev.buf].matchpairs = ""
     vim.keymap.set("t", "<C-z>", "<nop>", { buffer = ev.buf })
-    for _, win in ipairs(vim.fn.win_findbuf(ev.buf)) do
-      vim.wo[win].winfixwidth = true
+    local function setup_win()
+      for _, win in ipairs(vim.fn.win_findbuf(ev.buf)) do
+        vim.wo[win].winfixwidth = true
+        vim.wo[win].wrap = true
+      end
     end
+    setup_win()
+    vim.api.nvim_create_autocmd("BufWinEnter", { buffer = ev.buf, callback = setup_win })
     vim.api.nvim_create_autocmd("BufEnter", { buffer = ev.buf, command = "startinsert" })
   end,
 })
@@ -89,7 +94,7 @@ local function send_prompt(prompt)
 
   timer:start(
     0,
-    50,
+    25,
     vim.schedule_wrap(function()
       local connected = claudecode.is_claude_connected()
       if not connected and vim.uv.now() < deadline then
@@ -111,9 +116,10 @@ local function send_prompt(prompt)
 end
 
 M.keys = {
-  { "<M-a>", "<cmd>ClaudeCode<cr>", mode = { "n", "t" }, desc = "AI toggle claude terminal" },
+  { "<M-a>", "<cmd>ClaudeCode<cr>", mode = "n", desc = "AI toggle claude terminal" },
+  { "<M-a>", "<cmd>ClaudeCode<cr>", mode = "t", ft = "claudecode", desc = "AI toggle claude terminal" },
   { "<leader>aa", "<cmd>ClaudeCodeAdd %<cr>", mode = "n", desc = "AI send file to claude" },
-  { "<leader>aa", "<cmd>ClaudeCodeSend<cr>", mode = "v", desc = "AI send selection to claude" },
+  { "<leader>aa", "<cmd>ClaudeCodeSend<cr>", mode = "x", desc = "AI send selection to claude" },
   {
     "<leader>aa",
     "<cmd>ClaudeCodeTreeAdd<cr>",
