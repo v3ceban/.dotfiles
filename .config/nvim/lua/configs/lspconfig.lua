@@ -112,7 +112,6 @@ local servers = {
       "leaf",
       "less",
       "liquid",
-      "mdx",
       "mustache",
       "njk",
       "nunjucks",

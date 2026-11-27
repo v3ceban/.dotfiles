@@ -89,6 +89,7 @@ lint.linters_by_ft = {
 local try_lint = function()
   local file = vim.api.nvim_buf_get_name(0)
   if file ~= "" and not file:match "/node_modules/" and not file:match "term://" then
+    vim.b.lint_tick = vim.b.changedtick
     lint.try_lint(nil, {
       filter = function(linter)
         return linter.name ~= "eslint_d" or find_eslint_config_dir(file) ~= false
@@ -107,7 +108,10 @@ local lint_timer = assert(vim.uv.new_timer())
 
 -- Debounce lint calls so CursorHold doesn't stack overlapping invocations
 vim.api.nvim_create_autocmd({ "BufWritePost", "CursorHold" }, {
-  callback = function()
+  callback = function(args)
+    if args.event == "CursorHold" and vim.b.lint_tick == vim.b.changedtick then
+      return
+    end
     lint_timer:stop()
     lint_timer:start(
       50,

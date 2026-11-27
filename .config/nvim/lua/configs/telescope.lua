@@ -6,6 +6,7 @@ local opts = function(_, conf)
     ["<C-k>"] = require("telescope.actions").move_selection_previous,
   }
   conf.defaults.mappings.n = {
+    ["q"] = require("telescope.actions").close,
     ["<Tab>"] = require("telescope.actions").move_selection_next,
     ["<S-Tab>"] = require("telescope.actions").move_selection_previous,
     ["<C-j>"] = require("telescope.actions").move_selection_next,

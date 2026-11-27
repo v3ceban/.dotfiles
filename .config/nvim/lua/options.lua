@@ -5,7 +5,7 @@ vim.opt.wrap = false
 vim.opt.incsearch = true
 vim.opt.shell = "/bin/zsh"
 vim.opt.foldmethod = "expr"
-vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldexpr = "v:lua.vim.treesitter.foldexpr()"
 vim.opt.foldlevel = 99
 vim.g.markdown_recommended_style = 0
 vim.g.tmux_navigator_no_wrap = 1
@@ -13,9 +13,12 @@ vim.opt.completeopt = "menu,menuone,noselect,popup"
 vim.opt.laststatus = 3
 vim.opt.clipboard = "unnamedplus"
 
+local augroup = vim.api.nvim_create_augroup("UserOptions", { clear = true })
+
 -- Auto-reload files when changed externally
 vim.opt.autoread = true
 vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGained" }, {
+  group = augroup,
   callback = function(args)
     if vim.fn.mode() ~= "c" and vim.fn.getbufvar(args.buf, "&buftype") == "" then
       vim.cmd("checktime " .. args.buf)
@@ -25,7 +28,6 @@ vim.api.nvim_create_autocmd({ "BufEnter", "CursorHold", "CursorHoldI", "FocusGai
 
 vim.filetype.add {
   pattern = {
-    [".env.*"] = "bash",
     ["~/.ssh/hosts"] = "sshconfig",
     ["docker%-compose.*%.yml"] = "yaml.docker-compose",
     ["docker%-compose.*%.yaml"] = "yaml.docker-compose",
@@ -39,7 +41,9 @@ vim.filetype.add {
 -- LSP open diagnostics on jump
 vim.diagnostic.config {
   jump = {
-    float = true,
+    on_jump = function(_, bufnr)
+      vim.diagnostic.open_float { bufnr = bufnr, scope = "cursor", focus = false }
+    end,
   },
   float = {
     border = "rounded",
@@ -55,6 +59,7 @@ vim.api.nvim_set_hl(0, "DiffAddGroup", { bg = "#272a3f" })
 vim.api.nvim_set_hl(0, "DiffTextGroup", { bg = "#1e2030" })
 -- highlight groups for LSP signature
 vim.api.nvim_create_autocmd("LspAttach", {
+  group = augroup,
   callback = function()
     vim.api.nvim_set_hl(0, "LspSignatureActiveParameter", { fg = "", bg = "", bold = true, italic = true })
   end,
@@ -66,6 +71,7 @@ vim.api.nvim_set_hl(0, "SnacksInputIcon", { fg = "#cba6f7" })
 
 -- close quickfix window after pressing enter, q, or escape, leave open when pressing o
 vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
   pattern = "qf",
   callback = function()
     vim.api.nvim_buf_set_keymap(0, "n", "<CR>", "<CR>:cclose<CR>", { noremap = true, silent = true })
@@ -84,6 +90,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- disable buffer mappings on nvdash
 vim.api.nvim_create_autocmd("FileType", {
+  group = augroup,
   pattern = "nvdash",
   callback = function()
     for _, key in ipairs {
@@ -124,6 +131,7 @@ vim.api.nvim_create_autocmd("FileType", {
 
 -- disable buffer mappings in terminal
 vim.api.nvim_create_autocmd("TermOpen", {
+  group = augroup,
   callback = function()
     for _, key in ipairs { "<Tab>", "<S-Tab>" } do
       vim.keymap.set("n", key, "<Nop>", { noremap = true, silent = true, buffer = 0 })

@@ -25,11 +25,11 @@ M.setup = function()
 end
 
 M.keys = {
-  { "cs", mode = { "n" } },
-  { "ds", mode = { "n" } },
-  { "ys", mode = { "n" } },
-  { "s", mode = { "v", "x" } },
-  { "S", mode = { "v", "x" } },
+  { "cs", mode = "n" },
+  { "ds", mode = "n" },
+  { "ys", mode = "n" },
+  { "s", mode = "x" },
+  { "S", mode = "x" },
 }
 
 return M

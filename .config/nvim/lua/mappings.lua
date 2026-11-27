@@ -9,15 +9,16 @@ unmap(modes, "<C-h>")
 unmap(modes, "<C-j>")
 unmap(modes, "<C-k>")
 unmap(modes, "<C-l>")
+unmap("s", "<leader>/")
 
 -- General
 map({ "n" }, "<C-s>", "<cmd>wa<CR>", { desc = "save all files" })
 map({ "n" }, "<C-q>", "<cmd>qa!<CR>", { desc = "close all buffers and quit" })
 map({ "n", "i", "v", "t" }, "<C-z>", "<nop>")
 map({ "n", "i", "v", "t" }, "<C-S-z>", "<nop>")
-map({ "n", "v" }, "Q", "q")
-map({ "v" }, "<C-c>", "y", { desc = "clipboard copy selection" })
-map({ "v" }, "<C-x>", "d", { desc = "clipboard cut selection" })
+map({ "n", "x" }, "Q", "q")
+map({ "x" }, "<C-c>", "y", { desc = "clipboard copy selection" })
+map({ "x" }, "<C-x>", "d", { desc = "clipboard cut selection" })
 map({ "n", "v" }, "<M-S-h>", "<cmd>TmuxNavigateLeft<CR>", { desc = "switch window left" })
 map({ "n", "v" }, "<M-S-j>", "<cmd>TmuxNavigateDown<CR>", { desc = "switch window down" })
 map({ "n", "v" }, "<M-S-k>", "<cmd>TmuxNavigateUp<CR>", { desc = "switch window up" })
@@ -25,7 +26,10 @@ map({ "n", "v" }, "<M-S-l>", "<cmd>TmuxNavigateRight<CR>", { desc = "switch wind
 
 -- Search and replace
 local function escape_pattern(text)
-  return text:gsub("[/\\.]", "\\%0")
+  return [[\V]] .. vim.fn.escape(text, [[/\]]):gsub("\n", [[\n]]):gsub("\t", [[\t]])
+end
+local function escape_replacement(text)
+  return (vim.fn.escape(text, [[/\&~]]):gsub("\n", [[\r]]):gsub("\t", [[\t]]))
 end
 map({ "n" }, "<leader>sw", [[:/<C-r><C-w><CR>]], { desc = "search word", noremap = true })
 map(
@@ -40,39 +44,49 @@ map(
   [[:%Subvert/<C-r><C-w>/<C-r><C-w>/gc<Left><Left><Left>]],
   { desc = "search subvert word", noremap = true }
 )
-map({ "v" }, "<leader>sw", function()
+map({ "x" }, "<leader>sw", function()
   vim.cmd 'normal! "zy'
-  local text = escape_pattern(vim.fn.getreg "z")
-  vim.fn.setreg("/", text)
+  vim.fn.setreg("/", escape_pattern(vim.fn.getreg "z"))
   vim.cmd "normal! n"
 end, { desc = "search selection", noremap = true })
-map({ "v" }, "<leader>sr", function()
+map({ "x" }, "<leader>sr", function()
   vim.cmd 'normal! "zy'
-  local text = escape_pattern(vim.fn.getreg "z")
+  local text = vim.fn.getreg "z"
   vim.fn.feedkeys(
-    ":%s/" .. text .. "/" .. text .. "/gc" .. string.rep(vim.api.nvim_replace_termcodes("<Left>", true, false, true), 3),
+    ":%s/"
+      .. escape_pattern(text)
+      .. "/"
+      .. escape_replacement(text)
+      .. "/gc"
+      .. string.rep(vim.api.nvim_replace_termcodes("<Left>", true, false, true), 3),
     "n"
   )
 end, { desc = "search replace selection", noremap = true })
-map({ "v" }, "<leader>ss", function()
+map({ "x" }, "<leader>ss", function()
   vim.cmd 'normal! "zy'
-  local text = escape_pattern(vim.fn.getreg "z")
+  local text = vim.fn.getreg("z"):gsub("\n$", "")
+  if text:find "\n" then
+    return vim.notify("Subvert can't take multi-line selections", vim.log.levels.WARN)
+  end
+  local sep = text:find("/", 1, true) and "#" or "/"
   vim.fn.feedkeys(
-    ":%Subvert/"
+    ":%Subvert"
+      .. sep
       .. text
-      .. "/"
+      .. sep
       .. text
-      .. "/gc"
+      .. sep
+      .. "gc"
       .. string.rep(vim.api.nvim_replace_termcodes("<Left>", true, false, true), 3),
     "n"
   )
 end, { desc = "search subvert selection", noremap = true })
 
 -- Selection movement
-map({ "v" }, "J", ":m '>+1<CR>gv=gv", { desc = "move selection down", silent = true })
-map({ "v" }, "K", ":m '<-2<CR>gv=gv", { desc = "move selection up", silent = true })
-map({ "v" }, ">", ">gv", { desc = "indent selection right", silent = true })
-map({ "v" }, "<", "<gv", { desc = "indent selection left", silent = true })
+map({ "x" }, "J", ":m '>+1<CR>gv=gv", { desc = "move selection down", silent = true })
+map({ "x" }, "K", ":m '<-2<CR>gv=gv", { desc = "move selection up", silent = true })
+map({ "x" }, ">", ">gv", { desc = "indent selection right", silent = true })
+map({ "x" }, "<", "<gv", { desc = "indent selection left", silent = true })
 
 -- Resize windows
 map({ "n" }, "<C-Up>", "<C-w>+", { desc = "resize increase window height" })
@@ -97,20 +111,10 @@ end, { desc = "close tab or window" })
 
 -- Diagnostics and LSP
 map({ "n" }, "[d", function()
-  vim.diagnostic.jump {
-    count = -1,
-    float = {
-      border = "rounded",
-    },
-  }
+  vim.diagnostic.jump { count = -1 }
 end, { desc = "lsp previous diagnostic", silent = true })
 map({ "n" }, "]d", function()
-  vim.diagnostic.jump {
-    count = 1,
-    float = {
-      border = "rounded",
-    },
-  }
+  vim.diagnostic.jump { count = 1 }
 end, { desc = "lsp next diagnostic", silent = true })
 map({ "n" }, "K", function()
   vim.lsp.buf.hover { border = "rounded" }
@@ -118,7 +122,7 @@ end, { desc = "lsp show available info", silent = true })
 map({ "i" }, "<M-K>", function()
   vim.lsp.buf.signature_help { border = "rounded" }
 end, { desc = "lsp show signature help", silent = true })
-map({ "n", "v" }, "<leader>ca", function()
+map({ "n", "x" }, "<leader>ca", function()
   vim.lsp.buf.code_action()
 end, { desc = "lsp code action", silent = true })
 
@@ -131,6 +135,6 @@ map({ "n" }, "[h", "<cmd>Gitsigns nav_hunk 'prev'<CR>", { desc = "git previous h
 map({ "n" }, "]h", "<cmd>Gitsigns nav_hunk 'next'<CR>", { desc = "git next hunk", silent = true })
 
 -- Flash.nvim
-map({ "v", "o" }, "v", function()
+map({ "x", "o" }, "v", function()
   require("flash").treesitter()
 end, { desc = "select treesitter node visually" })
