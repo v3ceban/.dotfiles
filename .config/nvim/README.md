@@ -82,7 +82,7 @@ adding your API keys as env variables for AI providers).
 ### JSON
 
 - Uses [json-lsp](https://github.com/microsoft/vscode-json-languageservice) for LSP in JSON files
-- Uses [fixjson](https://github.com/rhysd/fixjson) for formatting JSON files
+- Uses [fixjson](https://github.com/rhysd/fixjson) and prettierd for formatting JSON files (JSONC uses prettierd only, so comments are kept)
 - Uses [SchemaStore.nvim](https://github.com/b0o/SchemaStore.nvim) for completion and validation in common JSON files (package.json, tsconfig.json, etc.)
 
 ### YAML
@@ -94,7 +94,7 @@ adding your API keys as env variables for AI providers).
 ### PHP
 
 - Uses [intelephense](https://intelephense.com/) for LSP and linting
-- Uses [php-cs-fixer](https://github.com/PHP-CS-Fixer/PHP-CS-Fixer) for formatting
+- Uses intelephense for formatting (LSP fallback)
 - Requires a git repo to run linting server
   - To create .git run `git init` in the root of the project
 
@@ -144,7 +144,7 @@ Experimental completion engine integrated with NvChad
 
 - Uses [blink.cmp](https://github.com/Saghen/blink.cmp) as an alternative to nvim-cmp
 - Provides faster completion with better performance
-- Configured alongside nvim-cmp for compatibility
+- Replaces nvim-cmp, which NvChad's blink spec disables
 
 ### Abolish.vim
 
@@ -177,22 +177,15 @@ ide connection. You, of course, need to be authenticated to use Claude Code
 - Use `<leader>ay` to accept Claude's suggested changes
 - Use `<leader>an` to deny Claude's suggested changes
 - Session management:
-  - `<leader>ac` - Clear Claude session
+  - `<leader>an` - New Claude session (outside a diff)
+  - `<leader>ac` - Compact Claude session
   - `<leader>ar` - Resume Claude session
   - `<leader>ae` - Export Claude session
 - Generation commands (sends slash commands to Claude):
   - `<leader>agc` - Generate commit message (`/commit`)
-  - `<leader>agd` - Generate documentation for file (`/document`)
-  - `<leader>agr` - Generate PR review (`/review`)
-
-### NeoCodeium
-
-Enables Windsurf-powered AI autocompletion
-
-- Uses the [neocodeium](https://github.com/monkoose/neocodeium) plugin for autocompletion
-- Run `:NeoCodeium auth` to authenticate with Windsurf
-- Press `<M-l>` in insert mode to accept the suggestion
-- Press `<M-j>` or `<M-k>` in insert mode to cycle through suggestions
+  - `<leader>agr` - Generate code review (`/code-review`)
+  - `<leader>ags` - Generate simplify review (`/simplify`)
+  - `<leader>agv` - Generate vulnerability review (`/security-review`)
 
 ### Flash.nvim
 
@@ -271,14 +264,9 @@ Visual indentation guides for better code structure visibility
 
 ## Useful Links
 
-[Conform.nvim formatters](https://github.com/stevearc/conform.nvim?tab=readme-ov-file#formatters)
-
-[LSPconfig builtins](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md)
-
-[None-ls builtins](https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md)
-
-[Null-ls builtins](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md)
-
-[NvChad repository](https://github.com/NvChad/NvChad)
-
-[Nvim-lint linters](https://github.com/mfussenegger/nvim-lint?tab=readme-ov-file#available-linters)
+- [Conform.nvim formatters](https://github.com/stevearc/conform.nvim?tab=readme-ov-file#formatters)
+- [LSPconfig builtins](https://github.com/neovim/nvim-lspconfig/blob/master/doc/configs.md)
+- [None-ls builtins](https://github.com/nvimtools/none-ls.nvim/blob/main/doc/BUILTINS.md)
+- [Null-ls builtins](https://github.com/jose-elias-alvarez/null-ls.nvim/blob/main/doc/BUILTINS.md)
+- [NvChad repository](https://github.com/NvChad/NvChad)
+- [Nvim-lint linters](https://github.com/mfussenegger/nvim-lint?tab=readme-ov-file#available-linters)

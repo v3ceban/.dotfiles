@@ -37,7 +37,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `clangd` - UTF-16 offset encoding for C/C++
   - `jsonls` - JSON with schemas and validation from SchemaStore.nvim
   - `yamlls` - YAML with schemas from SchemaStore.nvim (built-in schemaStore disabled in favor of the plugin)
-  - `tsc` - TypeScript 7 run as an LSP via `tsc --lsp --stdio`, with unnecessary/deprecated diagnostic tags suppressed; prefers the project's `node_modules/.bin/tsc`, falls back to the Mason `tsc` package
+  - `tsc` - TypeScript 7 run as an LSP via `tsc --lsp --stdio`, with unnecessary-tagged diagnostics suppressed; prefers the project's `node_modules/.bin/tsc`, falls back to the Mason `tsc` package
   - `intelephense` - PHP with custom global storage path and telemetry disabled
   - `gopls` - Go with placeholders, staticcheck, shadow analysis
   - `pyrefly` - Python type checker and LSP by Meta (https://pyrefly.org/)
@@ -54,7 +54,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
   - `goimports` (Go)
   - `clang-format` (C/C++/Java/Proto/CUDA/C#)
   - `shfmt` (Shell scripts) with 2-space indent, switch case indentation, space redirects
-  - `fixjson` (JSON/JSON5/JSONC), `prettierd` (JSON/JSON5/JSONC/YAML/Markdown/GraphQL)
+  - `fixjson` + `prettierd` (JSON), `prettierd` only (JSONC, so comments survive; YAML/Markdown/GraphQL)
 - Format-on-save enabled with 2.5s timeout, LSP fallback
 
 **Linting** (`lua/configs/lint.lua`):
@@ -62,7 +62,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Dynamic ESLint configuration detection with directory caching
 - Searches for ESLint configs in current/parent directories (supports both legacy and flat config formats)
 - Caches config directory paths to avoid repeated filesystem traversal
-- Auto-triggers on `BufEnter`, debounced `BufWritePost`/`CursorHold` (50ms timer, `updatetime=100`)
+- Auto-triggers on `BufEnter`, debounced `BufWritePost`/`CursorHold` (50ms timer, `updatetime=100`); `CursorHold` is skipped when the buffer is unchanged since the last lint
 
 ## Development Commands
 
@@ -116,18 +116,11 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 - Diff opts: vertical split layout (on `ClaudeCodeDiffOpened`: sets accept/deny keymaps on both panes, run from the proposal window; the original pane's keymaps are removed on `ClaudeCodeDiffClosed` since it may be a regular file buffer), opens in new tab, hides terminal, rejects new files by closing window
 - Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw, Snacks picker)
 
-**NeoCodeium** (`lua/configs/neocodeium.lua`):
-
-- Windsurf-powered AI autocompletion, replaces GitHub Copilot
-- Authentication: `:NeoCodeium auth`
-- Insert mode: `<M-l>` accept, `<M-j>`/`<M-k>` cycle suggestions (mappings defined in `lua/mappings.lua`, wrapped in functions since `neocodeium.cycle()` must be called with an argument rather than passed by reference)
-- Lazy-loaded on `BufReadPre`/`BufNewFile`
-
 ## Key Customizations
 
 **Keybinding Patterns**:
 
-- Search/Replace trinity: `<leader>sw` (search), `<leader>sr` (replace), `<leader>ss` (subvert with Abolish)
+- Search/Replace trinity: `<leader>sw` (search), `<leader>sr` (replace), `<leader>ss` (subvert with Abolish); visual versions match the selection literally
 - Git navigation: `[h]`/`]h` (hunks), `[c]`/`]c` (conflicts), `[d]`/`]d` (diagnostics)
 - Buffer management: `<leader>x` (close with count support), `<Tab>`/`<S-Tab>` (next/prev), number+`<Tab>` (go to buffer N)
 - Visual selection movement: `J`/`K` (move selection up/down), `>`/`<` (indent with re-selection)
@@ -143,7 +136,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 
 **Auto-commands**:
 
-- `.env*` files → bash filetype, `~/.ssh/hosts` → sshconfig filetype
+- `~/.ssh/hosts` → sshconfig filetype, `.mdx` → markdown filetype
 - `docker-compose*.y{a,}ml` → `yaml.docker-compose` filetype for specialized LSP
 - LSP signature parameter highlighting on attach (bold + italic)
 - Quickfix window behaviors: `<CR>` (open and close), `q`/`<Esc>` (close), `o` (open only), `d` (delete entry)
@@ -155,7 +148,7 @@ Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovi
 
 **Core Extensions**:
 
-- `blink.cmp` - Experimental fast completion engine (alongside nvim-cmp)
+- `blink.cmp` - Experimental fast completion engine (NvChad's blink spec disables nvim-cmp)
 - `claudecode.nvim` - Full AI development environment with Claude models (`<M-a>`, `<leader>a*`)
 - `flash.nvim` - Enhanced navigation with treesitter visual selection (`v`)
 - `git-conflict.nvim` - Conflict resolution (`[c]`/`]c` navigation, `<leader>c*` actions) (fork: v3ceban)
