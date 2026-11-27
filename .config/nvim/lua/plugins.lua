@@ -28,11 +28,6 @@ return {
     opts = require "configs.conform",
   },
   {
-    "monkoose/neocodeium",
-    event = { "BufReadPre", "BufNewFile" },
-    opts = require "configs.neocodeium",
-  },
-  {
     "folke/flash.nvim",
     event = "VeryLazy",
     opts = require "configs.flash",

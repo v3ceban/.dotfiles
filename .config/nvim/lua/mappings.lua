@@ -130,17 +130,6 @@ map({ "n" }, "<leader>gD", "<cmd>Gitsigns diffthis 'main'<CR>", { desc = "git di
 map({ "n" }, "[h", "<cmd>Gitsigns nav_hunk 'prev'<CR>", { desc = "git previous hunk", silent = true })
 map({ "n" }, "]h", "<cmd>Gitsigns nav_hunk 'next'<CR>", { desc = "git next hunk", silent = true })
 
--- NeoCodeium
-map({ "i" }, "<M-l>", function()
-  require("neocodeium").accept()
-end, { desc = "AI accept suggestion", silent = true })
-map({ "i" }, "<M-j>", function()
-  require("neocodeium").cycle(1)
-end, { desc = "AI next suggestion", silent = true })
-map({ "i" }, "<M-k>", function()
-  require("neocodeium").cycle(-1)
-end, { desc = "AI previous suggestion", silent = true })
-
 -- Flash.nvim
 map({ "v", "o" }, "v", function()
   require("flash").treesitter()
