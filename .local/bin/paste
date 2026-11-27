@@ -1,9 +1,27 @@
 #!/usr/bin/env sh
 
+wsl=0
+[ -r /proc/version ] && read -r kernel < /proc/version
+case $kernel in *[Mm]icrosoft*) wsl=1 ;; esac
+
+if [ "$wsl" = 1 ]; then
+  if [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste > /dev/null 2>&1; then
+    out=$({ timeout 2 wl-paste --no-newline --type text 2> /dev/null && printf x; } | sed '$s/\rx$/\nx/;s/\r//g')
+    if [ "${#out}" -gt 1 ]; then
+      printf '%s' "${out%x}"
+      exit
+    fi
+  fi
+  ps=/mnt/c/Windows/System32/WindowsPowerShell/v1.0/powershell.exe
+  [ -x "$ps" ] || ps=$(command -v powershell.exe 2> /dev/null)
+  if [ -n "$ps" ]; then
+    "$ps" -noprofile -command "[Console]::OutputEncoding = [Text.Encoding]::UTF8; [Console]::Out.Write([string](Get-Clipboard -Raw))" | tr -d '\r'
+    exit
+  fi
+fi
+
 if command -v pbpaste > /dev/null 2>&1; then
   exec pbpaste
-elif grep -qi microsoft /proc/version 2> /dev/null && command -v powershell.exe > /dev/null 2>&1; then
-  powershell.exe -noprofile -command "[Console]::OutputEncoding = [Text.Encoding]::UTF8; [Console]::Out.Write([string](Get-Clipboard -Raw))" | tr -d '\r'
 elif [ -n "$WAYLAND_DISPLAY" ] && command -v wl-paste > /dev/null 2>&1; then
   exec wl-paste --no-newline
 elif command -v xclip > /dev/null 2>&1; then
