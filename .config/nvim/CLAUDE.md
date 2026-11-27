@@ -1,163 +1,37 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+Guidance for working in this repository: a personal Neovim config built on NvChad v2.5. Features, plugins, and keybindings are documented in `README.md`.
 
-## Git Information
+## Git
 
-This repository doesn't use default configurations, so do not try using default `git` command. Instead,
-use the following: `/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME` instead of `git`.
-When using `git` commands, use paths relative to the current working directory, not paths relative to
-`$HOME`. For example, if CWD is `~/.config/nvim`, use `lua/plugins.lua` (not
-`.config/nvim/lua/plugins.lua`). It is a bare git repository with `$HOME` as the work tree, so git
-resolves paths from CWD automatically. Using `$HOME`-relative paths will double up the path and fail.
+This directory is part of a bare dotfiles repository with `$HOME` as the work tree. Never use plain `git`; use:
 
-## Repository Overview
+```sh
+/usr/bin/git --git-dir=$HOME/.dotfiles/ --work-tree=$HOME
+```
 
-Personal Neovim configuration built on NvChad v2.5 framework, transforming Neovim into a full-featured IDE with LSP support, AI integration, and productivity enhancements.
+- Use paths relative to the current directory (`lua/plugins.lua`, not `.config/nvim/lua/plugins.lua`). `$HOME`-relative paths double up and fail.
+- Only add files that are already tracked. `lazy-lock.json` is gitignored on purpose.
+- The shell is zsh, which does not word-split a command stored in a plain variable. Type the command out or use an array.
 
-## Configuration Architecture
+## Making changes
 
-**Loading Chain**: `init.lua` → Lazy.nvim bootstrap → NvChad v2.5 → custom plugins → configurations → mappings
+- Change only what the task needs and keep the existing code shape. Do not add comments, extract helper functions, deduplicate neighbouring code, or refactor unless asked. If a fix needs a new function, explain why in the reply, not in a code comment.
+- Format Lua with `~/.local/share/nvim/mason/bin/stylua --check lua/` (settings in `.stylua.toml`).
+- When a change alters something `README.md` documents, update it there and keep it concise.
+- New Mason tools must also be added to `mason.pkgs` in `lua/chadrc.lua`.
 
-**Core Structure**:
+## Non-obvious conventions
 
-- `init.lua` - Entry point, bootstraps Lazy.nvim and loads NvChad base
-- `lua/plugins.lua` - Custom plugin specifications with lazy loading configs
-- `lua/chadrc.lua` - NvChad UI theme and dashboard configuration (Catppuccin theme, custom nvdash)
-- `lua/options.lua` - Editor settings, autocommands, and highlight group customizations
-- `lua/mappings.lua` - Extended keybindings on top of NvChad defaults
-- `lua/configs/` - Individual plugin configurations
+- `lua/configs/*.lua` files are `require`d from `lua/plugins.lua` while specs are parsed. They must return an opts table or function and must not `require` the plugin at top level, or the plugin loads eagerly.
+- Map visual-mode keys with `"x"`, not `"v"`. `"v"` also covers select mode, where a printable key should replace a snippet placeholder. Control and alt keys that should still work there (`<C-z>`, `<M-S-hjkl>`) stay `"v"`.
+- `lua/mappings.lua` runs in `vim.schedule` after startup, on top of `nvchad.mappings`. `vim.keymap.del` throws if the mapping does not exist.
+- This is Neovim 0.12 with nvim-treesitter on its `main` branch, so legacy treesitter APIs are gone. Check the installed plugin source under `~/.local/share/nvim/lazy/` and `:checkhealth <plugin>` instead of assuming an API.
+- NvChad's blink spec disables nvim-cmp. `lua/configs/cmp.lua` and its spec are kept on purpose.
 
-## Language Ecosystem
+## Verifying
 
-**LSP Configuration** (`lua/configs/lspconfig.lua`):
-
-- Standard servers: bashls, docker_language_server, html, prismals
-- Special configurations:
-  - `clangd` - UTF-16 offset encoding for C/C++
-  - `jsonls` - JSON with schemas and validation from SchemaStore.nvim
-  - `yamlls` - YAML with schemas from SchemaStore.nvim (built-in schemaStore disabled in favor of the plugin)
-  - `tsc` - TypeScript 7 run as an LSP via `tsc --lsp --stdio`, with unnecessary-tagged diagnostics suppressed; prefers the project's `node_modules/.bin/tsc`, falls back to the Mason `tsc` package
-  - `intelephense` - PHP with custom global storage path and telemetry disabled
-  - `gopls` - Go with placeholders, staticcheck, shadow analysis
-  - `pyrefly` - Python type checker and LSP by Meta (https://pyrefly.org/)
-  - `cssls` - CSS with unknown at-rules ignored
-  - `tailwindcss` - Extensive filetype support including templating languages (40+ filetypes)
-  - `emmet_language_server` - HTML/CSS snippets for templating languages
-
-**Formatting** (`lua/configs/conform.lua`):
-
-- Multi-tool chains: `rustywind` + `prettierd` for Tailwind + Prettierd formatting
-- Language-specific:
-  - `stylua` (Lua)
-  - `black` + `isort` (Python) with fast mode
-  - `goimports` (Go)
-  - `clang-format` (C/C++/Java/Proto/CUDA/C#)
-  - `shfmt` (Shell scripts) with 2-space indent, switch case indentation, space redirects
-  - `fixjson` + `prettierd` (JSON), `prettierd` only (JSONC, so comments survive; YAML/Markdown/GraphQL)
-- Format-on-save enabled with 2.5s timeout, LSP fallback
-
-**Linting** (`lua/configs/lint.lua`):
-
-- Dynamic ESLint configuration detection with directory caching
-- Searches for ESLint configs in current/parent directories (supports both legacy and flat config formats)
-- Caches config directory paths to avoid repeated filesystem traversal
-- Auto-triggers on `BufEnter`, debounced `BufWritePost`/`CursorHold` (50ms timer, `updatetime=100`); `CursorHold` is skipped when the buffer is unchanged since the last lint
-
-## Development Commands
-
-**Plugin Management**:
-
-- `:Lazy` - Main plugin manager interface
-- `:Lazy update` - Update all plugins and regenerate lockfile
-- `:Lazy reload {plugin}` - Reload specific plugin without restart
-- `:Lazy profile` - Check plugin loading performance
-
-**Health Checks**:
-
-- `:checkhealth` - General Neovim health diagnostics
-- `:checkhealth lspconfig` - LSP server status
-- `:checkhealth mason` - Mason tool installation status
-
-**Configuration Testing**:
-
-- Restart Neovim completely to test major changes
-- Use `:source %` for immediate Lua configuration reloading
-- `:messages` to view startup errors
-
-**Installation & Dependencies**:
-
-- Requires NeoVim with NvChad v2.5 dependencies (Git, Nerd Font, GCC, Make, Ripgrep)
-- Mason packages may need manual installation on ARM processors
-- Mason packages must be listed in `chadrc.lua` for auto-installation with `:MasonInstallAll`
-- JavaScript/TypeScript projects need ESLint config: `npm init @eslint/config@latest`
-- PHP projects require git repository initialization for LSP: `git init`
-
-## AI Integration Workflow
-
-**Claude Code** (`lua/configs/claudecode.lua`):
-
-- Integration: Full AI-powered development environment via Claude models with Claude Code CLI.
-- Terminal: `<M-a>` toggle, native provider with `claudecode` filetype, `<C-z>` disabled, 40% split width
-- Context keybinds:
-  - `<leader>aa` - Add file/selection to Claude (context-aware: normal=file, visual=selection, tree=tree node)
-  - `<leader>ay` - Accept Claude's suggested changes
-  - `<leader>an` - Deny Claude's suggested changes
-- Session management:
-  - `<leader>an` - New session (`/clear`)
-  - `<leader>ac` - Compact session (`/compact`)
-  - `<leader>ar` - Resume session (`/resume`)
-  - `<leader>ae` - Export session (`/export`)
-- Generation slash commands:
-  - `<leader>agc` - Generate commit message (`/commit`)
-  - `<leader>agr` - Generate code review (`/code-review`, report only)
-  - `<leader>ags` - Generate simplify review (`/simplify`, told to report only)
-  - `<leader>agv` - Generate vulnerability review (`/security-review`, report only)
-- Diff opts: vertical split layout (on `ClaudeCodeDiffOpened`: sets accept/deny keymaps on both panes, run from the proposal window; the original pane's keymaps are removed on `ClaudeCodeDiffClosed` since it may be a regular file buffer), opens in new tab, hides terminal, rejects new files by closing window
-- Integrates with file explorers (NvimTree, neo-tree, oil, minifiles, netrw, Snacks picker)
-
-## Key Customizations
-
-**Keybinding Patterns**:
-
-- Search/Replace trinity: `<leader>sw` (search), `<leader>sr` (replace), `<leader>ss` (subvert with Abolish); visual versions match the selection literally
-- Git navigation: `[h]`/`]h` (hunks), `[c]`/`]c` (conflicts), `[d]`/`]d` (diagnostics)
-- Buffer management: `<leader>x` (close with count support), `<Tab>`/`<S-Tab>` (next/prev), number+`<Tab>` (go to buffer N)
-- Visual selection movement: `J`/`K` (move selection up/down), `>`/`<` (indent with re-selection)
-- Window resizing: `<C-Up>`/`<C-Down>` (height), `<C-Left>`/`<C-Right>` (width)
-- Universal save/quit: `<C-s>` (save all), `<C-q>` (quit all), `<C-z>` disabled
-
-**Visual Enhancements**:
-
-- Global statusline (`laststatus=3`)
-- Relative line numbers with Treesitter folding
-- Rounded borders for LSP floats and diagnostics
-- Custom highlight groups for Markdown rendering, Git conflicts, Claude Code unified diffs, and Snacks input
-
-**Auto-commands**:
-
-- `~/.ssh/hosts` → sshconfig filetype, `.mdx` → markdown filetype
-- `docker-compose*.y{a,}ml` → `yaml.docker-compose` filetype for specialized LSP
-- LSP signature parameter highlighting on attach (bold + italic)
-- Quickfix window behaviors: `<CR>` (open and close), `q`/`<Esc>` (close), `o` (open only), `d` (delete entry)
-- Auto file reload on external changes (`autoread` + multiple triggers)
-- ESLint config cache clearing on directory change
-- Tab/Shift-Tab disabled in terminal buffers
-
-## Plugin Ecosystem
-
-**Core Extensions**:
-
-- `blink.cmp` - Experimental fast completion engine (NvChad's blink spec disables nvim-cmp)
-- `claudecode.nvim` - Full AI development environment with Claude models (`<M-a>`, `<leader>a*`)
-- `flash.nvim` - Enhanced navigation with treesitter visual selection (`v`)
-- `git-conflict.nvim` - Conflict resolution (`[c]`/`]c` navigation, `<leader>c*` actions) (fork: v3ceban)
-- `indent-blankline.nvim` - Visual indentation guides
-- `nvim-surround` - Text surrounding operations (`cs`, `ds`, `ys`, visual `s`)
-- `nvim-ts-autotag` - Auto HTML tag closing/renaming
-- `render-markdown.nvim` + `markdowny.nvim` - Enhanced markdown editing
-- `snacks.nvim` - Picker (fuzzy finder), bigfile detection, quickfile loading
-- `vim-abolish` - Search/replace trinity (`<leader>sw`/`sr`/`ss`) with smart word variations
-- `vim-matchquote` - Enhanced `%` command for quotes/brackets
-- `vim-sort-motion` - Sorting functionality (`gs` motion)
-- `which-key.nvim` - Interactive keymap guide
+- Test against the real config headlessly, always with a timeout because a prompt will hang it: `timeout 20 nvim --headless -n -i NONE -c "luafile probe.lua"`.
+- Inspect state from `vim.defer_fn` (about 1s), since mappings are scheduled. Set `vim.g.ui_entered = true` before `:edit` so NvChad's file-based lazy loading fires.
+- To exercise a mapping, feed keys with mode `"m"` and check the result in a later `vim.defer_fn`.
+- Keep probe scripts and test files outside the repository in `/tmp` directory.
